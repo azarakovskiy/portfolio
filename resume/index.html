@@ -421,6 +421,16 @@
         white-space: nowrap;
       }
 
+      /* ----- languages ----- */
+      .langs-line {
+        font-size: 12.5px;
+        color: var(--ink-faint);
+      }
+      .langs-line strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
       /* ===== PAGE-BREAK CONTROL =====
          Sections may flow across a page boundary - forcing experience to
          stay together pushes the whole section to page 2 and leaves page 1
@@ -547,11 +557,12 @@
           padding-top: 39px;
         }
       }
+
     </style>
   </head>
   <body>
     <div class="dlbar">
-      <a href="../resume.pdf" download>Download PDF</a>
+      <a href="../resume_azarakovskiy_senior.pdf" download>Download PDF</a>
     </div>
     <div class="page">
       <h1 class="name">Alexey Zarakovskiy</h1>
@@ -570,9 +581,10 @@
           >
         </span>
         <span>
-          <span class="label">Languages</span>English, Russian
-          <span class="label">+3</span></span
-        >
+          <span class="label">GitHub</span>
+          <a href="https://github.com/azarakovskiy">github.com/azarakovskiy</a>
+        </span>
+        
       </div>
 
       <!-- ===== /stack ===== -->
@@ -935,7 +947,7 @@
           </div>
           <div class="brief">
             <div class="where">
-              EPAM Systems - Consultancy
+              EPAM Systems - Consultancy (PayPal)
               <span class="role-name">(Senior) Full-stack Engineer</span>
               <span class="dur">3 yrs</span>
               <span class="tag">Java</span>
@@ -995,6 +1007,16 @@
           <div class="when">2011</div>
         </div>
       </section>
+
+      <!-- ===== /languages ===== -->
+      <section class="section">
+        <div class="route">/languages</div>
+        <p class="langs-line">
+          <strong>English · Russian</strong> · Dutch · Spanish · Polish
+        </p>
+      </section>
     </div>
+
+    </script>
   </body>
 </html>
