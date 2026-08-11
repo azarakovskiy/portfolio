@@ -1,0 +1,972 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alexey Zarakovskiy - CV</title>
+    <style>
+      /* ===================================================================
+         ATS-safe typography
+         -------------------------------------------------------------------
+         Webfonts (IBM Plex Sans/Mono, Space Grotesk/DM Sans, variable woff2)
+         render with glyph advances that make PDF text extractors inject
+         spurious spaces inside words (e.g. "Germ any"), corrupting ATS
+         keyword parsing. This document's job is clean machine-readable text,
+         so we use standard static system stacks:
+           --sans  : sans body / headings
+           --mono  : decorative monospace labels (route headers, contact
+                    eyebrows, dates) - short, non-keyword, ATS-irrelevant
+         Ligatures (fi/fl/ffi) are disabled everywhere so "verification" does
+         not extract as "veriﬁcation" and miss a keyword search.
+         =================================================================== */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-variant-ligatures: none;
+        font-feature-settings:
+          "liga" 0,
+          "clig" 0,
+          "dlig" 0;
+      }
+
+      :root {
+        --ink: #11181c;
+        --ink-soft: #3c4752;
+        --ink-faint: #7b8794;
+        --rule: #dce3e2;
+        --accent: #059669;
+        --accent-dark: #065f46;
+        --accent-soft: #d1fae5;
+        --surface: #ffffff;
+        --sans:
+          "Liberation Sans", "Helvetica Neue", Arial, "DejaVu Sans", sans-serif;
+        --mono: "Liberation Mono", "Courier New", monospace;
+      }
+
+      html {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      body {
+        background: #f4f5f7;
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 11px;
+        line-height: 1.5;
+        font-variant-ligatures: none;
+        font-feature-settings:
+          "liga" 0,
+          "clig" 0,
+          "dlig" 0;
+      }
+
+      /* Links must never break across lines */
+      a {
+        color: inherit;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      /* ===== PAGE / PRINT ===== */
+      /* Per-page top/bottom gutter only. Side gutters live on .page as
+         horizontal padding (see @media print) so they apply on every printed
+         page and are immune to print-dialog margin overrides - @page side
+         margins are silently dropped by some pipelines, which left content
+         touching the paper edge. */
+      @page {
+        size: A4;
+        margin: 6mm 0;
+      }
+
+      .page {
+        max-width: 730px;
+        margin: 0 auto;
+        padding: 48px 32px 64px;
+        background: var(--surface);
+      }
+
+      /* ===== HEADER ===== */
+      .name {
+        font-size: 34px;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+        margin: 0 0 6px;
+        line-height: 1.1;
+      }
+
+      .tagline {
+        font-size: 15px;
+        color: var(--ink-soft);
+        margin: 0 0 10px;
+      }
+
+      /* Each contact item is atomic - label never separates from its value,
+         which fixes the languages wrapping before the proficiency label. */
+      .contact {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 20px;
+        font-size: 12.5px;
+        color: var(--ink-soft);
+      }
+      .contact > span {
+        white-space: nowrap;
+      }
+      .contact .label {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--ink-faint);
+        margin-right: 3px;
+      }
+
+      /* ===== SECTIONS ===== */
+      .section {
+        margin-top: 16px;
+      }
+
+      .route {
+        font-family: var(--mono);
+        font-size: 11.5px;
+        color: var(--accent-dark);
+        letter-spacing: 0.02em;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .route::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--rule);
+      }
+
+      /* ----- stack / competencies ----- */
+      .sgroup {
+        margin-bottom: 8px;
+      }
+      .sgroup:last-child {
+        margin-bottom: 0;
+      }
+      .sgroup h3 {
+        font-family: var(--mono);
+        font-weight: 500;
+        font-size: 9.5px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--ink-faint);
+        margin: 0 0 4px;
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+      .tag {
+        font-family: var(--sans);
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--ink-soft);
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 3px;
+        padding: 3px 8px;
+        line-height: 1.3;
+      }
+
+      /* ----- experience ----- */
+      .job {
+        position: relative;
+        padding-left: 18px;
+        border-left: 2px solid var(--rule);
+        padding-bottom: 8px;
+      }
+      .job:last-child {
+        padding-bottom: 0;
+      }
+      .job::before {
+        content: "";
+        position: absolute;
+        left: -6px;
+        top: 4px;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--surface);
+        border: 2px solid var(--accent);
+      }
+      .jhead {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 4px 14px;
+        margin-bottom: 2px;
+      }
+      .jhead h2 {
+        font-size: 16px;
+        font-weight: 700;
+        margin: 0;
+      }
+      .jdate {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--ink-faint);
+        white-space: nowrap;
+      }
+      .jlocation {
+        font-family: var(--mono);
+        font-size: 11px;
+        font-weight: 400;
+        color: var(--ink-faint);
+        white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        /* keep location next to the company name, push .jdate to the right */
+        margin-right: auto;
+      }
+      .jlocation::before {
+        content: "";
+        width: 9px;
+        height: 9px;
+        flex: none;
+        background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237b8794' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z'/><circle cx='12' cy='10' r='3'/></svg>")
+          no-repeat center / contain;
+      }
+      .jsub {
+        font-size: 12.5px;
+        color: var(--ink-soft);
+        margin: 0 0 6px;
+      }
+      .role {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink);
+        margin: 8px 0 6px;
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+      }
+      .role .dur,
+      .brief .dur {
+        font-family: var(--mono);
+        font-weight: 400;
+        font-size: 10.5px;
+        color: var(--ink-faint);
+      }
+      .brief .dur {
+        margin-left: 6px;
+      }
+      .sproj {
+        font-family: var(--sans);
+        font-size: 12.5px;
+        font-weight: 700;
+        color: var(--ink);
+        margin: 10px 0 6px;
+        padding-left: 7px;
+        border-left: 2px solid var(--accent);
+        line-height: 1.3;
+      }
+      .sproj .tag {
+        /* keep the language chip clear of the title */
+        margin-left: 7px;
+      }
+      .bullets {
+        margin: 0 0 4px;
+        padding-left: 16px;
+        list-style: disc;
+      }
+      .bullets li {
+        font-size: 12.5px;
+        color: var(--ink-soft);
+        margin-bottom: 5px;
+      }
+      .bullets li::marker {
+        color: var(--ink-faint);
+      }
+      .metric {
+        font-family: var(--mono);
+        font-weight: 600;
+        color: var(--ink);
+        white-space: nowrap;
+      }
+      .jtags {
+        margin-top: 6px;
+      }
+      /* job tech tags: breadcrumb-style, no chip border */
+      .jtag {
+        font-family: var(--sans);
+        font-size: 10.5px;
+        font-weight: 500;
+        color: var(--ink-faint);
+        white-space: nowrap;
+      }
+      .jtag + .jtag::before {
+        content: "·";
+        margin: 0 8px 0 3px;
+      }
+
+      /* ----- minor / trimmed entry (e.g. sabbatical) -----
+         Keeps all data but de-emphasizes: no heading scale, no sub-line,
+         muted ink, single row with an ellipsis to signal trimmed output. */
+      .job--minor {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 4px 10px;
+        padding-bottom: 10px;
+      }
+      .job--minor::before {
+        border-color: var(--ink-faint);
+        background: var(--surface);
+      }
+      .minor-label {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--ink-soft);
+      }
+      .job--minor .jdate {
+        margin-left: auto;
+      }
+      .minor-note {
+        font-size: 11.5px;
+        color: var(--ink-faint);
+        font-style: italic;
+      }
+
+      /* ----- earlier-roles summary ----- */
+      .brief {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 3px 14px;
+        font-size: 12.5px;
+        padding: 8px 0;
+        border-top: 1px solid var(--rule);
+      }
+      .brief:first-of-type {
+        border-top: none;
+        padding-top: 0;
+      }
+      .brief .where {
+        color: var(--ink);
+      }
+      .brief .where .role-name {
+        color: var(--ink-soft);
+      }
+      .brief .where .role-name::before {
+        content: " · ";
+      }
+      .brief .tag {
+        margin-left: 6px;
+      }
+      .brief .when {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--ink-faint);
+        white-space: nowrap;
+      }
+
+      /* ----- education ----- */
+      .edu {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 3px 14px;
+        padding: 10px 0;
+        border-top: 1px solid var(--rule);
+      }
+      /* .edu is never :first-child of .section (the .route header is),
+         so :first-child never matched and the border stayed. Target the
+         edu immediately following the route header instead. */
+      .route + .edu {
+        border-top: none;
+        padding-top: 0;
+      }
+      .edu .where strong {
+        display: block;
+        font-size: 13.5px;
+      }
+      .edu .where span {
+        font-size: 12px;
+        color: var(--ink-soft);
+      }
+      /* education location: same rhythm as job headers (.jhead flex gap is
+         14px), and re-assert size/color the generic span rule above
+         otherwise overrides */
+      .edu .jlocation {
+        margin-left: 14px;
+        font-size: 11px;
+        color: var(--ink-faint);
+      }
+      .edu .when {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--ink-faint);
+        white-space: nowrap;
+      }
+
+      /* ===== PAGE-BREAK CONTROL ===== */
+         Sections may flow across a page boundary - forcing experience to
+         stay together pushes the whole section to page 2 and leaves page 1
+         nearly blank. Only atomic units are protected. */
+      /* Jobs are allowed to break across pages so a tall role doesn't
+         jump wholesale and leave a gap. The atomic unit protected from
+         splitting is the project (.proj = sub-project title + its bullets).
+         break-after:avoid on .role keeps the job title glued to the first
+         project. */
+      .name,
+      .tagline,
+      .contact,
+      .sgroup,
+      .proj,
+      .brief,
+      .edu {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      .route,
+      .jhead h2,
+      .role,
+      .jsub,
+      .sproj,
+      .sgroup h3 {
+        break-after: avoid;
+        page-break-after: avoid;
+      }
+
+      .jsub .tag {
+        margin-left: 7px;
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media screen and (max-width: 640px) {
+        .page {
+          padding: 28px 18px;
+        }
+        .name {
+          font-size: 26px;
+        }
+      }
+
+      /* ===== PRINT OVERRIDES ===== */
+      @media print {
+        body {
+          background: #fff;
+        }
+        .page {
+          max-width: none;
+          margin: 0;
+          padding: 0 14mm;
+        }
+        .section {
+          margin-top: 8px;
+        }
+        .name {
+          font-size: 26pt;
+        }
+        .tagline {
+          font-size: 11pt;
+        }
+        .jhead h2 {
+          font-size: 12pt;
+        }
+        .bullets li {
+          font-size: 9.5pt;
+          margin-bottom: 3px;
+        }
+        .tag {
+          font-size: 8pt;
+          padding: 2px 5px;
+        }
+        .jtag {
+          font-size: 7.5pt;
+        }
+        .role {
+          font-size: 10pt;
+        }
+      }
+
+      /* ===== RTL (Arabic) ===== */
+      html[lang="ar"] body {
+        direction: rtl;
+        text-align: right;
+      }
+      html[lang="ar"] .bullets {
+        padding-right: 16px;
+        padding-left: 0;
+      }
+
+      /* ===== CJK fallback ===== */
+      html[lang="ja"] body,
+      html[lang="zh"] body,
+      html[lang="zh-CN"] body {
+        line-break: strict;
+        overflow-wrap: break-word;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <h1 class="name">Alexey Zarakovskiy</h1>
+      <p class="tagline">
+        Senior Software Engineer; Java/JVM, Go, full-stack
+      </p>
+      <div class="contact">
+        <span>
+          <span class="label">Email</span>
+          <a href="mailto:work@azarakovskiy.com">work@azarakovskiy.com</a>
+        </span>
+        <span>
+          <span class="label">LinkedIn</span>
+          <a href="https://linkedin.com/in/azarakovskiy"
+            >linkedin.com/in/azarakovskiy</a
+          >
+        </span>
+        <span>
+          <span class="label">GitHub</span>
+          <a href="https://github.com/azarakovskiy">github.com/azarakovskiy</a>
+        </span>
+        
+      </div>
+
+      <!-- ===== /stack ===== -->
+      <section class="section">
+        <div class="route">/stack</div>
+        <div class="sgroup">
+          <h3>Languages & frameworks</h3>
+          <div class="tags">
+            <span class="tag">Java</span>
+            <span class="tag">Spring Boot</span>
+            <span class="tag">Kotlin</span>
+            <span class="tag">Golang</span>
+            <span class="tag">Python</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">JS</span>
+            <span class="tag">CSS</span>
+            <span class="tag">Node.js</span>
+            <span class="tag">React</span>
+            <span class="tag">PHP</span>
+          </div>
+        </div>
+
+        <div class="sgroup">
+          <h3>APIs, integration & messaging</h3>
+          <div class="tags">
+            <span class="tag">Distributed Systems</span>
+            <span class="tag">REST</span>
+            <span class="tag">JWT</span>
+            <span class="tag">gRPC</span>
+            <span class="tag">Protobuf</span>
+            <span class="tag">GraphQL</span>
+            <span class="tag">Kafka</span>
+            <span class="tag">SQS/SNS</span>
+            <span class="tag">OpenAI API</span>
+            <span class="tag">MCP</span>
+          </div>
+        </div>
+
+        <div class="sgroup">
+          <h3>Cloud, data & infrastructure as code</h3>
+          <div class="tags">
+            <span class="tag">AWS</span>
+            <span class="tag">GCP</span>
+            <span class="tag">AWS CDK</span>
+            <span class="tag">Helm</span>
+            <span class="tag">Terraform</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">DynamoDB</span>
+            <span class="tag">Redis</span>
+            <span class="tag">Elasticsearch</span>
+          </div>
+        </div>
+
+        <div class="sgroup">
+          <h3>Platform engineering & operations</h3>
+          <div class="tags">
+            <span class="tag">Kubernetes</span>
+            <span class="tag">CRDs</span>
+            <span class="tag">RBAC</span>
+            <span class="tag">Docker</span>
+            <span class="tag">GitHub Actions</span>
+            <span class="tag">ArgoCD</span>
+            <span class="tag">Prometheus</span>
+            <span class="tag">Grafana</span>
+            <span class="tag">Datadog</span>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ===== /experience ===== -->
+      <section class="section">
+        <div class="route">/experience</div>
+
+        <div class="job">
+          <div class="jhead">
+            <h2>Toptal</h2>
+            <span class="jlocation">Remote</span>
+            <span class="jdate">Apr 2026 - Present</span>
+          </div>
+          <p class="jsub">
+            Freelance Full-stack Engineer <span class="tag">Java</span> <span class="tag">Golang</span><span class="tag">TS/React</span>
+          </p>
+          
+        </div>
+
+        <div class="job job--minor">
+          <span class="minor-label">Sabbatical</span>
+          <span class="minor-note"
+            >Focus on family, personal projects &amp; AI engineering</span
+          >
+          <span class="jdate">Jan 2026 - Apr 2026</span>
+        </div>
+
+        <div class="job">
+          <div class="jhead">
+            <h2>Personio</h2>
+            <span class="jlocation">Amsterdam</span>
+            <span class="jdate">Mar 2023 - Dec 2025</span>
+          </div>
+          <p class="jsub">
+            Intelligent HR platform serving
+            <span class="metric">12k+</span> customers
+          </p>
+          <div class="role">
+            Senior Software Engineer
+            <span class="dur">3 yrs 4 mos</span>
+          </div>
+
+          <div class="proj">
+            <div class="sproj">
+              Whistleblowing project <span class="tag">Golang</span> <span class="tag">TS/React</span>
+            </div>
+            <ul class="bullets">
+              <li>
+                Co-architected and launched a greenfield EU-compliant
+                whistleblowing service from product and regulatory requirements.
+                Designed dual-AWS infrastructure and anonymous authentication
+                for full anonymity and regulatory isolation. The launch
+                generated approximately
+                <span class="metric">€1M ARR</span> soon after release.
+              </li>
+              <li>
+                Kickstarted the Go service and AWS CDK infrastructure. Coached
+                engineers in Go, guided organizational adoption of the Go
+                stack, led a maintenance team of
+                <span class="metric">3</span> engineers, and remained the
+                service's primary technical owner post-launch.
+              </li>
+              <li>
+                Shipped features end-to-end: Go backend, TypeScript/React frontend, and AWS infrastructure.
+              </li>
+              <li>
+                Delivered <span class="metric">99.92%</span> uptime with
+                <span class="metric">p99 <200ms</span> latency, resolved
+                <span class="metric">14</span> critical security
+                vulnerabilities, and established automated testing with Docker
+                Testcontainers and Datadog synthetic monitoring.
+              </li>
+            </ul>
+
+            </div>
+            <div class="proj">
+              <div class="sproj">
+                Surveys project <span class="tag">Kotlin/Spring</span> <span class="tag">TS/React</span>
+              </div>
+              <ul class="bullets">
+                <li>
+                  Led major platform features including a dashboard revamp,
+                  question result categorization, and date-driven dynamic
+                  filters. Built a user-data snapshot tool that prevents
+                  exponential database growth.
+                </li>
+                <li>
+                  Owned the zero-downtime migration of a
+                  <span class="metric">24GB</span> dataset after identifying the
+                  snapshot issue. Reduced P99 latency from
+                  <span class="metric">600ms</span> to
+                  <span class="metric"><300ms</span> across
+                  <span class="metric">14</span> endpoints through PostgreSQL
+                  index and schema optimization.
+                </li>
+                <li>
+                  Shipped features end-to-end: Kotlin/Spring backend with TypeScript/React frontend.
+                </li>
+              </ul>
+          </div>
+
+          <div class="tags jtags">
+            <span class="jtag">Kotlin</span>
+            <span class="jtag">Spring</span>
+            <span class="jtag">Golang</span>
+            <span class="jtag">TS</span>
+            <span class="jtag">React</span>
+            <span class="jtag">k8s</span>
+            <span class="jtag">AWS</span>
+            <span class="jtag">Helm</span>
+            <span class="jtag">Postgres</span>
+            <span class="jtag">Kafka</span>
+            <span class="jtag">SQS</span>
+            <span class="jtag">gRPC</span>
+            <span class="jtag">Protobuf</span>
+          </div>
+        </div>
+
+        <div class="job">
+          <div class="jhead">
+            <h2>BEAT | FREENOW</h2>
+            <span class="jlocation">Amsterdam</span>
+            <span class="jdate">Sep 2019 – Jan 2023</span>
+          </div>
+          <p class="jsub">
+            Ride-hailing platform with <span class="metric">250k+</span> drivers
+          </p>
+          <div class="role">
+            Senior Backend Engineer
+            <span class="dur">3 yrs 4 mos</span>
+          </div>
+
+          <div class="proj">
+            <div class="sproj">
+              Pricing service <span class="tag">Golang</span>
+            </div>
+            <ul class="bullets">
+              <li>
+                Led the extraction of the core pricing engine from the monolith
+                into Go microservices and introduced dynamic incentive-driven
+                pricing based on hexagonal geo-zones to balance driver supply
+                and demand across markets.
+              </li>
+            </ul>
+          </div>
+
+          <div class="proj">
+            <div class="sproj">
+              API Gateway & Authentication service
+              <span class="tag">Golang</span>
+            </div>
+            <ul class="bullets">
+              <li>
+                Helped form a four-engineer team that extracted routing and
+                authentication from the monolith. Built a dynamic Go API gateway
+                handling
+                <span class="metric">10k+ RPS</span> and a high-throughput,
+                DynamoDB-backed authentication service.
+              </li>
+              <li>
+                Ran the legacy and replacement routing and authentication paths
+                side-by-side, completed the live migration, and removed the corresponding monolith functionality.
+              </li>
+              <li>
+                Decentralized routing and authorization with custom Kubernetes
+                CRDs, Helm-based automatic service discovery and route
+                registration, and a Go authorization library adopted by all
+                <span class="metric">7</span> cross-functional teams.
+              </li>
+              <li>
+                Contributed CRD-based routing support to the open-source Skipper
+                framework through PR <span class="metric">#2048</span>.
+              </li>
+              <li>
+                Added a Redis idempotency guard for one-time JWT signup tokens
+                and built containerized integration tests for routing and
+                authentication during the migration.
+              </li>
+            </ul>
+          </div>
+
+          <div class="tags jtags">
+            <span class="jtag">Golang</span>
+            <span class="jtag">Kubernetes</span>
+            <span class="jtag">AWS</span>
+            <span class="jtag">DynamoDB</span>
+            <span class="jtag">Redis</span>
+            <span class="jtag">Docker</span>
+            <span class="jtag">Kafka</span>
+            <span class="jtag">PHP</span>
+            <span class="jtag">gRPC</span>
+            <span class="jtag">Protobuf</span>
+            <span class="jtag">OSS</span>
+          </div>
+        </div>
+
+        <div class="job">
+          <div class="jhead">
+            <h2>fashionTrade</h2>
+            <span class="jlocation">Amsterdam</span>
+            <span class="jdate">May 2018 – Jul 2019</span>
+          </div>
+          <p class="jsub">Early-stage B2B fashion marketplace startup</p>
+
+          <div class="role">
+            Senior Java Engineer <span class="dur">1 yr 3 mos</span>
+          </div>
+
+          <div class="proj">
+            <div class="sproj">
+              Data integration service <span class="tag">Java</span><span class="tag">TS/React</span>
+            </div>
+            <ul class="bullets">
+              <li>
+                Took a leading engineering role in a small team building a
+                Java-based customer data pipeline for hundreds of wholesale
+                fashion customers.
+              </li>
+              <li>
+                Built asynchronous ingestion and entity-matching flows with
+                Java, Kafka, and Elasticsearch, including race-condition
+                handling across the pipeline.
+              </li>
+              <li>
+                Integrated external retailer data with internal master
+                entities to enrich the platform for both shops and wholesale
+                customers.
+              </li>
+            </ul>
+          </div>
+
+          <div class="tags jtags">
+            <span class="jtag">Java</span>
+            <span class="jtag">Python</span>
+            <span class="jtag">REST</span>
+            <span class="jtag">Docker</span>
+            <span class="jtag">Kafka</span>
+            <span class="jtag">GCP</span>
+            <span class="jtag">Kubernetes</span>
+            <span class="jtag">Elasticsearch</span>
+            <span class="jtag">Typescript</span>
+            <span class="jtag">React</span>
+          </div>
+        </div>
+
+        <div class="job">
+          <div class="jhead">
+            <h2>SDL Web</h2>
+            <span class="jlocation">Amsterdam</span>
+            <span class="jdate">Oct 2015 – Apr 2018</span>
+          </div>
+          <p class="jsub">
+            Open-source adapter framework for an enterprise CMS
+          </p>
+
+          <div class="role">
+            Senior Java Engineer <span class="dur">1 yr 8 mos</span> 
+            Team Lead <span class="dur">11 mos</span>
+          </div>
+
+          <div class="sproj">
+              Developer Experience Accelerator framework 
+              <span class="tag">Java</span>
+              
+            </div>
+            
+          <div class="proj">
+            <ul class="bullets">
+              <li>
+                Led DXA, the Java/Spring counterpart of an open-source
+                framework that helped customer applications integrate with a
+                proprietary enterprise CMS.
+              </li>
+              <li>
+                Implemented reflection-based dynamic model mapping to reduce
+                the effort required for third-party integrations.
+              </li>
+              <li>
+                Reviewed and integrated community contributions to the
+                open-source project.
+              </li>
+            </ul>
+          </div>
+
+          <div class="tags jtags">
+            <span class="jtag">Java</span>
+            <span class="jtag">Groovy</span>
+            <span class="jtag">Spring</span>
+            <span class="jtag">Maven</span>
+            <span class="jtag">Gradle</span>
+            <span class="jtag">OSS</span>
+            <span class="jtag">PowerShell</span>
+            <span class="jtag">C#.NET</span>
+          </div>
+        </div>
+
+        <div class="job">
+          <div class="jhead">
+            <h2>Earlier roles</h2>
+            <span class="jlocation">Poland &amp; Russia</span>
+          </div>
+          <div class="brief">
+            <div class="where">
+              EPAM Systems - Consultancy (PayPal)
+              <span class="role-name">(Senior) Full-stack Engineer</span>
+              <span class="dur">3 yrs</span>
+              <span class="tag">Java</span>
+              <span class="tag">JS/Angular</span>
+            </div>
+            <div class="when">2012–2015</div>
+          </div>
+          <div class="brief">
+            <div class="where">
+              L.I.C. - Workflows automation
+              <span class="role-name">Full-stack Engineer</span>
+              <span class="dur">1 yr 1 mo</span>
+              <span class="tag">Java</span>
+              <span class="tag">JS/jQuery</span>
+            </div>
+            <div class="when">2011–2012</div>
+          </div>
+          <div class="brief">
+            <div class="where">
+              Orange - Web studio
+              <span class="role-name">Full-stack Engineer / Co-founder</span>
+              <span class="dur">2 yrs 1 mo</span>
+              <span class="tag">PHP</span>
+              <span class="tag">JS/jQuery</span>
+            </div>
+            <div class="when">2009–2011</div>
+          </div>
+          <div class="brief">
+            <div class="where">
+              State factory - Real-time monitoring
+              <span class="role-name">Engineer</span>
+              <span class="dur">3 yrs</span>
+              <span class="tag">C#</span>
+              <span class="tag">C++</span>
+            </div>
+            <div class="when">2006–2009</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== /education ===== -->
+      <section class="section">
+        <div class="route">/education</div>
+        <div class="edu">
+          <div class="where">
+            <strong>ITMO University <span class="jlocation">Russia</span></strong>
+            <p>Bachelor &amp; Master in Computer Science</p>
+          </div>
+          <div class="when">2005–2011</div>
+        </div>
+      </section>
+
+    </div>
+  </body>
+</html>
