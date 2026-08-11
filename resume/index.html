@@ -562,7 +562,7 @@
   </head>
   <body>
     <div class="dlbar">
-      <a href="../resume_azarakovskiy_senior.pdf" download>Download PDF</a>
+      <a id="download-link" href="../resume_azarakovskiy_senior.pdf" download>Download PDF</a>
     </div>
     <div class="page">
       <h1 class="name">Alexey Zarakovskiy</h1>
@@ -1017,6 +1017,12 @@
       </section>
     </div>
 
+    </script>
+
+    <script>
+      if (new URLSearchParams(location.search).get("download") === "true") {
+        document.querySelector("#download-link").click();
+      }
     </script>
   </body>
 </html>
