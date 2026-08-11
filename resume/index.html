@@ -1021,7 +1021,7 @@
 
     <script>
       if (new URLSearchParams(location.search).get("download") === "true") {
-        document.querySelector("#download-link").click();
+        location.href = document.querySelector("#download-link").href;
       }
     </script>
   </body>
