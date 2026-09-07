@@ -5,59 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Throwaway portfolio UI prototype for Alexey Zarakovskiy."
+      content="Throwaway UI prototype exploring three recruiter-first portfolio layouts for Alexey Zarakovskiy."
     />
-    <meta name="color-scheme" content="dark light" />
-    <title>Alexey Zarakovskiy — Portfolio prototype</title>
+    <meta name="color-scheme" content="light dark" />
+    <title>Alexey Zarakovskiy: Portfolio prototype</title>
     <style>
       /*
-       * THROWAWAY PROTOTYPE
-       * Three developer-first portfolio variants, switchable via ?variant=,
-       * on /prototype/portfolio/. A/C were intentionally removed after review.
-       * Keep the factual project content; rewrite the chosen presentation.
+       * THROWAWAY UI PROTOTYPE
+       * Question: what should a recruiter-first freelance SWE portfolio look like?
+       * Three readable variants switch via ?variant= on /prototype/portfolio/.
+       * Current direction: A's editorial layout with B's technical profile.
        */
       :root {
-        color-scheme: dark light;
-        --bg: #141b18;
-        --surface: #1c2621;
-        --surface-raised: #243129;
-        --surface-inset: #0e1512;
-        --text: #edf4ee;
-        --text-soft: #b2c0b6;
-        --text-faint: #7d8d83;
-        --line: #35463c;
-        --line-strong: #51655a;
-        --accent: #a8db73;
-        --accent-strong: #5ab77e;
-        --accent-soft: #d7edbe;
-        --yellow: #f4bd68;
-        --blue: #8bc7ed;
-        --purple: #d09af2;
-        --red: #f09586;
+        color-scheme: light dark;
+        --bg: #f7f9f6;
+        --surface: #ffffff;
+        --surface-muted: #eef3ed;
+        --text: #172019;
+        --text-soft: #526057;
+        --text-faint: #6c7a70;
+        --line: #d7e0d8;
+        --line-strong: #afc0b2;
+        --accent: #287047;
+        --accent-soft: #e4f0e5;
+        --focus: #a96600;
+        --bar: #172019;
+        --bar-text: #f7fbf6;
         --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
         --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-        --shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
       }
 
-      @media (prefers-color-scheme: light) {
+      @media (prefers-color-scheme: dark) {
         :root {
-          --bg: #eff2ea;
-          --surface: #fcfdf8;
-          --surface-raised: #f1f5ec;
-          --surface-inset: #e4ebe0;
-          --text: #17211b;
-          --text-soft: #56645a;
-          --text-faint: #77847b;
-          --line: #cbd7cc;
-          --line-strong: #a6b8aa;
-          --accent: #367c4b;
-          --accent-strong: #1e8b5d;
-          --accent-soft: #dff0cf;
-          --yellow: #b87400;
-          --blue: #2673a2;
-          --purple: #7b4ba0;
-          --red: #b85140;
-          --shadow: 0 24px 60px rgba(36, 63, 43, 0.12);
+          --bg: #121713;
+          --surface: #18201b;
+          --surface-muted: #202b23;
+          --text: #eef5ee;
+          --text-soft: #b6c3b8;
+          --text-faint: #91a096;
+          --line: #2e3d32;
+          --line-strong: #4c5f4f;
+          --accent: #9fd176;
+          --accent-soft: #273b29;
+          --focus: #f2c068;
+          --bar: #e8f1e8;
+          --bar-text: #172019;
         }
       }
 
@@ -77,13 +69,17 @@
         background: var(--bg);
         color: var(--text);
         font-family: var(--sans);
-        line-height: 1.5;
+        line-height: 1.55;
         text-rendering: optimizeLegibility;
       }
 
       a {
         color: inherit;
         text-decoration: none;
+      }
+
+      a:hover {
+        color: var(--accent);
       }
 
       button,
@@ -97,44 +93,35 @@
 
       ::selection {
         background: var(--accent);
-        color: var(--surface-inset);
+        color: var(--surface);
       }
 
       a:focus-visible,
       button:focus-visible,
       summary:focus-visible {
-        outline: 2px solid var(--yellow);
-        outline-offset: 3px;
-      }
-
-      .site {
-        min-height: 100vh;
-        overflow: hidden;
-        background: var(--bg);
-        color: var(--text);
+        outline: 2px solid var(--focus);
+        outline-offset: 4px;
       }
 
       .mono,
       .eyebrow,
-      .label,
-      .meta,
-      .tag,
-      .metric-label,
-      .theme-chip,
-      .file-name,
+      .section-kicker,
+      .project-meta,
       .project-number,
-      .panel-title,
-      .status,
-      .crumb,
-      .code-label {
+      .metric-label,
+      .case-notes summary,
+      .tag,
+      .switcher-label {
         font-family: var(--mono);
         letter-spacing: 0.045em;
         text-transform: uppercase;
       }
 
-      .eyebrow {
+      .eyebrow,
+      .section-kicker {
+        margin: 0;
         color: var(--accent);
-        font-size: 0.66rem;
+        font-size: 0.7rem;
         font-weight: 700;
       }
 
@@ -142,255 +129,190 @@
         color: var(--text-soft);
       }
 
-      .theme-chip {
+      .brand {
         display: inline-flex;
+        flex-direction: column;
+        width: fit-content;
+        gap: 1px;
+      }
+
+      .brand-name {
+        font-size: 1rem;
+        font-weight: 750;
+        letter-spacing: -0.035em;
+      }
+
+      .brand-role {
+        color: var(--text-soft);
+        font-size: 0.75rem;
+      }
+
+      .page-header {
+        display: flex;
         align-items: center;
-        gap: 7px;
-        color: var(--text-faint);
-        font-size: 0.59rem;
+        justify-content: space-between;
+        gap: 25px;
+        min-height: 84px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .page-header nav {
+        display: flex;
+        gap: 22px;
+        color: var(--text-soft);
+        font-size: 0.85rem;
+      }
+
+      .page-header nav a {
+        border-bottom: 1px solid transparent;
+      }
+
+      .page-header nav a:hover {
+        border-bottom-color: var(--accent);
+      }
+
+      .header-meta {
+        display: flex;
+        align-items: center;
+        gap: 17px;
         white-space: nowrap;
       }
 
-      .theme-chip::before {
-        content: "◐";
+
+      .availability {
+        padding-bottom: 2px;
+        border-bottom: 1px solid var(--accent);
         color: var(--accent);
-        font-size: 0.77rem;
+        font-size: 0.78rem;
+        font-weight: 650;
       }
 
-      @media (prefers-color-scheme: light) {
-        .theme-chip::before {
-          content: "○";
-        }
-      }
-
-      .brand {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 0.83rem;
-        font-weight: 800;
-        letter-spacing: -0.03em;
-      }
-
-      .brand-mark {
+      .section-heading {
         display: grid;
-        width: 29px;
-        height: 29px;
-        place-items: center;
-        border: 1px solid var(--accent);
-        border-radius: 6px;
-        background: var(--accent);
-        color: var(--surface-inset);
-        font-family: var(--mono);
-        font-size: 0.64rem;
+        grid-template-columns: minmax(0, 1fr) minmax(250px, 0.65fr);
+        align-items: end;
+        gap: 45px;
+        padding-bottom: 33px;
       }
 
-      .topbar {
+      .section-heading h2 {
+        margin: 10px 0 0;
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        line-height: 1;
+        letter-spacing: -0.07em;
+      }
+
+      .section-intro {
+        max-width: 420px;
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 0.98rem;
+      }
+
+      .project-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px 13px;
+        color: var(--text-faint);
+        font-size: 0.65rem;
+      }
+
+      .project-meta span + span::before {
+        margin-right: 13px;
+        color: var(--line-strong);
+        content: "/";
+      }
+
+      .project-summary,
+      .project-story {
+        max-width: 700px;
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 1rem;
+        line-height: 1.55;
+      }
+
+      .project-story {
+        margin-top: 9px;
+        color: var(--text);
+      }
+
+      .project-title {
+        margin: 9px 0 11px;
+        font-size: clamp(1.45rem, 3vw, 2.25rem);
+        line-height: 1.05;
+        letter-spacing: -0.06em;
+      }
+
+      .project-number {
+        padding-top: 4px;
+        color: var(--accent);
+        font-size: 0.68rem;
+      }
+
+      .project-proof {
+        display: grid;
+        align-content: start;
+        gap: 15px;
+      }
+
+      .metric {
+        display: grid;
+        gap: 1px;
+      }
+
+      .metric-value {
+        font-size: 1.05rem;
+        font-weight: 750;
+        letter-spacing: -0.035em;
+      }
+
+      .metric-label {
+        color: var(--text-faint);
+        font-size: 0.58rem;
+        line-height: 1.35;
+      }
+
+      .case-notes {
+        margin-top: 24px;
+        border-top: 1px solid var(--line);
+      }
+
+      .case-notes summary {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 20px;
-        min-height: 64px;
-        padding: 0 28px;
-        border-bottom: 1px solid var(--line);
-        background: var(--surface);
-      }
-
-      .topbar-right,
-      .topbar-links {
-        display: flex;
-        align-items: center;
-        gap: 18px;
-      }
-
-      .topbar-links {
-        color: var(--text-soft);
-        font-family: var(--mono);
-        font-size: 0.63rem;
-        text-transform: uppercase;
-      }
-
-      .topbar-links a:hover,
-      .text-link:hover {
-        color: var(--accent);
-      }
-
-      .pill {
-        display: inline-flex;
-        align-items: center;
-        min-height: 25px;
-        padding: 3px 8px;
-        border: 1px solid var(--line-strong);
-        border-radius: 999px;
-        color: var(--text-soft);
-        font-family: var(--mono);
-        font-size: 0.59rem;
-        white-space: nowrap;
-      }
-
-      .pill--accent {
-        border-color: color-mix(in srgb, var(--accent) 55%, transparent);
-        background: color-mix(in srgb, var(--accent) 12%, transparent);
-        color: var(--accent);
-      }
-
-      .tag-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5px;
-      }
-
-      .tag {
-        display: inline-flex;
-        align-items: center;
-        min-height: 22px;
-        padding: 3px 7px;
-        border: 1px solid var(--line);
-        border-radius: 3px;
-        color: var(--text-soft);
-        font-size: 0.56rem;
-        white-space: nowrap;
-      }
-
-      .tag--accent {
-        border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
-        color: var(--accent);
-      }
-
-      .metric-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 17px;
-      }
-
-      .metric {
-        min-width: 82px;
-      }
-
-      .metric-value {
-        display: block;
-        font-size: 1.2rem;
-        font-weight: 800;
-        letter-spacing: -0.06em;
-      }
-
-      .metric-label {
-        display: block;
-        margin-top: 1px;
-        color: var(--text-faint);
-        font-size: 0.52rem;
-      }
-
-      .project-number {
-        color: var(--accent);
-        font-size: 0.59rem;
-      }
-
-      .panel-title {
-        color: var(--text-faint);
-        font-size: 0.59rem;
-      }
-
-      .status {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        color: var(--accent);
-        font-size: 0.57rem;
-      }
-
-      .status::before {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--accent-strong);
-        content: "";
-      }
-
-      .pipeline {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        align-items: center;
-        gap: 8px;
-      }
-
-      .pipeline-node {
-        min-height: 65px;
-        padding: 11px;
-        border: 1px solid var(--line-strong);
-        background: var(--surface-inset);
-        color: var(--text-faint);
-        font-family: var(--mono);
-        font-size: 0.57rem;
-      }
-
-      .pipeline-node strong {
-        display: block;
-        margin-top: 4px;
-        color: var(--text);
-        font-family: var(--sans);
-        font-size: 0.73rem;
-        font-weight: 600;
-      }
-
-      .pipeline-arrow {
-        display: none;
-      }
-
-      .case-summary {
-        margin: 0;
-        color: var(--text-soft);
-        font-size: 0.95rem;
-        line-height: 1.55;
-      }
-
-      .case-details {
-        margin-top: 22px;
-        border-top: 1px solid var(--line);
-        border-bottom: 1px solid var(--line);
-      }
-
-      .case-details > summary,
-      .project-row > summary {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 18px;
         min-height: 46px;
         cursor: pointer;
         list-style: none;
         color: var(--text-soft);
-        font-family: var(--mono);
-        font-size: 0.63rem;
-        text-transform: uppercase;
+        font-size: 0.64rem;
       }
 
-      .case-details > summary::-webkit-details-marker,
-      .project-row > summary::-webkit-details-marker {
+      .case-notes summary::-webkit-details-marker {
         display: none;
       }
 
-      .case-details > summary::after,
-      .project-row > summary::after {
+      .case-notes summary::after {
         color: var(--accent);
         content: "+";
-        font-size: 1rem;
+        font-family: var(--sans);
+        font-size: 1.15rem;
+        letter-spacing: 0;
+        text-transform: none;
       }
 
-      .case-details[open] > summary::after,
-      .project-row[open] > summary::after {
+      .case-notes[open] summary::after {
         content: "−";
       }
+
 
       .details-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 20px 30px;
-        padding: 5px 0 25px;
-      }
-
-      .detail-block {
-        margin: 0;
+        gap: 24px 35px;
+        padding: 16px 0 5px;
       }
 
       .detail-label {
@@ -398,916 +320,674 @@
         margin-bottom: 5px;
         color: var(--accent);
         font-family: var(--mono);
-        font-size: 0.57rem;
+        font-size: 0.63rem;
+        font-weight: 700;
+        letter-spacing: 0.045em;
         text-transform: uppercase;
       }
 
       .detail-block p {
         margin: 0;
         color: var(--text-soft);
-        font-size: 0.84rem;
+        font-size: 0.92rem;
         line-height: 1.55;
       }
 
-      /* B — existing workbench, now description-first and expandable. */
-      .b-page {
-        min-height: 100vh;
-      }
-
-      .b-layout {
-        display: grid;
-        grid-template-columns: 238px minmax(0, 1fr);
-        min-height: calc(100vh - 64px);
-      }
-
-      .b-sidebar {
-        position: sticky;
-        top: 0;
-        align-self: start;
-        height: calc(100vh - 64px);
-        padding: 27px 20px;
-        border-right: 1px solid var(--line);
-        background: var(--surface);
-      }
-
-      .sidebar-heading {
+      .case-footer {
         display: flex;
-        align-items: center;
+        align-items: end;
         justify-content: space-between;
-        gap: 12px;
-        margin-bottom: 15px;
+        gap: 25px;
+        margin-top: 24px;
+        padding-top: 17px;
+        border-top: 1px solid var(--line);
       }
 
-      .sidebar-heading .panel-title {
-        color: var(--accent);
-      }
-
-      .b-project-list {
-        display: grid;
-        gap: 2px;
-      }
-
-      .b-project-link {
-        display: grid;
-        grid-template-columns: 29px minmax(0, 1fr);
-        gap: 4px;
-        padding: 9px 7px;
-        border-left: 2px solid transparent;
-        color: var(--text-soft);
-        font-size: 0.72rem;
-      }
-
-      .b-project-link:hover {
-        border-left-color: var(--accent);
-        background: var(--surface-raised);
-        color: var(--text);
-      }
-
-      .b-project-link small {
-        display: block;
-        grid-column: 2;
-        margin-top: -3px;
+      .case-footer-label {
         color: var(--text-faint);
         font-family: var(--mono);
-        font-size: 0.54rem;
+        font-size: 0.62rem;
+        letter-spacing: 0.045em;
         text-transform: uppercase;
       }
 
-      .sidebar-footer {
-        position: absolute;
-        right: 20px;
-        bottom: 25px;
-        left: 20px;
-        padding-top: 18px;
-        border-top: 1px solid var(--line);
-        color: var(--text-faint);
-        font-size: 0.68rem;
-      }
-
-      .sidebar-footer strong {
-        display: block;
-        margin-bottom: 3px;
-        color: var(--text);
-        font-size: 0.77rem;
-      }
-
-      .b-main {
-        width: min(1130px, calc(100% - 100px));
-        margin: 0 auto;
-        padding: 55px 0 145px;
-      }
-
-      .b-heading {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(230px, 0.45fr);
-        gap: 60px;
-        align-items: end;
-        padding-bottom: 45px;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .b-heading h1 {
-        max-width: 690px;
-        margin: 13px 0 0;
-        font-size: clamp(3rem, 7vw, 6.4rem);
-        line-height: 0.9;
-        letter-spacing: -0.09em;
-      }
-
-      .b-heading p {
-        margin: 0;
-        color: var(--text-soft);
-        font-size: 0.92rem;
-      }
-
-      .b-case {
-        display: grid;
-        grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.65fr);
-        margin-top: 48px;
-        border: 1px solid var(--line-strong);
-        background: var(--surface);
-      }
-
-      .b-case-main {
-        padding: clamp(25px, 4vw, 48px);
-      }
-
-      .b-case-meta {
+      .tag-list {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 10px;
-        color: var(--text-faint);
-        font-family: var(--mono);
-        font-size: 0.61rem;
-        text-transform: uppercase;
+        justify-content: end;
+        gap: 6px;
       }
 
-      .b-case h2 {
-        max-width: 580px;
-        margin: 22px 0 16px;
-        font-size: clamp(2.3rem, 5vw, 5rem);
-        line-height: 0.9;
-        letter-spacing: -0.09em;
-      }
-
-      .b-case-main .pipeline {
-        margin-top: 30px;
-      }
-
-      .b-inspector {
-        display: flex;
-        flex-direction: column;
-        gap: 25px;
-        padding: 25px;
-        border-left: 1px solid var(--line);
-        background: var(--surface-inset);
-      }
-
-      .inspector-block {
-        padding-bottom: 20px;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .inspector-block:last-child {
-        padding-bottom: 0;
-        border-bottom: 0;
-      }
-
-      .inspector-block h3 {
-        margin: 0 0 12px;
-        color: var(--text-faint);
-        font-family: var(--mono);
-        font-size: 0.59rem;
-        font-weight: 400;
-        text-transform: uppercase;
-      }
-
-      .inspector-block p {
-        margin: 0;
+      .tag {
+        padding: 4px 7px;
+        border: 1px solid var(--line);
+        border-radius: 3px;
         color: var(--text-soft);
-        font-size: 0.79rem;
+        font-size: 0.58rem;
       }
 
-      .b-index {
-        margin-top: 58px;
-        border-top: 1px solid var(--line);
-      }
-
-      .project-row {
-        border-bottom: 1px solid var(--line);
-      }
-
-      .project-row > summary {
-        min-height: 72px;
-        padding: 0 3px;
-      }
-
-      .project-row > summary > span:nth-child(2) {
-        flex: 1;
-        color: var(--text);
-        font-family: var(--sans);
-        font-size: 1rem;
-        font-weight: 650;
-        letter-spacing: -0.03em;
-        text-transform: none;
-      }
-
-      .project-row > summary > span:nth-child(3) {
-        max-width: 330px;
-        color: var(--text-soft);
-        font-family: var(--sans);
-        font-size: 0.77rem;
-        letter-spacing: 0;
-        text-align: right;
-        text-transform: none;
-      }
-
-      .project-row-content {
+      .about-block {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(190px, 0.45fr);
-        gap: 30px;
-        padding: 0 3px 26px 58px;
+        grid-template-columns: minmax(180px, 0.55fr) minmax(0, 1.45fr);
+        gap: 80px;
+        padding-top: 88px;
+        border-top: 1px solid var(--line-strong);
       }
 
-      .project-row-content p {
-        margin: 0 0 16px;
-        color: var(--text-soft);
-        font-size: 0.84rem;
-      }
-
-      .b-about {
-        display: grid;
-        grid-template-columns: 0.7fr 1.3fr;
-        gap: 65px;
-        margin-top: 90px;
-        padding-top: 26px;
-        border-top: 1px solid var(--line);
-      }
-
-      .b-about h2 {
+      .about-block h2 {
         margin: 0;
-        color: var(--accent);
-        font-family: var(--mono);
-        font-size: 0.66rem;
-        font-weight: 400;
-        text-transform: uppercase;
+        font-size: clamp(1.8rem, 3vw, 2.75rem);
+        line-height: 1;
+        letter-spacing: -0.07em;
       }
 
-      .b-about p {
-        max-width: 650px;
-        margin: 0 0 14px;
+      .about-copy {
+        max-width: 700px;
+      }
+
+      .about-copy p {
+        margin: 0 0 17px;
         color: var(--text-soft);
-        font-size: 1rem;
+        font-size: 1.05rem;
       }
 
-      .b-contact {
-        display: flex;
+
+      .contact-block {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
         align-items: end;
-        justify-content: space-between;
-        gap: 30px;
-        margin-top: 85px;
-        padding-top: 25px;
-        border-top: 1px solid var(--line);
+        gap: 45px;
+        margin-top: 100px;
+        padding-top: 27px;
+        border-top: 1px solid var(--line-strong);
       }
 
-      .b-contact h2 {
-        margin: 0;
-        font-size: clamp(2rem, 4vw, 4.2rem);
-        line-height: 0.92;
+      .contact-block h2 {
+        max-width: 660px;
+        margin: 12px 0 0;
+        font-size: clamp(2.25rem, 5vw, 4.5rem);
+        line-height: 0.98;
         letter-spacing: -0.08em;
+      }
+
+      .contact-copy {
+        max-width: 560px;
+        margin: 17px 0 0;
+        color: var(--text-soft);
       }
 
       .contact-links {
         display: grid;
-        gap: 7px;
+        justify-items: end;
+        gap: 8px;
         color: var(--accent);
         font-family: var(--mono);
-        font-size: 0.65rem;
-        text-align: right;
+        font-size: 0.7rem;
+        letter-spacing: 0.045em;
         text-transform: uppercase;
+        white-space: nowrap;
       }
 
-      /* D — PostHog-inspired desktop: playful shell, serious project workspace. */
-      .d-page {
-        min-height: 100vh;
-        background:
-          radial-gradient(circle at 8% 22%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 24%),
-          radial-gradient(circle at 92% 76%, color-mix(in srgb, var(--yellow) 13%, transparent), transparent 22%),
-          var(--bg);
-      }
-
-      .d-global {
-        position: sticky;
-        top: 0;
-        z-index: 5;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 18px;
-        min-height: 58px;
-        padding: 0 22px;
-        border-bottom: 1px solid var(--line);
-        background: color-mix(in srgb, var(--surface) 92%, transparent);
-        backdrop-filter: blur(12px);
-      }
-
-      .d-global-nav {
-        display: flex;
-        align-items: center;
-        gap: 18px;
-        color: var(--text-soft);
-        font-family: var(--mono);
-        font-size: 0.59rem;
-        text-transform: uppercase;
-      }
-
-      .d-global-nav a:hover {
-        color: var(--accent);
-      }
-
-      .d-stage {
-        width: min(1280px, calc(100% - 56px));
+      /* A: Editorial casebook with a technical profile. */
+      .a-page {
+        width: min(1120px, calc(100% - 48px));
         margin: 0 auto;
-        padding: 57px 0 145px;
+        padding-bottom: 72px;
       }
 
-      .d-intro {
-        display: flex;
-        align-items: end;
-        justify-content: space-between;
-        gap: 45px;
-        margin-bottom: 33px;
-      }
-
-      .d-intro h1 {
-        max-width: 670px;
-        margin: 12px 0 0;
-        font-size: clamp(2.7rem, 6vw, 5.7rem);
-        line-height: 0.9;
-        letter-spacing: -0.09em;
-      }
-
-      .d-intro p {
-        max-width: 315px;
-        margin: 0;
-        color: var(--text-soft);
-        font-size: 0.87rem;
-      }
-
-      .d-window {
-        overflow: hidden;
-        border: 1px solid var(--line-strong);
-        border-radius: 10px;
-        background: var(--surface);
-        box-shadow: var(--shadow);
-      }
-
-      .window-chrome {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-        min-height: 43px;
-        padding: 0 16px;
+      .a-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.4fr) minmax(250px, 0.6fr);
+        gap: clamp(50px, 10vw, 145px);
+        padding: 88px 0 92px;
         border-bottom: 1px solid var(--line);
-        background: var(--surface-raised);
       }
 
-      .window-controls {
-        display: flex;
-        gap: 6px;
-      }
-
-      .window-controls i {
-        display: block;
-        width: 9px;
-        height: 9px;
-        border: 1px solid var(--line-strong);
-        border-radius: 50%;
-        background: var(--surface-inset);
-      }
-
-      .window-title {
-        color: var(--text-faint);
-        font-family: var(--mono);
-        font-size: 0.59rem;
-      }
-
-      .window-chrome .theme-chip {
-        font-size: 0.53rem;
-      }
-
-      .d-layout {
-        display: grid;
-        grid-template-columns: 210px minmax(0, 1fr) 245px;
-        min-height: 660px;
-      }
-
-      .d-rail,
-      .d-inspector {
-        background: var(--surface-inset);
-      }
-
-      .d-rail {
-        padding: 22px 15px;
-        border-right: 1px solid var(--line);
-      }
-
-      .d-rail h2 {
-        margin: 0 0 12px;
-        color: var(--text-faint);
-        font-family: var(--mono);
-        font-size: 0.58rem;
-        font-weight: 400;
-        text-transform: uppercase;
-      }
-
-      .d-file {
-        display: grid;
-        grid-template-columns: 25px 1fr;
-        gap: 4px;
-        align-items: start;
-        padding: 8px 7px;
-        border-left: 2px solid transparent;
-        color: var(--text-soft);
-        font-size: 0.68rem;
-      }
-
-      .d-file:hover,
-      .d-file[aria-current="page"] {
-        border-left-color: var(--accent);
-        background: var(--surface-raised);
-        color: var(--text);
-      }
-
-      .d-file small {
-        display: block;
-        grid-column: 2;
-        margin-top: -4px;
-        color: var(--text-faint);
-        font-family: var(--mono);
-        font-size: 0.51rem;
-        text-transform: uppercase;
-      }
-
-      .d-main {
-        padding: 35px clamp(25px, 4vw, 55px);
-      }
-
-      .d-main-meta {
-        display: flex;
-        justify-content: space-between;
-        gap: 16px;
-        color: var(--text-faint);
-        font-family: var(--mono);
-        font-size: 0.57rem;
-        text-transform: uppercase;
-      }
-
-      .d-main h2 {
-        max-width: 560px;
-        margin: 18px 0 12px;
-        font-size: clamp(2rem, 4.4vw, 4.2rem);
-        line-height: 0.92;
+      .a-hero h1 {
+        max-width: 730px;
+        margin: 19px 0 25px;
+        font-size: clamp(3.1rem, 6.8vw, 5.5rem);
+        line-height: 0.98;
         letter-spacing: -0.085em;
       }
 
-      .d-main .case-summary {
-        max-width: 650px;
-      }
-
-      .d-main .pipeline {
-        margin: 28px 0 8px;
-      }
-
-      .d-inspector {
-        padding: 22px 18px;
-        border-left: 1px solid var(--line);
-      }
-
-      .d-inspector-section {
-        padding: 0 0 22px;
-        margin-bottom: 20px;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .d-inspector-section:last-child {
-        margin-bottom: 0;
-        border-bottom: 0;
-      }
-
-      .d-inspector-section h3 {
-        margin: 0 0 12px;
-        color: var(--text-faint);
-        font-family: var(--mono);
-        font-size: 0.58rem;
-        font-weight: 400;
-        text-transform: uppercase;
-      }
-
-      .d-inspector-section p {
+      .a-hero-lede {
+        max-width: 680px;
         margin: 0;
         color: var(--text-soft);
-        font-size: 0.75rem;
+        font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+        line-height: 1.5;
       }
 
-      .d-project-drawer {
-        padding: 28px 19px 0;
-        border-top: 1px solid var(--line);
-        background: var(--surface-raised);
-      }
-
-      .d-project-drawer > h2 {
-        margin: 0 0 17px;
-        color: var(--text-faint);
-        font-family: var(--mono);
-        font-size: 0.59rem;
-        font-weight: 400;
-        text-transform: uppercase;
-      }
-
-      .d-drawer-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 8px;
-      }
-
-      .d-drawer-grid .project-row {
-        border: 1px solid var(--line);
-        background: var(--surface);
-      }
-
-      .d-drawer-grid .project-row > summary {
-        display: grid;
-        grid-template-columns: 31px 1fr;
-        align-content: center;
-        min-height: 93px;
-        padding: 13px;
-      }
-
-      .d-drawer-grid .project-row > summary > span:nth-child(2) {
-        color: var(--text);
-        font-size: 0.79rem;
+      .hero-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 31px;
+        color: var(--accent);
+        font-size: 0.85rem;
         font-weight: 650;
-        letter-spacing: -0.02em;
-        text-transform: none;
       }
 
-      .d-drawer-grid .project-row > summary > span:nth-child(3) {
-        grid-column: 2;
-        margin-top: 5px;
-        color: var(--text-faint);
-        font-family: var(--mono);
-        font-size: 0.51rem;
-        text-transform: uppercase;
+      .hero-links a {
+        border-bottom: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
       }
 
-      .d-drawer-grid .project-row-content {
-        display: block;
-        padding: 0 13px 15px;
+      .a-hero-aside {
+        align-self: end;
+        padding-left: 25px;
+        border-left: 1px solid var(--line-strong);
       }
 
-      .d-drawer-grid .project-row-content p {
-        margin: 0 0 12px;
-        font-size: 0.73rem;
+
+      .a-work {
+        padding: 88px 0;
       }
 
-      .d-footer {
-        display: flex;
-        align-items: end;
-        justify-content: space-between;
-        gap: 28px;
+      .a-featured {
+        padding-top: 31px;
+        border-top: 1px solid var(--line-strong);
+      }
+
+      .a-featured-grid {
+        display: grid;
+        grid-template-columns: 55px minmax(0, 1fr) minmax(225px, 0.4fr);
+        gap: 24px;
+      }
+
+      .a-featured .project-title {
+        font-size: clamp(1.9rem, 4vw, 3.1rem);
+      }
+
+      .a-featured .project-proof {
+        padding-left: 24px;
+        border-left: 1px solid var(--line);
+      }
+
+      .a-project-list {
+        margin-top: 48px;
+        border-top: 1px solid var(--line-strong);
+      }
+
+      .a-project {
+        padding: 31px 0 35px;
+        border-bottom: 1px solid var(--line);
+        scroll-margin-top: 25px;
+      }
+
+      .a-project > div {
+        display: grid;
+        grid-template-columns: 55px minmax(0, 1fr) minmax(225px, 0.4fr);
+        gap: 24px;
+      }
+
+      .a-project .project-proof {
+        padding-left: 24px;
+        border-left: 1px solid var(--line);
+      }
+
+
+      .a-independent {
         margin-top: 60px;
-        padding-top: 23px;
-        border-top: 1px solid var(--line);
+        padding-top: 24px;
+        border-top: 1px solid var(--line-strong);
       }
 
-      .d-footer h2 {
+      .a-independent h2 {
+        margin: 0 0 8px;
+        font-size: 1rem;
+        letter-spacing: -0.02em;
+      }
+
+      .a-independent p {
+        max-width: 700px;
         margin: 0;
-        font-size: clamp(1.8rem, 4vw, 3.8rem);
-        line-height: 0.94;
-        letter-spacing: -0.08em;
+        color: var(--text-soft);
       }
 
-      /* E — IDE/editor layout: markdown-like project file plus inspector. */
-      .e-page {
-        min-height: 100vh;
+      /* B: Résumé timeline with chronology and ownership. */
+      .b-page {
+        width: min(1180px, calc(100% - 60px));
+        margin: 0 auto;
+        padding-bottom: 78px;
       }
 
-      .e-tabs {
+      .b-header {
         display: flex;
         align-items: end;
-        gap: 3px;
-        min-height: 40px;
-        padding: 0 20px;
-        border-bottom: 1px solid var(--line);
-        background: var(--surface-inset);
-      }
-
-      .e-tab {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        min-height: 39px;
-        padding: 0 14px;
-        border: 1px solid transparent;
-        border-bottom: 0;
-        color: var(--text-soft);
-        font-family: var(--mono);
-        font-size: 0.6rem;
-      }
-
-      .e-tab[aria-current="page"] {
-        border-color: var(--line);
-        background: var(--surface);
-        color: var(--text);
-      }
-
-      .e-tab:hover {
-        color: var(--accent);
-      }
-
-      .e-layout {
-        display: grid;
-        grid-template-columns: 218px minmax(0, 1fr) 235px;
-        min-height: calc(100vh - 104px);
-      }
-
-      .e-tree,
-      .e-inspector {
-        padding: 24px 16px;
-        background: var(--surface-inset);
-      }
-
-      .e-tree {
-        border-right: 1px solid var(--line);
-      }
-
-      .e-inspector {
-        border-left: 1px solid var(--line);
-      }
-
-      .tree-heading {
-        display: flex;
         justify-content: space-between;
-        gap: 10px;
-        margin-bottom: 13px;
-        color: var(--text-faint);
-        font-family: var(--mono);
-        font-size: 0.58rem;
-        text-transform: uppercase;
+        gap: 35px;
+        padding: 48px 0 24px;
+        border-bottom: 2px solid var(--text);
       }
 
-      .tree-folder {
-        padding: 7px 5px;
-        color: var(--text-soft);
-        font-family: var(--mono);
-        font-size: 0.61rem;
-      }
-
-      .tree-files {
-        display: grid;
-        gap: 1px;
-        padding-left: 12px;
-        border-left: 1px solid var(--line);
-      }
-
-      .tree-file {
+      .b-header nav {
         display: flex;
-        align-items: center;
-        gap: 7px;
-        padding: 7px 6px;
-        color: var(--text-soft);
-        font-size: 0.66rem;
-      }
-
-      .tree-file:hover,
-      .tree-file[aria-current="page"] {
-        background: var(--surface-raised);
-        color: var(--text);
-      }
-
-      .tree-file[aria-current="page"]::before {
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background: var(--accent);
-        content: "";
-      }
-
-      .e-editor {
-        min-width: 0;
-        padding: 45px clamp(25px, 6vw, 85px) 125px;
-        background: var(--surface);
-      }
-
-      .editor-crumb {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 7px;
-        color: var(--text-faint);
-        font-family: var(--mono);
-        font-size: 0.59rem;
-      }
-
-      .editor-crumb strong {
-        color: var(--accent);
-        font-weight: 400;
-      }
-
-      .e-editor h1 {
-        max-width: 740px;
-        margin: 24px 0 14px;
-        font-size: clamp(2.5rem, 6vw, 5.8rem);
-        line-height: 0.88;
-        letter-spacing: -0.095em;
-      }
-
-      .editor-lede {
-        max-width: 710px;
-        margin: 0;
-        color: var(--text-soft);
-        font-size: 1rem;
-        line-height: 1.6;
-      }
-
-      .code-file {
-        display: grid;
-        grid-template-columns: 84px minmax(0, 1fr);
         gap: 20px;
-        margin-top: 42px;
-        padding-top: 18px;
-        border-top: 1px solid var(--line);
-      }
-
-      .code-gutter {
-        display: grid;
-        align-content: start;
-        gap: 14px;
-        color: var(--text-faint);
-        font-family: var(--mono);
-        font-size: 0.59rem;
-        text-align: right;
-      }
-
-      .code-body {
-        min-width: 0;
-      }
-
-      .code-section {
-        margin: 0 0 22px;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .code-section > summary {
-        display: flex;
-        align-items: center;
-        gap: 9px;
-        cursor: pointer;
-        list-style: none;
-        color: var(--text);
-        font-family: var(--mono);
-        font-size: 0.75rem;
-      }
-
-      .code-section > summary::-webkit-details-marker {
-        display: none;
-      }
-
-      .code-section > summary::before {
-        color: var(--accent);
-        content: "▸";
-      }
-
-      .code-section[open] > summary::before {
-        content: "▾";
-      }
-
-      .code-label {
-        color: var(--purple);
-        font-size: 0.62rem;
-      }
-
-      .code-section p {
-        max-width: 700px;
-        margin: 12px 0 18px 22px;
-        color: var(--text-soft);
-        font-size: 0.86rem;
-        line-height: 1.6;
-      }
-
-      .editor-result {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px 25px;
-        margin: 6px 0 30px 22px;
-        padding: 13px;
-        border-left: 2px solid var(--accent);
-        background: var(--surface-inset);
-      }
-
-      .editor-result span {
-        color: var(--text-faint);
-        font-family: var(--mono);
-        font-size: 0.58rem;
-        text-transform: uppercase;
-      }
-
-      .editor-result strong {
-        margin-left: 4px;
-        color: var(--text);
-        font-family: var(--sans);
-        font-size: 0.8rem;
-      }
-
-      .e-inspector h2 {
-        margin: 0 0 23px;
-        color: var(--text-faint);
-        font-family: var(--mono);
-        font-size: 0.59rem;
-        font-weight: 400;
-        text-transform: uppercase;
-      }
-
-      .e-inspector-section {
-        padding: 0 0 21px;
-        margin-bottom: 20px;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .e-inspector-section:last-child {
-        border-bottom: 0;
-      }
-
-      .e-inspector-section h3 {
-        margin: 0 0 11px;
-        color: var(--accent);
-        font-family: var(--mono);
-        font-size: 0.58rem;
-        font-weight: 400;
-        text-transform: uppercase;
-      }
-
-      .e-inspector-section p {
-        margin: 0;
-        color: var(--text-soft);
-        font-size: 0.76rem;
-      }
-
-      .e-inspector .metric-list {
-        display: grid;
-        gap: 13px;
-      }
-
-      .e-inspector .metric-value {
-        font-size: 1.08rem;
-      }
-
-      .e-about {
-        display: grid;
-        grid-template-columns: 84px minmax(0, 1fr);
-        gap: 20px;
-        margin-top: 38px;
-        padding-top: 19px;
-        border-top: 1px solid var(--line);
-      }
-
-      .e-about p {
-        max-width: 650px;
-        margin: 0;
         color: var(--text-soft);
         font-size: 0.84rem;
       }
 
-      .e-footer {
-        display: flex;
-        justify-content: space-between;
-        gap: 25px;
-        margin-top: 60px;
-        padding-top: 20px;
-        border-top: 1px solid var(--line);
-      }
-
-      .e-footer h2 {
-        margin: 0;
-        font-size: clamp(1.7rem, 4vw, 3.8rem);
-        line-height: 0.95;
-        letter-spacing: -0.08em;
-      }
-
-      .e-footer-links {
-        display: grid;
-        align-content: end;
-        gap: 7px;
+      .b-header nav a:hover {
         color: var(--accent);
-        font-family: var(--mono);
-        font-size: 0.63rem;
-        text-transform: uppercase;
+      }
+
+      .b-header-status {
+        display: grid;
+        justify-items: end;
+        gap: 4px;
+        color: var(--text-soft);
+        font-size: 0.8rem;
         text-align: right;
       }
 
-      /* Prototype-only switcher. */
+      .b-intro {
+        display: grid;
+        grid-template-columns: minmax(0, 1.3fr) minmax(250px, 0.7fr);
+        gap: 80px;
+        padding: 72px 0 75px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .b-intro h1 {
+        max-width: 690px;
+        margin: 15px 0 20px;
+        font-size: clamp(2.8rem, 5.5vw, 5rem);
+        line-height: 0.98;
+        letter-spacing: -0.085em;
+      }
+
+      .b-intro p {
+        max-width: 670px;
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 1.05rem;
+      }
+
+      .b-profile {
+        align-self: end;
+      }
+
+      .b-profile h2 {
+        margin: 0 0 15px;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        font-weight: 400;
+        letter-spacing: 0.045em;
+        text-transform: uppercase;
+      }
+
+      .b-profile-list {
+        display: grid;
+        gap: 12px;
+        margin: 0;
+      }
+
+      .b-profile-list div {
+        display: grid;
+        grid-template-columns: 92px 1fr;
+        gap: 12px;
+        padding-top: 8px;
+        border-top: 1px solid var(--line);
+      }
+
+      .b-profile-list dt {
+        color: var(--text-faint);
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.045em;
+        text-transform: uppercase;
+      }
+
+      .b-profile-list dd {
+        margin: 0;
+        font-size: 0.88rem;
+      }
+
+      .b-experience {
+        padding-top: 70px;
+      }
+
+      .b-section-bar {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding-bottom: 14px;
+        border-bottom: 2px solid var(--text);
+      }
+
+      .b-section-bar h2,
+      .b-independent h2 {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 650;
+        letter-spacing: -0.02em;
+      }
+
+      .b-section-bar span,
+      .b-independent > p {
+        margin: 0;
+        color: var(--text-faint);
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        letter-spacing: 0.045em;
+        text-transform: uppercase;
+      }
+
+      .b-row {
+        border-bottom: 1px solid var(--line);
+        scroll-margin-top: 25px;
+      }
+
+      .b-row > summary {
+        display: grid;
+        grid-template-columns: 105px 160px minmax(0, 1fr) 75px;
+        gap: 22px;
+        align-items: start;
+        min-height: 115px;
+        padding: 25px 0;
+        cursor: pointer;
+        list-style: none;
+      }
+
+      .b-row > summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .b-row > summary::after {
+        display: none;
+      }
+
+      .b-date,
+      .b-company {
+        color: var(--text-faint);
+        font-family: var(--mono);
+        font-size: 0.65rem;
+        letter-spacing: 0.045em;
+        text-transform: uppercase;
+      }
+
+      .b-role strong {
+        display: block;
+        margin: -4px 0 7px;
+        font-size: 1.25rem;
+        letter-spacing: -0.045em;
+      }
+
+      .b-role small {
+        display: block;
+        max-width: 480px;
+        color: var(--text-soft);
+        font-size: 0.9rem;
+        line-height: 1.45;
+      }
+
+      .b-open-label {
+        color: var(--accent);
+        font-family: var(--mono);
+        font-size: 0.61rem;
+        letter-spacing: 0.045em;
+        text-align: right;
+        text-transform: uppercase;
+      }
+
+      .b-row[open] .b-open-label::before {
+        content: "Close";
+      }
+
+      .b-row:not([open]) .b-open-label::before {
+        content: "Read";
+      }
+
+      .b-row-body {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 220px;
+        gap: 50px;
+        padding: 0 0 29px 287px;
+      }
+
+      .b-row-body .project-story {
+        max-width: 650px;
+      }
+
+      .b-row-body .project-proof {
+        padding-left: 20px;
+        border-left: 1px solid var(--line);
+      }
+
+      .b-row-body .case-notes {
+        grid-column: 1 / -1;
+        margin-top: 0;
+      }
+
+      .b-independent {
+        margin-top: 60px;
+      }
+
+      .b-independent > p {
+        margin-top: 8px;
+      }
+
+      .b-about {
+        padding-top: 75px;
+      }
+
+      .b-contact {
+        margin-top: 85px;
+      }
+
+      /* C: Case index with one calm selected-case column. */
+      .c-page {
+        width: min(1160px, calc(100% - 56px));
+        margin: 0 auto;
+        padding-bottom: 80px;
+      }
+
+      .c-header {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 25px;
+        min-height: 78px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .c-header nav {
+        display: flex;
+        gap: 20px;
+        color: var(--text-soft);
+        font-size: 0.84rem;
+      }
+
+      .c-header-status {
+        justify-self: end;
+        color: var(--accent);
+        font-size: 0.8rem;
+      }
+
+      .c-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(270px, 0.55fr);
+        align-items: end;
+        gap: 70px;
+        padding: 85px 0 73px;
+      }
+
+      .c-hero h1 {
+        max-width: 650px;
+        margin: 15px 0 0;
+        font-size: clamp(3rem, 6vw, 5.7rem);
+        line-height: 0.93;
+        letter-spacing: -0.09em;
+      }
+
+      .c-hero p:last-child {
+        max-width: 385px;
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 1rem;
+      }
+
+      .c-work {
+        display: grid;
+        grid-template-columns: minmax(245px, 0.53fr) minmax(0, 1.47fr);
+        border-top: 1px solid var(--line-strong);
+        border-bottom: 1px solid var(--line-strong);
+      }
+
+      .c-index {
+        padding: 25px 25px 35px 0;
+        border-right: 1px solid var(--line);
+      }
+
+      .c-index h2 {
+        margin: 0 0 18px;
+        color: var(--text-faint);
+        font-family: var(--mono);
+        font-size: 0.65rem;
+        font-weight: 400;
+        letter-spacing: 0.045em;
+        text-transform: uppercase;
+      }
+
+      .c-case-link {
+        display: grid;
+        grid-template-columns: 32px minmax(0, 1fr);
+        gap: 7px;
+        width: 100%;
+        padding: 15px 10px 15px 0;
+        border: 0;
+        border-top: 1px solid var(--line);
+        background: transparent;
+        cursor: pointer;
+        text-align: left;
+      }
+
+      .c-case-link:hover,
+      .c-case-link[aria-current="page"] {
+        color: var(--accent);
+      }
+
+      .c-case-link[aria-current="page"] .c-case-link-title {
+        color: var(--text);
+      }
+
+      .c-case-link-number {
+        color: var(--accent);
+        font-family: var(--mono);
+        font-size: 0.65rem;
+      }
+
+      .c-case-link-title {
+        display: block;
+        color: var(--text);
+        font-size: 0.92rem;
+        font-weight: 650;
+        letter-spacing: -0.02em;
+      }
+
+      .c-case-link-meta {
+        display: block;
+        margin-top: 4px;
+        color: var(--text-faint);
+        font-family: var(--mono);
+        font-size: 0.57rem;
+        letter-spacing: 0.035em;
+        text-transform: uppercase;
+      }
+
+      .c-reading {
+        min-width: 0;
+        padding: 42px clamp(25px, 5vw, 72px) 55px;
+      }
+
+      .c-reading-meta {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+        color: var(--text-faint);
+        font-family: var(--mono);
+        font-size: 0.63rem;
+        letter-spacing: 0.045em;
+        text-transform: uppercase;
+      }
+
+      .c-reading h2 {
+        max-width: 650px;
+        margin: 20px 0 14px;
+        font-size: clamp(2.25rem, 5vw, 4.6rem);
+        line-height: 0.94;
+        letter-spacing: -0.085em;
+      }
+
+      .c-reading-summary {
+        max-width: 690px;
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 1.08rem;
+        line-height: 1.55;
+      }
+
+      .c-owned {
+        max-width: 690px;
+        margin-top: 33px;
+        padding-top: 17px;
+        border-top: 1px solid var(--line);
+      }
+
+      .c-owned-label {
+        color: var(--accent);
+        font-family: var(--mono);
+        font-size: 0.64rem;
+        font-weight: 700;
+        letter-spacing: 0.045em;
+        text-transform: uppercase;
+      }
+
+      .c-owned p {
+        margin: 9px 0 0;
+        color: var(--text);
+        font-size: 1rem;
+      }
+
+      .c-proof {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+        max-width: 690px;
+        margin-top: 34px;
+        padding: 19px 0;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .c-reading .case-notes {
+        max-width: 690px;
+      }
+
+      .c-about {
+        max-width: 810px;
+        padding-top: 78px;
+      }
+
+      .c-about h2 {
+        margin: 0 0 15px;
+        font-size: clamp(1.8rem, 3vw, 2.8rem);
+        letter-spacing: -0.07em;
+      }
+
+      .c-about p {
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 1.05rem;
+      }
+
+      .c-contact {
+        margin-top: 92px;
+      }
+
+      /* Shared throwaway switcher. It is only visible on this prototype route. */
       .prototype-switcher {
         position: fixed;
         z-index: 20;
@@ -1318,11 +998,10 @@
         gap: 4px;
         min-height: 48px;
         padding: 5px 7px;
-        border: 1px solid var(--line-strong);
         border-radius: 999px;
-        background: var(--surface-inset);
-        box-shadow: var(--shadow);
-        color: var(--text);
+        background: var(--bar);
+        box-shadow: 0 12px 32px color-mix(in srgb, #000 28%, transparent);
+        color: var(--bar-text);
         transform: translateX(50%);
       }
 
@@ -1334,324 +1013,278 @@
         display: grid;
         width: 34px;
         height: 34px;
-        cursor: pointer;
-        place-items: center;
         border: 0;
         border-radius: 50%;
         background: transparent;
-        color: var(--text-soft);
+        color: inherit;
+        cursor: pointer;
         font-size: 1.2rem;
+        place-items: center;
       }
 
       .switcher-button:hover,
       .switcher-button:focus-visible {
-        background: var(--surface-raised);
-        color: var(--accent);
+        background: color-mix(in srgb, var(--bar-text) 14%, transparent);
+        color: var(--bar-text);
         outline: none;
       }
 
       .switcher-label {
-        min-width: 185px;
+        min-width: 220px;
         padding: 0 8px;
-        color: var(--text-soft);
-        font-family: var(--mono);
         font-size: 0.59rem;
         text-align: center;
-        text-transform: uppercase;
         white-space: nowrap;
       }
 
-      .switcher-label span {
+      .switcher-label strong {
         color: var(--accent);
+        font-weight: 700;
       }
 
-      @media (max-width: 1020px) {
-        .b-layout,
-        .e-layout {
-          grid-template-columns: 190px minmax(0, 1fr);
+      @media (max-width: 900px) {
+        .page-header {
+          flex-wrap: wrap;
+          padding: 20px 0;
         }
 
-        .b-sidebar,
-        .e-tree {
-          padding-right: 13px;
-          padding-left: 13px;
+        .page-header nav {
+          order: 3;
+          width: 100%;
         }
 
-        .d-layout {
-          grid-template-columns: 190px minmax(0, 1fr);
+        .a-hero,
+        .b-intro,
+        .c-hero {
+          grid-template-columns: 1fr;
+          gap: 45px;
         }
 
-        .d-inspector {
-          grid-column: 1 / -1;
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
+        .a-hero-aside {
+          max-width: 570px;
+        }
+
+        .section-heading {
+          grid-template-columns: 1fr;
+          gap: 17px;
+        }
+
+        .a-featured-grid,
+        .a-project > div {
+          grid-template-columns: 45px minmax(0, 1fr);
+        }
+
+        .a-featured .project-proof,
+        .a-project .project-proof {
+          grid-column: 2;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
           gap: 15px;
+          padding: 18px 0 0;
           border-top: 1px solid var(--line);
           border-left: 0;
         }
 
-        .d-inspector-section {
-          padding: 0 15px 0 0;
-          margin: 0;
-          border-right: 1px solid var(--line);
-          border-bottom: 0;
+        .b-row > summary {
+          grid-template-columns: 90px 140px minmax(0, 1fr) 65px;
+          gap: 15px;
         }
 
-        .d-inspector-section:last-child {
-          border-right: 0;
+        .b-row-body {
+          padding-left: 245px;
         }
 
-        .e-inspector {
-          grid-column: 1 / -1;
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 20px;
-          border-top: 1px solid var(--line);
-          border-left: 0;
+        .c-work {
+          grid-template-columns: minmax(205px, 0.6fr) minmax(0, 1.4fr);
         }
 
-        .e-inspector h2 {
-          grid-column: 1 / -1;
-          margin: 0;
+        .c-index {
+          padding-right: 18px;
         }
 
-        .e-inspector-section {
-          padding: 0 15px 0 0;
-          margin: 0;
-          border-right: 1px solid var(--line);
-          border-bottom: 0;
+        .about-block {
+          grid-template-columns: 1fr;
+          gap: 24px;
         }
 
-        .e-inspector-section:last-child {
-          border-right: 0;
+        .contact-block {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+
+        .contact-links {
+          justify-items: start;
         }
       }
 
-      @media (max-width: 760px) {
-        .topbar,
-        .d-global {
-          padding-right: 15px;
-          padding-left: 15px;
+      @media (max-width: 620px) {
+        .a-page,
+        .b-page,
+        .c-page {
+          width: min(100% - 30px, 500px);
         }
 
-        .topbar-links,
-        .d-global-nav {
-          display: none;
+        .header-meta {
+          width: 100%;
+          justify-content: space-between;
         }
 
-        .topbar-right {
-          margin-left: auto;
+        .a-hero,
+        .c-hero {
+          padding: 55px 0 60px;
         }
 
-        .b-layout,
-        .e-layout,
-        .d-layout {
-          display: block;
+        .a-hero h1,
+        .b-intro h1,
+        .c-hero h1 {
+          font-size: clamp(2.75rem, 14vw, 4.5rem);
         }
 
-        .b-sidebar,
-        .e-tree {
-          position: static;
-          height: auto;
-          border-right: 0;
-          border-bottom: 1px solid var(--line);
+        .a-work {
+          padding: 62px 0;
         }
 
-        .b-sidebar {
-          padding: 18px 15px 12px;
-        }
-
-        .b-project-list {
-          grid-template-columns: repeat(3, 1fr);
-        }
-
-        .b-project-link {
-          display: block;
-          padding: 7px 5px;
-          font-size: 0.61rem;
-        }
-
-        .b-project-link .project-number {
-          display: block;
-          margin-bottom: 3px;
-        }
-
-        .b-project-link small {
-          margin-top: 3px;
-          font-size: 0.49rem;
-        }
-
-        .sidebar-footer {
-          display: none;
-        }
-
-        .b-main {
-          width: min(100% - 30px, 620px);
-          padding-top: 45px;
-        }
-
-        .b-heading {
+        .a-featured-grid,
+        .a-project > div {
           grid-template-columns: 1fr;
-          gap: 25px;
-          padding-bottom: 35px;
+          gap: 13px;
         }
 
-        .b-heading h1,
-        .d-intro h1,
-        .e-editor h1 {
-          font-size: clamp(2.8rem, 14vw, 5rem);
-        }
-
-        .b-case {
-          grid-template-columns: 1fr;
-        }
-
-        .b-inspector {
-          border-top: 1px solid var(--line);
-          border-left: 0;
-        }
-
-        .project-row > summary {
-          min-height: 82px;
-        }
-
-        .project-row > summary > span:nth-child(3) {
-          display: none;
-        }
-
-        .project-row-content {
-          grid-template-columns: 1fr;
-          padding-left: 32px;
-        }
-
-        .b-about {
-          grid-template-columns: 1fr;
-          gap: 18px;
-        }
-
-        .b-contact,
-        .d-footer,
-        .e-footer {
-          align-items: start;
-          flex-direction: column;
-        }
-
-        .contact-links,
-        .e-footer-links {
-          text-align: left;
-        }
-
-        .d-stage {
-          width: min(100% - 30px, 620px);
-          padding-top: 42px;
-        }
-
-        .d-intro {
-          align-items: start;
-          flex-direction: column;
-          gap: 22px;
-        }
-
-        .d-main {
-          padding: 30px 20px;
-        }
-
-        .d-drawer-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        .d-inspector,
-        .e-inspector {
-          display: block;
-        }
-
-        .d-inspector-section,
-        .e-inspector-section {
-          padding: 0 0 18px;
-          margin: 0 0 18px;
-          border-right: 0;
-          border-bottom: 1px solid var(--line);
-        }
-
-        .d-inspector-section:last-child,
-        .e-inspector-section:last-child {
-          padding-bottom: 0;
-          margin-bottom: 0;
-          border-bottom: 0;
-        }
-
-        .e-tabs {
-          overflow-x: auto;
-          padding: 0 10px;
-        }
-
-        .e-tab {
-          flex: 0 0 auto;
-          padding: 0 10px;
-          font-size: 0.54rem;
-        }
-
-        .e-editor {
-          padding: 38px 20px 110px;
-        }
-
-        .code-file,
-        .e-about {
-          grid-template-columns: 43px minmax(0, 1fr);
-          gap: 12px;
-        }
-
-        .code-gutter {
-          font-size: 0.52rem;
-        }
-
-        .d-footer h2,
-        .e-footer h2 {
-          font-size: clamp(2.2rem, 11vw, 4rem);
-        }
-      }
-
-      @media (max-width: 480px) {
-        .brand {
-          font-size: 0.75rem;
-        }
-
-        .topbar {
-          min-height: 57px;
-        }
-        .topbar-right {
-          gap: 8px;
-        }
-
-        .topbar-right .pill {
-          max-width: 118px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .b-project-list {
-          grid-template-columns: repeat(2, 1fr);
-        }
-
-        .b-case-main {
-          padding: 23px 18px;
+        .a-featured .project-proof,
+        .a-project .project-proof {
+          grid-column: auto;
         }
 
         .details-grid {
           grid-template-columns: 1fr;
+          gap: 19px;
         }
 
-        .pipeline {
-          grid-template-columns: 1fr;
+        .case-footer {
+          display: block;
+        }
+
+        .tag-list {
+          justify-content: start;
+          margin-top: 13px;
+        }
+
+        .b-page {
+          width: min(100% - 30px, 520px);
+        }
+
+        .b-header {
+          align-items: start;
+          flex-direction: column;
+          gap: 17px;
+          padding-top: 28px;
+        }
+
+        .b-header-status {
+          justify-items: start;
+          text-align: left;
+        }
+
+        .b-intro {
+          padding: 52px 0 58px;
+        }
+
+        .b-experience {
+          padding-top: 55px;
+        }
+
+        .b-section-bar {
+          align-items: start;
+          flex-direction: column;
           gap: 6px;
         }
 
-        .pipeline-node {
+        .b-row > summary {
+          grid-template-columns: 1fr 50px;
+          gap: 8px 18px;
           min-height: 0;
+          padding: 22px 0;
         }
 
-        .d-drawer-grid {
+        .b-date,
+        .b-company {
+          grid-column: 1;
+        }
+
+        .b-company {
+          grid-row: 2;
+        }
+
+        .b-role {
+          grid-column: 1;
+          grid-row: 3;
+        }
+
+        .b-open-label {
+          grid-column: 2;
+          grid-row: 1 / span 3;
+          align-self: center;
+        }
+
+        .b-row-body {
+          display: block;
+          padding: 0 0 24px;
+        }
+
+        .b-row-body .project-proof {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          margin-top: 20px;
+          padding: 17px 0 0;
+          border-top: 1px solid var(--line);
+          border-left: 0;
+        }
+
+        .b-row-body .case-notes {
+          margin-top: 24px;
+        }
+
+
+        .c-page {
+          width: min(100% - 30px, 500px);
+        }
+
+        .c-header {
           grid-template-columns: 1fr;
+          gap: 14px;
+          padding: 22px 0;
+        }
+
+        .c-header-status {
+          justify-self: start;
+        }
+
+        .c-hero {
+          gap: 25px;
+          padding-bottom: 55px;
+        }
+
+        .c-work {
+          display: block;
+        }
+
+        .c-index {
+          padding: 22px 0 0;
+          border-right: 0;
+        }
+
+        .c-reading {
+          padding: 45px 0 48px;
+        }
+
+        .c-reading h2 {
+          font-size: clamp(2.35rem, 12vw, 4rem);
+        }
+
+        .c-proof {
+          gap: 12px;
+        }
+
+        .c-contact {
+          margin-top: 70px;
         }
 
         .prototype-switcher {
@@ -1671,13 +1304,6 @@
       @media (prefers-reduced-motion: reduce) {
         html {
           scroll-behavior: auto;
-        }
-
-        *,
-        *::before,
-        *::after {
-          scroll-behavior: auto !important;
-          transition-duration: 0.01ms !important;
         }
       }
     </style>
@@ -1699,68 +1325,65 @@
           title: "Anonymous by design",
           client: "Personio",
           kind: "Product launch",
-          period: "2023–2025",
-          summary: "An EU-compliant whistleblowing service designed around anonymous reporting, regulatory isolation, and dependable operations.",
-          story: "Co-architected and launched the greenfield service from product and regulatory requirements. Designed dual-AWS infrastructure and anonymous authentication, then stayed on as the primary technical owner.",
+          period: "2023 to 2025",
+          summary: "An EU-compliant whistleblowing service built around anonymous reporting and isolated infrastructure.",
+          story: "I co-architected and launched the service from product and regulatory requirements. I designed the dual-AWS infrastructure and anonymous authentication, then remained its primary technical owner.",
           details: {
-            problem: "Create a whistleblowing product that could protect reporter anonymity while keeping the service isolated for regulatory and operational reasons.",
-            role: "Co-architected the service, kicked off the Go codebase and AWS CDK infrastructure, then led a three-engineer maintenance team after launch.",
-            work: "Designed dual-AWS isolation and anonymous authentication. Established automated testing with Docker Testcontainers and Datadog synthetic monitoring.",
-            result: "Generated approximately €1M ARR soon after release; delivered 99.92% uptime, p99 latency below 200ms, and resolved 14 critical security vulnerabilities.",
+            problem: "Protect reporter anonymity while isolating the service for regulatory and operational reasons.",
+            role: "I co-architected the service, started the Go codebase and AWS CDK infrastructure, then led a three-engineer maintenance team after launch.",
+            decisions: "I designed dual-AWS isolation and anonymous authentication. I set up automated testing with Docker Testcontainers and Datadog synthetic monitoring.",
+            result: "Soon after release, the service generated approximately €1M ARR, reached 99.92% uptime, kept p99 latency below 200ms, and resolved 14 critical security vulnerabilities."
           },
           proof: [
             ["€1M ARR", "soon after release"],
             ["99.92%", "service uptime"],
-            ["<200ms", "p99 latency"],
+            ["<200ms", "p99 latency"]
           ],
-          stack: ["Golang", "AWS CDK", "Kubernetes", "Datadog"],
-          diagram: ["Product + regulation", "Anonymous service", "Isolated AWS"],
+          stack: ["Golang", "AWS CDK", "Kubernetes", "Datadog"]
         },
         {
           id: "pricing-engine",
           number: "02",
-          title: "Extracting the engine",
+          title: "Pricing engine extraction",
           client: "BEAT / FREENOW",
           kind: "Platform evolution",
-          period: "2019–2023",
-          summary: "The core pricing engine moved out of a monolith into Go services with dynamic, incentive-driven geo-pricing.",
-          story: "Led the extraction of the pricing engine and introduced hexagonal geo-zones to balance driver supply and demand across markets.",
+          period: "2019 to 2023",
+          summary: "I led the extraction of the core pricing engine from a monolith into Go services with dynamic, incentive-driven geo-pricing.",
+          story: "I led the extraction of the pricing engine and introduced hexagonal geo-zones to balance driver supply and demand across markets.",
           details: {
-            problem: "Change a core pricing capability without keeping the monolith as the permanent owner of every market decision.",
-            role: "Led the pricing-service extraction and worked with the wider mobility platform around the new service boundary.",
-            work: "Introduced dynamic incentive-driven pricing based on hexagonal geo-zones, keeping the pricing logic explicit and independently deployable.",
-            result: "A separate Go pricing capability that could respond to supply and demand across markets without growing the original monolith.",
+            problem: "Move a core pricing capability out of the monolith without leaving it as the permanent owner of every market decision.",
+            role: "I led the pricing-service extraction and worked with the wider mobility platform around the new service boundary.",
+            decisions: "I introduced dynamic, incentive-driven pricing based on hexagonal geo-zones and kept the pricing logic independently deployable.",
+            result: "The separate Go pricing capability could respond to supply and demand across markets without expanding the original monolith."
           },
           proof: [
             ["Go", "new service boundary"],
             ["Geo-zones", "dynamic incentives"],
-            ["Markets", "supply / demand"],
+            ["Markets", "supply / demand"]
           ],
-          stack: ["Golang", "Kafka", "gRPC", "AWS"],
-          diagram: ["Monolith", "Pricing services", "Market signals"],
+          stack: ["Golang", "Kafka", "gRPC", "AWS"]
         },
         {
           id: "gateway-migration",
           number: "03",
-          title: "10k+ requests, no big bang",
+          title: "API gateway migration",
           client: "BEAT / FREENOW",
           kind: "Migration",
-          period: "2019–2023",
-          summary: "Routing and authentication were extracted from a monolith while the old and new paths ran side by side.",
-          story: "Helped form the four-engineer team, built a Go API gateway handling 10k+ RPS, and ran the legacy and replacement paths in parallel for 6–12 months before completing the live migration.",
+          period: "2019 to 2023",
+          summary: "Routing and authentication moved out of a monolith while the old and new paths ran in parallel.",
+          story: "I helped form the four-engineer team, built a Go API gateway handling 10k+ RPS, and ran the legacy and replacement paths in parallel for 6 to 12 months before the live migration.",
           details: {
-            problem: "Replace routing and authentication in a live ride-hailing platform without a single high-risk cutover.",
-            role: "Helped form the four-engineer team, built the gateway and authentication path, and contributed to the migration strategy.",
-            work: "Used custom Kubernetes CRDs, Helm-based service discovery, a DynamoDB-backed authentication service, and a Redis idempotency guard.",
-            result: "Completed the live migration, removed the corresponding monolith functionality, and shipped a shared authorization library adopted by seven teams.",
+            problem: "Replace routing and authentication in a live ride-hailing platform without one high-risk cutover.",
+            role: "I helped form the four-engineer team, built the gateway and authentication path, and contributed to the migration strategy.",
+            decisions: "I used custom Kubernetes CRDs, Helm-based service discovery, a DynamoDB-backed authentication service, and a Redis idempotency guard.",
+            result: "The live migration removed the corresponding monolith functionality, and seven teams adopted the shared authorization library."
           },
           proof: [
             ["10k+ RPS", "gateway throughput"],
-            ["6–12 mo", "parallel paths"],
-            ["7 teams", "authorization adopted"],
+            ["6 to 12 months", "parallel paths"],
+            ["7 teams", "authorization adopted"]
           ],
-          stack: ["Golang", "Kubernetes", "DynamoDB", "Redis"],
-          diagram: ["Legacy path", "Gateway", "Seven teams"],
+          stack: ["Golang", "Kubernetes", "DynamoDB", "Redis"]
         },
         {
           id: "survey-migration",
@@ -1768,113 +1391,108 @@
           title: "24 GB, zero downtime",
           client: "Personio",
           kind: "Data reliability",
-          period: "2023–2025",
-          summary: "A user-data snapshot tool and zero-downtime migration cut P99 latency across 14 endpoints.",
-          story: "Identified an exponential database-growth issue, built a snapshot tool, and owned the zero-downtime migration of a 24GB dataset.",
+          period: "2023 to 2025",
+          summary: "A user-data snapshot tool and zero-downtime migration reduced P99 latency across 14 endpoints.",
+          story: "I identified an exponential database-growth issue, built a snapshot tool, and owned the zero-downtime migration of a 24GB dataset.",
           details: {
             problem: "Stop user-data snapshots from driving exponential database growth while keeping a large production dataset available.",
-            role: "Led the investigation, designed the snapshot approach, and owned the zero-downtime migration.",
-            work: "Changed the data shape and optimized PostgreSQL indexes and schema across the affected API surface.",
-            result: "Migrated 24GB without downtime and reduced P99 latency from 600ms to below 300ms across 14 endpoints.",
+            role: "I led the investigation, designed the snapshot approach, and owned the zero-downtime migration.",
+            decisions: "I changed the data shape and optimized PostgreSQL indexes and schema across the affected API surface.",
+            result: "I migrated 24GB without downtime and reduced P99 latency from 600ms to below 300ms across 14 endpoints."
           },
           proof: [
             ["24 GB", "migrated live"],
-            ["600 → <300ms", "P99 latency"],
-            ["14", "endpoints improved"],
+            ["600ms to <300ms", "P99 latency"],
+            ["14", "endpoints improved"]
           ],
-          stack: ["Kotlin", "PostgreSQL", "Kafka", "React"],
-          diagram: ["Snapshot tool", "Safe migration", "Faster queries"],
+          stack: ["Kotlin", "PostgreSQL", "Kafka", "React"]
         },
         {
           id: "messy-data",
           number: "05",
-          title: "Messy data, mapped reliably",
+          title: "Wholesaler data integration with fuzzy matching",
           client: "fashionTrade",
           kind: "Data integration",
-          period: "2018–2019",
-          summary: "A distributed integration API handled messy wholesaler data with fuzzy matching and asynchronous enrichment.",
-          story: "Led the implementation of an API that disambiguated customer data with Elasticsearch-based fuzzy matching and mapped it onto a master dataset through Kafka pipelines.",
+          period: "2018 to 2019",
+          summary: "A distributed integration API handled wholesaler data with fuzzy matching and asynchronous enrichment.",
+          story: "I led an API that disambiguated customer data with Elasticsearch fuzzy matching and mapped it onto a master dataset through Kafka pipelines.",
           details: {
-            problem: "Normalize inconsistent data from hundreds of fashion wholesalers without turning each integration into a bespoke manual project.",
-            role: "Led implementation of the distributed data-integration API and its matching and enrichment flow.",
-            work: "Combined Elasticsearch fuzzy matching with asynchronous Kafka pipelines and explicit race-condition handling.",
-            result: "Wholesaler data could be ingested, disambiguated, enriched, and mapped onto the master dataset through a repeatable service.",
+            problem: "Normalize inconsistent data from hundreds of fashion wholesalers without turning each integration into a manual project.",
+            role: "I led the distributed data-integration API and its matching and enrichment flow.",
+            decisions: "I combined Elasticsearch fuzzy matching with asynchronous Kafka pipelines and explicit race-condition handling.",
+            result: "The service ingested, disambiguated, enriched, and mapped wholesaler data onto the master dataset through a repeatable flow."
           },
           proof: [
             ["Hundreds", "of wholesalers"],
             ["Fuzzy", "matching + enrichment"],
-            ["Kafka", "race handling"],
+            ["Kafka", "race handling"]
           ],
-          stack: ["Java", "Elasticsearch", "Kafka", "GCP"],
-          diagram: ["Wholesale data", "Match + enrich", "Master dataset"],
+          stack: ["Java", "Elasticsearch", "Kafka", "GCP"]
         },
         {
           id: "developer-accelerator",
           number: "06",
-          title: "A shorter path to integration",
+          title: "Java CMS integration framework",
           client: "SDL Web",
           kind: "Open source",
-          period: "2015–2018",
-          summary: "A Java counterpart to an open-source enterprise CMS integration framework.",
-          story: "Led development of reflection-based dynamic model mapping to reduce the effort needed for customer integrations, while reviewing and integrating community contributions.",
+          period: "2015 to 2018",
+          summary: "A Java framework for integrating customer models with an open-source enterprise CMS.",
+          story: "I led reflection-based dynamic model mapping to reduce the effort needed for customer integrations and reviewed and integrated community contributions.",
           details: {
-            problem: "Reduce the repeated implementation work required to connect customer models to an enterprise CMS.",
-            role: "Led development of the Java framework and reviewed and integrated community contributions.",
-            work: "Implemented reflection-based dynamic model mapping and maintained the adapter framework alongside customer needs.",
-            result: "A shorter, more repeatable path for customer integrations around the open-source CMS framework.",
+            problem: "Reduce repeated implementation work when connecting customer models to an enterprise CMS.",
+            role: "I led development of the Java framework and reviewed and integrated community contributions.",
+            decisions: "I implemented reflection-based dynamic model mapping and maintained the adapter framework alongside customer needs.",
+            result: "The framework gave customers a shorter, more repeatable path to integrations around the open-source CMS."
           },
           proof: [
             ["Java", "adapter framework"],
             ["Dynamic", "model mapping"],
-            ["OSS", "community input"],
+            ["OSS", "community input"]
           ],
-          stack: ["Java", "Spring", "Gradle", "OSS"],
-          diagram: ["CMS model", "Adapter layer", "Customer app"],
+          stack: ["Java", "Spring", "Gradle", "OSS"]
         },
         {
           id: "ai-lab",
           number: "07",
-          title: "AI engineering lab",
+          title: "Independent AI tooling experiments",
           client: "Personal work",
           kind: "In progress",
-          period: "2026–now",
+          period: "2026 to now",
           summary: "A private space for experiments with AI-assisted development, MCP, and developer workflows.",
-          story: "A deliberately evolving personal project. Public write-ups and demos can be added when an experiment has earned its way out of the lab.",
+          story: "An evolving personal project. Public write-ups and demos can be added when an experiment leaves the lab.",
           details: {
-            problem: "Find useful, repeatable ways to work with AI tools without confusing experiments with production claims.",
+            problem: "Test useful, repeatable ways to work with AI tools without presenting experiments as production work.",
             role: "Independent exploration during a sabbatical focused on personal projects and AI engineering.",
-            work: "Experiments with OpenAI APIs, MCP, Claude Code, and developer tooling; the public version is not defined yet.",
-            result: "Private and still forming. This slot stays visible so a future public project has a clear home without inventing one now.",
+            decisions: "I am experimenting with OpenAI APIs, MCP, Claude Code, and developer tooling. The public version is not defined yet.",
+            result: "Private and still forming. This slot stays visible so a future public project has a clear home without inventing one now."
           },
           proof: [
             ["MCP", "tool interfaces"],
             ["LLM APIs", "experiments"],
-            ["Private", "still forming"],
+            ["Private", "still forming"]
           ],
           stack: ["OpenAI API", "MCP", "Claude Code", "Developer tooling"],
-          diagram: ["Question", "Experiment", "Useful workflow"],
-          personal: true,
-        },
+          personal: true
+        }
       ];
 
       const variants = [
-        { key: "B", name: "Workbench / case files" },
-        { key: "D", name: "Project desktop / PostHog-inspired" },
-        { key: "E", name: "Repository / code review" },
+        { key: "A", name: "Editorial + technical" },
+        { key: "B", name: "Résumé timeline" },
+        { key: "C", name: "Case index" }
       ];
 
       const app = document.querySelector("#app");
       const switcher = document.querySelector("#prototype-switcher");
-      const label = document.querySelector("#variant-label");
+      const variantLabel = document.querySelector("#variant-label");
 
-      const esc = (value) => String(value).replace(/[&<>\"]/g, (character) => ({
+      const esc = (value) => String(value).replace(/[&<>"']/g, (character) => ({
         "&": "&amp;",
         "<": "&lt;",
         ">": "&gt;",
         '"': "&quot;",
+        "'": "&#39;"
       })[character]);
-
-      const tags = (items, className = "") => items.map((item) => `<span class="tag ${className}">${esc(item)}</span>`).join("");
 
       const metrics = (items) => items.map(([value, text]) => `
         <div class="metric">
@@ -1883,199 +1501,171 @@
         </div>
       `).join("");
 
-      const pipeline = (items) => `
-        <div class="pipeline" aria-label="System flow">
-          ${items.map((item, index) => `
-            <div class="pipeline-node">
-              ${index === 0 ? "constraint" : index === items.length - 1 ? "result" : "system"}
-              <strong>${esc(item)}</strong>
-            </div>
-            ${index < items.length - 1 ? `<span class="pipeline-arrow" aria-hidden="true">→</span>` : ""}
-          `).join("")}
-        </div>
-      `;
+      const tags = (items) => items.map((item) => `<span class="tag">${esc(item)}</span>`).join("");
 
-      const details = (project, className = "case-details", open = false) => `
-        <details class="${className}"${open ? " open" : ""}>
-          <summary><span>Read the project notes</span><span>${open ? "expanded" : "expand"}</span></summary>
+      const caseNotes = (project, className = "", includeRole = true) => `
+        <details class="case-notes ${className}">
+          <summary aria-label="Read case notes for ${esc(project.title)}"><span>Technical details</span></summary>
           <div class="details-grid">
-            ${Object.entries(project.details).map(([key, value]) => `
+            ${Object.entries(project.details).filter(([key]) => includeRole || key !== "role").map(([key, value]) => `
               <div class="detail-block">
                 <span class="detail-label">${esc(key)}</span>
                 <p>${esc(value)}</p>
               </div>
             `).join("")}
           </div>
+          <div class="case-footer">
+            <span class="case-footer-label">Stack</span>
+            <div class="tag-list">${tags(project.stack)}</div>
+          </div>
         </details>
       `;
 
-      const projectRow = (project, className = "project-row") => `
-        <details class="${className}" id="${esc(project.id)}">
-          <summary>
+      const header = (className = "page-header") => `
+        <header class="${className}">
+          <a class="brand" href="#top" aria-label="Alexey Zarakovskiy home">
+            <span class="brand-name">Alexey Zarakovskiy</span>
+            <span class="brand-role">Senior software engineer</span>
+          </a>
+          <nav aria-label="Primary navigation"><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+          <div class="header-meta"><a class="availability" href="#contact">Available for freelance work</a></div>
+        </header>
+      `;
+
+      const about = (className = "about-block") => `
+        <section class="${className}" id="about" aria-labelledby="about-title">
+          <h2 id="about-title">About the engineer.</h2>
+          <div class="about-copy">
+            <p>Since 2015, I have worked on backend and platform systems for HR, mobility, fashion, and enterprise CMS products.</p>
+          </div>
+        </section>
+      `;
+
+      const contact = (className = "contact-block") => `
+        <section class="${className}" id="contact" aria-labelledby="contact-title">
+          <div><p class="section-kicker">Contact</p><h2 id="contact-title">Backend, platform, or full-stack projects.</h2><p class="contact-copy">Amsterdam or remote. Send the context and the part that keeps breaking.</p></div>
+          <div class="contact-links"><a href="mailto:work@azarakovskiy.com">work@azarakovskiy.com ↗</a><a href="https://linkedin.com/in/azarakovskiy">LinkedIn ↗</a><a href="https://github.com/azarakovskiy">GitHub ↗</a></div>
+        </section>
+      `;
+
+      const renderAProject = (project, featured = false) => `
+        <article class="${featured ? "a-featured" : "a-project"}" id="${esc(project.id)}">
+          <div class="${featured ? "a-featured-grid" : ""}">
             <span class="project-number">${esc(project.number)}</span>
-            <span>${esc(project.title)}</span>
-            <span>${esc(project.client)} · ${esc(project.kind)}</span>
-          </summary>
-          <div class="project-row-content">
             <div>
-              <p>${esc(project.story)}</p>
-              ${details(project)}
+              <div class="project-meta"><span>${esc(project.client)}</span><span>${esc(project.kind)}</span><span>${esc(project.period)}</span></div>
+              <h3 class="project-title">${esc(project.title)}</h3>
+              <span class="detail-label">What I owned</span>
+              <p class="project-story">${esc(project.story)}</p>
+              ${caseNotes(project, "a-case-notes", false)}
             </div>
-            <div>
-              <div class="metric-list">${metrics(project.proof)}</div>
-              <div class="tag-list">${tags(project.stack)}</div>
-            </div>
+            <div class="project-proof">${metrics(project.proof)}</div>
           </div>
+        </article>
+      `;
+
+      const renderVariantA = () => `
+        <div class="a-page" id="top">
+          ${header()}
+          <main>
+            <section class="a-hero" aria-labelledby="a-title">
+              <div><p class="eyebrow">Backend · platform · full-stack</p><h1 id="a-title">Backend and platform engineer for new services and live migrations.</h1><p class="a-hero-lede">I work with teams from the first design decision through production ownership.</p><div class="hero-links"><a href="#work">View selected work ↓</a><a href="mailto:work@azarakovskiy.com">Get in touch ↗</a></div></div>
+              <aside class="a-hero-aside b-profile" aria-label="Technical profile"><h2>Technical profile</h2><dl class="b-profile-list"><div><dt>Based in</dt><dd>Amsterdam / remote</dd></div><div><dt>Experience</dt><dd>Since 2015</dd></div><div><dt>Languages</dt><dd>Go · Java · Kotlin · TypeScript</dd></div><div><dt>Infrastructure</dt><dd>AWS · GCP · Kubernetes · PostgreSQL</dd></div></dl></aside>
+            </section>
+            <section class="a-work" id="work" aria-labelledby="a-work-title"><div class="section-heading"><div><p class="section-kicker">Experience</p><h2 id="a-work-title">Selected experience</h2></div><p class="section-intro">Six client projects, plus separate independent experiments.</p></div>${renderAProject(projects[0], true)}<div class="a-project-list" aria-label="Selected client work">${projects.slice(1, 6).map((project) => renderAProject(project)).join("")}</div><div class="a-independent"><h2>Independent experiments</h2><p>Private, in-progress experiments with OpenAI APIs, MCP, Claude Code, and developer tooling during a sabbatical.</p></div></section>
+            ${about()}
+            ${contact()}
+          </main>
+        </div>
+      `;
+
+      const renderBRow = (project) => `
+        <details class="b-row${project.personal ? " b-row--personal" : ""}" id="${esc(project.id)}">
+          <summary><span class="b-date">${esc(project.period)}</span><span class="b-company">${esc(project.client)}</span><span class="b-role"><strong>${esc(project.title)}</strong><small>${esc(project.summary)}</small></span><span class="b-open-label" aria-hidden="true"></span></summary>
+          <div class="b-row-body"><div><p class="project-story">${esc(project.story)}</p>${caseNotes(project, "b-case-notes")}</div><div class="project-proof">${metrics(project.proof)}</div></div>
         </details>
       `;
 
-      const inspector = (project, className = "inspector-block") => `
-        <div class="${className}">
-          <h3>Project</h3>
-          <p><strong>${esc(project.client)}</strong><br />${esc(project.kind)} · ${esc(project.period)}</p>
-        </div>
-        <div class="${className}">
-          <h3>Evidence</h3>
-          <div class="metric-list">${metrics(project.proof)}</div>
-        </div>
-        <div class="${className}">
-          <h3>Stack</h3>
-          <div class="tag-list">${tags(project.stack, "tag--accent")}</div>
+      const renderVariantB = () => `
+        <div class="b-page" id="top">
+          <header class="b-header"><div><a class="brand" href="#top" aria-label="Alexey Zarakovskiy home"><span class="brand-name">Alexey Zarakovskiy</span><span class="brand-role">Senior software engineer</span></a></div><nav aria-label="Primary navigation"><a href="#work">Experience</a><a href="#about">About</a><a href="#contact">Contact</a></nav><div class="b-header-status"><span>Amsterdam / remote</span><a class="availability" href="#contact">Available for freelance work</a></div></header>
+          <main>
+            <section class="b-intro" aria-labelledby="b-title"><div><p class="eyebrow">Software engineering · 2015 to now</p><h1 id="b-title">I build backend and platform systems teams can own.</h1><p>I work with teams on new services, live migrations, data reliability, and the work required to run a system after launch.</p></div><aside class="b-profile"><h2>Technical profile</h2><dl class="b-profile-list"><div><dt>Focus</dt><dd>Backend / platform / full-stack</dd></div><div><dt>Languages</dt><dd>Go · Java · Kotlin · TypeScript</dd></div><div><dt>Infrastructure</dt><dd>AWS · GCP · Kubernetes · PostgreSQL</dd></div></dl></aside></section>
+            <section class="b-experience" id="work" aria-labelledby="b-work-title"><div class="b-section-bar"><h2 id="b-work-title">Selected experience</h2><span>Open a row for the case notes</span></div><div class="b-timeline">${[projects[0], projects[3], projects[1], projects[2], projects[4], projects[5]].map(renderBRow).join("")}</div><div class="b-independent"><h2>Independent experiments</h2><p>Visible, but separate from client work.</p>${renderBRow(projects[6])}</div></section>
+            ${about("about-block b-about")}
+            ${contact("contact-block b-contact")}
+          </main>
         </div>
       `;
 
-      const renderVariantB = () => {
-        const featured = projects[0];
-        return `
-          <div class="site b-page">
-            <header class="topbar">
-              <a class="brand" href="#top" aria-label="Alexey Zarakovskiy home"><span class="brand-mark">AZ</span><span>Alexey Zarakovskiy</span></a>
-              <nav class="topbar-links" aria-label="Primary navigation"><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
-              <div class="topbar-right"><span class="theme-chip">theme: system</span><span class="pill pill--accent">available for focused work</span></div>
-            </header>
-            <div class="b-layout" id="top">
-              <aside class="b-sidebar">
-                <div class="sidebar-heading"><span class="panel-title">/ project files</span><span class="mono muted">${projects.length}</span></div>
-                <nav class="b-project-list" aria-label="Project files">
-                  ${projects.map((project) => `<a class="b-project-link" href="#${esc(project.id)}"><span class="project-number">${esc(project.number)}</span><span>${esc(project.title)}</span><small>${esc(project.client)}</small></a>`).join("")}
-                </nav>
-                <div class="sidebar-footer"><strong>Senior backend engineer</strong>Full-stack · language agnostic<br />Amsterdam / remote</div>
-              </aside>
-              <main class="b-main">
-                <section class="b-heading">
-                  <div><div class="eyebrow">/ portfolio / technical case files</div><h1>Selected work, with the missing context included.</h1></div>
-                  <p>Longer descriptions of the problem, my role, the decisions, and the result. Open a project row when you want more than a headline.</p>
-                </section>
-                <section class="b-case" id="work">
-                  <div class="b-case-main">
-                    <div class="b-case-meta"><span>${esc(featured.client)} / ${esc(featured.kind)}</span><span>${esc(featured.period)}</span></div>
-                    <h2>${esc(featured.title)}</h2>
-                    <p class="case-summary">${esc(featured.summary)}</p>
-                    ${pipeline(featured.diagram)}
-                    ${details(featured, "case-details", true)}
-                  </div>
-                  <aside class="b-inspector">${inspector(featured)}</aside>
-                </section>
-                <section class="b-index" aria-label="All project files">
-                  <div class="sidebar-heading"><span class="panel-title">/ all projects</span><span class="status">details available</span></div>
-                  ${projects.slice(1).map((project) => projectRow(project)).join("")}
-                </section>
-                <section class="b-about" id="about">
-                  <h2>/ about the engineer</h2>
-                  <div><p>I work where product constraints, distributed systems, and a real user outcome meet. Across HR, mobility, fashion, and enterprise CMS platforms, I have moved systems from idea to reliable service and helped teams keep them understandable.</p><p>Now starting a contractor / ZZP chapter: available for backend, platform, or full-stack work where ownership and clarity matter more than a fashionable stack.</p></div>
-                </section>
-                <footer class="b-contact" id="contact"><h2>Have a system worth making clearer?</h2><div class="contact-links"><a href="mailto:work@azarakovskiy.com">work@azarakovskiy.com ↗</a><a href="https://linkedin.com/in/azarakovskiy">LinkedIn ↗</a><a href="https://github.com/azarakovskiy">GitHub ↗</a></div></footer>
-              </main>
-            </div>
-          </div>
-        `;
-      };
-
-      const renderDProject = (project) => `
-        <details class="project-row" id="${esc(project.id)}">
-          <summary><span class="project-number">${esc(project.number)}</span><span>${esc(project.title)}</span><span>${esc(project.client)} · ${esc(project.period)}</span></summary>
-          <div class="project-row-content"><p>${esc(project.story)}</p>${details(project)}<div class="tag-list">${tags(project.stack)}</div></div>
-        </details>
+      const renderCLink = (project) => `
+        <button class="c-case-link" type="button" data-case-id="${esc(project.id)}" aria-controls="case-reading"><span class="c-case-link-number">${esc(project.number)}</span><span><span class="c-case-link-title">${esc(project.title)}</span><span class="c-case-link-meta">${esc(project.client)} · ${esc(project.kind)}</span></span></button>
       `;
 
-      const renderVariantD = () => {
-        const featured = projects[0];
-        return `
-          <div class="site d-page">
-            <header class="d-global"><a class="brand" href="#top" aria-label="Alexey Zarakovskiy home"><span class="brand-mark">AZ</span><span>Alexey Zarakovskiy</span></a><nav class="d-global-nav" aria-label="Primary navigation"><a href="#work">Projects</a><a href="#about">About</a><a href="#contact">Contact</a></nav><div class="topbar-right"><span class="theme-chip">theme: system</span><span class="pill pill--accent">open to contractor work</span></div></header>
-            <main class="d-stage" id="top">
-              <section class="d-intro"><div><div class="eyebrow">/ project desktop / archive</div><h1>Work you can inspect, not just skim.</h1></div><p>PostHog-inspired chrome and workspace navigation, but the content stays practical: what was hard, what I owned, and what changed.</p></section>
-              <section class="d-window" id="work">
-                <div class="window-chrome"><div class="window-controls" aria-hidden="true"><i></i><i></i><i></i></div><span class="window-title">projects / anonymous-by-design.md</span><span class="theme-chip">system palette</span></div>
-                <div class="d-layout">
-                  <aside class="d-rail"><h2>Project archive</h2>${projects.map((project, index) => `<a class="d-file" href="#${esc(project.id)}"${index === 0 ? ' aria-current="page"' : ""}><span class="project-number">${esc(project.number)}</span><span>${esc(project.title)}</span><small>${esc(project.client)}</small></a>`).join("")}</aside>
-                  <article class="d-main">
-                    <div class="d-main-meta"><span>${esc(featured.client)} / ${esc(featured.kind)}</span><span>${esc(featured.period)}</span></div>
-                    <h2>${esc(featured.title)}</h2>
-                    <p class="case-summary">${esc(featured.story)}</p>
-                    ${pipeline(featured.diagram)}
-                    ${details(featured, "case-details", true)}
-                  </article>
-                  <aside class="d-inspector">${inspector(featured, "d-inspector-section")}</aside>
-                </div>
-                <section class="d-project-drawer"><h2>More project files · open any for the longer note</h2><div class="d-drawer-grid">${projects.slice(1).map(renderDProject).join("")}</div></section>
-              </section>
-              <section class="d-footer" id="about"><h2>Backend depth.<br />Full-stack range.</h2><div><p class="case-summary">Golang · Java · Kotlin · TypeScript · React · AWS · GCP · Kubernetes · PostgreSQL · Kafka</p><p class="mono muted">Amsterdam / remote · <a class="text-link" href="mailto:work@azarakovskiy.com">work@azarakovskiy.com ↗</a></p></div></section>
-              <footer class="d-footer" id="contact"><h2>Send the constraint.</h2><div class="contact-links"><a href="mailto:work@azarakovskiy.com">work@azarakovskiy.com ↗</a><a href="https://linkedin.com/in/azarakovskiy">LinkedIn ↗</a><a href="https://github.com/azarakovskiy">GitHub ↗</a></div></footer>
-            </main>
-          </div>
-        `;
-      };
-
-      const renderEProject = (project) => `
-        <a class="tree-file" href="#${esc(project.id)}"${project.number === "01" ? ' aria-current="page"' : ""}><span>${project.number === "07" ? "◇" : "▱"}</span><span>${esc(project.id)}.md</span></a>
+      const renderCCase = (project) => `
+        <div class="c-reading-meta"><span>${esc(project.client)} / ${esc(project.kind)}</span><span>${esc(project.period)}</span></div>
+        <h2>${esc(project.title)}</h2>
+        <p class="c-reading-summary">${esc(project.summary)}</p>
+        <div class="c-owned"><span class="c-owned-label">What I owned</span><p>${esc(project.story)}</p></div>
+        <div class="c-proof">${metrics(project.proof)}</div>
+        ${caseNotes(project, "c-case-notes")}
       `;
 
-      const renderVariantE = () => {
-        const featured = projects[0];
-        return `
-          <div class="site e-page">
-            <header class="topbar"><a class="brand" href="#top" aria-label="Alexey Zarakovskiy home"><span class="brand-mark">AZ</span><span>Alexey Zarakovskiy</span></a><div class="topbar-right"><span class="theme-chip">theme: system</span><span class="pill">portfolio / read-only</span></div></header>
-            <nav class="e-tabs" aria-label="Open project files"><a class="e-tab" href="#about">about.md</a><a class="e-tab" href="#${esc(featured.id)}" aria-current="page">${esc(featured.id)}.md</a><a class="e-tab" href="#contact">contact.md</a></nav>
-            <div class="e-layout" id="top">
-              <aside class="e-tree"><div class="tree-heading"><span>portfolio</span><span>⌄</span></div><div class="tree-folder">/projects</div><div class="tree-files">${projects.map(renderEProject).join("")}</div><div class="tree-folder">/profile</div><div class="tree-files"><a class="tree-file" href="#about"><span>▱</span><span>about.md</span></a><a class="tree-file" href="#contact"><span>▱</span><span>contact.md</span></a></div></aside>
-              <main class="e-editor">
-                <div class="editor-crumb"><span>projects</span><span>/</span><strong>${esc(featured.id)}.md</strong></div>
-                <h1>${esc(featured.title)}</h1>
-                <p class="editor-lede">${esc(featured.summary)} ${esc(featured.story)}</p>
-                <div class="code-file" id="${esc(featured.id)}">
-                  <div class="code-gutter"><span>01</span><span>05</span><span>09</span><span>13</span><span>17</span></div>
-                  <div class="code-body">
-                    <details class="code-section" open><summary><span class="code-label">problem:</span> what needed to change</summary><p>${esc(featured.details.problem)}</p></details>
-                    <details class="code-section" open><summary><span class="code-label">role:</span> what I owned</summary><p>${esc(featured.details.role)}</p></details>
-                    <details class="code-section"><summary><span class="code-label">decisions:</span> how the system moved</summary><p>${esc(featured.details.work)}</p><div class="editor-result">${featured.diagram.map((item) => `<span>${esc(item)}</span>`).join("<strong>→</strong>")}</div></details>
-                    <details class="code-section" open><summary><span class="code-label">result:</span> what changed</summary><p>${esc(featured.details.result)}</p><div class="editor-result">${featured.proof.map(([value, text]) => `<span>${esc(text)}<strong>${esc(value)}</strong></span>`).join("")}</div></details>
-                  </div>
-                </div>
-                <section class="e-about" id="about"><div class="code-gutter"><span>ABOUT</span></div><p>I work across backend, platform, and full-stack boundaries. The useful part is not the language choice; it is making the tradeoff, migration, and operating model explicit enough for a team to own.</p></section>
-                <footer class="e-footer" id="contact"><h2>Open to the right constraint.</h2><div class="e-footer-links"><a href="mailto:work@azarakovskiy.com">work@azarakovskiy.com ↗</a><a href="https://linkedin.com/in/azarakovskiy">LinkedIn ↗</a><a href="https://github.com/azarakovskiy">GitHub ↗</a></div></footer>
-              </main>
-              <aside class="e-inspector"><h2>inspector</h2>${inspector(featured, "e-inspector-section")}</aside>
-            </div>
-          </div>
-        `;
-      };
+      const renderVariantC = () => `
+        <div class="c-page" id="top">
+          <header class="c-header"><a class="brand" href="#top" aria-label="Alexey Zarakovskiy home"><span class="brand-name">Alexey Zarakovskiy</span><span class="brand-role">Senior software engineer</span></a><nav aria-label="Primary navigation"><a href="#work">Cases</a><a href="#about">About</a><a href="#contact">Contact</a></nav><span class="c-header-status">Available for freelance work</span></header>
+          <main>
+            <section class="c-hero" aria-labelledby="c-title"><div><p class="eyebrow">Project index</p><h1 id="c-title">What I owned, what changed.</h1></div><p>Choose a case on the left. The selected project stays in one reading column, with evidence first and deeper notes when you want them.</p></section>
+            <section class="c-work" id="work" aria-label="Case index"><nav class="c-index" aria-label="Selected cases"><h2>Selected cases</h2>${projects.map(renderCLink).join("")}</nav><article class="c-reading" id="case-reading" aria-live="polite"></article></section>
+            <section class="c-about" id="about" aria-labelledby="c-about-title"><h2 id="c-about-title">How I work.</h2><p>Since 2015, I have worked on backend and platform systems for HR, mobility, fashion, and enterprise CMS products.</p></section>
+            ${contact("contact-block c-contact")}
+          </main>
+        </div>
+      `;
 
-      const normalizeVariant = (key) => variants.some((variant) => variant.key === key) ? key : "B";
-      const readVariant = () => (new URLSearchParams(location.search).get("variant") || "B").toUpperCase();
+      const aliases = { D: "B", E: "C" };
+      const normalizeVariant = (key) => {
+        const normalized = aliases[String(key).toUpperCase()] || String(key).toUpperCase();
+        return variants.some((variant) => variant.key === normalized) ? normalized : "A";
+      };
+      const readVariant = () => new URLSearchParams(location.search).get("variant") || "A";
 
       const syncVariantUrl = (key) => {
         const url = new URL(location.href);
         url.searchParams.set("variant", key);
+        url.hash = "";
         history.replaceState({}, "", url);
+      };
+
+      const selectCase = (id, updateHash = true) => {
+        const project = projects.find((candidate) => candidate.id === id) || projects[0];
+        const reading = document.querySelector("#case-reading");
+        if (!reading) return;
+        reading.innerHTML = renderCCase(project);
+        document.querySelectorAll("[data-case-id]").forEach((button) => {
+          button.setAttribute("aria-current", button.dataset.caseId === project.id ? "page" : "false");
+        });
+        if (updateHash) {
+          const url = new URL(location.href);
+          url.hash = project.id;
+          history.replaceState({}, "", url);
+        }
+      };
+
+      const bindCaseIndex = () => {
+        document.querySelectorAll("[data-case-id]").forEach((button) => {
+          button.addEventListener("click", () => selectCase(button.dataset.caseId));
+        });
+        selectCase(location.hash.slice(1), false);
       };
 
       const render = (key) => {
         const normalized = normalizeVariant(key);
-        app.innerHTML = normalized === "B" ? renderVariantB() : normalized === "D" ? renderVariantD() : renderVariantE();
+        app.innerHTML = normalized === "A" ? renderVariantA() : normalized === "B" ? renderVariantB() : renderVariantC();
         const current = variants.find((variant) => variant.key === normalized);
-        label.innerHTML = `<span>${current.key}</span> · ${current.name}`;
-        document.title = `Alexey Zarakovskiy — ${current.name}`;
+        variantLabel.innerHTML = `<strong>${current.key}</strong> · ${current.name}`;
+        document.title = `Alexey Zarakovskiy: ${current.name} prototype`;
+        if (normalized === "C") bindCaseIndex();
         return normalized;
       };
 
@@ -2098,15 +1688,14 @@
         if (event.key === "ArrowLeft") cycle(-1);
         if (event.key === "ArrowRight") cycle(1);
       });
-      window.addEventListener("popstate", () => {
-        const normalized = normalizeVariant(readVariant());
-        if (readVariant() !== normalized) syncVariantUrl(normalized);
-        render(normalized);
+      window.addEventListener("popstate", () => render(normalizeVariant(readVariant())));
+      window.addEventListener("hashchange", () => {
+        if (normalizeVariant(readVariant()) === "C") selectCase(location.hash.slice(1), false);
       });
 
       switcher.hidden = !location.pathname.includes("/prototype/");
       const initialVariant = normalizeVariant(readVariant());
-      if (readVariant() !== initialVariant) syncVariantUrl(initialVariant);
+      if (readVariant().toUpperCase() !== initialVariant) syncVariantUrl(initialVariant);
       render(initialVariant);
     </script>
   </body>
