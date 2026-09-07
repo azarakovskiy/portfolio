@@ -5,35 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Portfolio UI prototype for Alexey Zarakovskiy — senior backend engineer, full-stack, language and technology agnostic."
+      content="Throwaway portfolio UI prototype for Alexey Zarakovskiy."
     />
+    <meta name="color-scheme" content="dark light" />
     <title>Alexey Zarakovskiy — Portfolio prototype</title>
     <style>
       /*
        * THROWAWAY PROTOTYPE
-       * Three portfolio variants, switchable via ?variant=, on
-       * /prototype/portfolio/. This file exists to choose a content shape;
-       * rewrite the winner before promoting it into the real site.
+       * Three developer-first portfolio variants, switchable via ?variant=,
+       * on /prototype/portfolio/. A/C were intentionally removed after review.
+       * Keep the factual project content; rewrite the chosen presentation.
        */
       :root {
-        --ink: #11181c;
-        --ink-soft: #46515b;
-        --ink-faint: #7f8a94;
-        --rule: #dce3e2;
-        --accent: #059669;
-        --accent-dark: #065f46;
-        --accent-soft: #d1fae5;
-        --paper: #ffffff;
-        --fog: #f4f5f7;
-        --night: #10191b;
-        --warm: #f4efe7;
-        --display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        color-scheme: dark light;
+        --bg: #141b18;
+        --surface: #1c2621;
+        --surface-raised: #243129;
+        --surface-inset: #0e1512;
+        --text: #edf4ee;
+        --text-soft: #b2c0b6;
+        --text-faint: #7d8d83;
+        --line: #35463c;
+        --line-strong: #51655a;
+        --accent: #a8db73;
+        --accent-strong: #5ab77e;
+        --accent-soft: #d7edbe;
+        --yellow: #f4bd68;
+        --blue: #8bc7ed;
+        --purple: #d09af2;
+        --red: #f09586;
         --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
         --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-        color: var(--ink);
-        font-family: var(--sans);
-        font-synthesis: none;
-        text-rendering: optimizeLegibility;
+        --shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+      }
+
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #eff2ea;
+          --surface: #fcfdf8;
+          --surface-raised: #f1f5ec;
+          --surface-inset: #e4ebe0;
+          --text: #17211b;
+          --text-soft: #56645a;
+          --text-faint: #77847b;
+          --line: #cbd7cc;
+          --line-strong: #a6b8aa;
+          --accent: #367c4b;
+          --accent-strong: #1e8b5d;
+          --accent-soft: #dff0cf;
+          --yellow: #b87400;
+          --blue: #2673a2;
+          --purple: #7b4ba0;
+          --red: #b85140;
+          --shadow: 0 24px 60px rgba(36, 63, 43, 0.12);
+        }
       }
 
       *,
@@ -49,9 +74,11 @@
       body {
         min-width: 320px;
         margin: 0;
-        background: var(--fog);
-        color: var(--ink);
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
         line-height: 1.5;
+        text-rendering: optimizeLegibility;
       }
 
       a {
@@ -59,454 +86,152 @@
         text-decoration: none;
       }
 
-      button {
-        border: 0;
+      button,
+      summary {
         font: inherit;
+      }
+
+      button {
+        color: inherit;
+      }
+
+      ::selection {
+        background: var(--accent);
+        color: var(--surface-inset);
+      }
+
+      a:focus-visible,
+      button:focus-visible,
+      summary:focus-visible {
+        outline: 2px solid var(--yellow);
+        outline-offset: 3px;
       }
 
       .site {
         min-height: 100vh;
         overflow: hidden;
+        background: var(--bg);
+        color: var(--text);
       }
 
-      .shell {
-        width: min(1180px, calc(100% - 48px));
-        margin: 0 auto;
-      }
-
+      .mono,
       .eyebrow,
       .label,
-      .route,
       .meta,
       .tag,
       .metric-label,
-      .switcher-label,
+      .theme-chip,
+      .file-name,
       .project-number,
-      .rail-kicker {
+      .panel-title,
+      .status,
+      .crumb,
+      .code-label {
         font-family: var(--mono);
-        letter-spacing: 0.06em;
+        letter-spacing: 0.045em;
         text-transform: uppercase;
       }
 
       .eyebrow {
-        color: var(--accent-dark);
-        font-size: 0.72rem;
+        color: var(--accent);
+        font-size: 0.66rem;
         font-weight: 700;
       }
 
       .muted {
-        color: var(--ink-soft);
+        color: var(--text-soft);
       }
 
-      .site-nav {
-        display: flex;
+      .theme-chip {
+        display: inline-flex;
         align-items: center;
-        justify-content: space-between;
-        gap: 24px;
-        padding: 24px 0;
-        border-bottom: 1px solid var(--rule);
+        gap: 7px;
+        color: var(--text-faint);
+        font-size: 0.59rem;
+        white-space: nowrap;
       }
 
-      .wordmark {
+      .theme-chip::before {
+        content: "◐";
+        color: var(--accent);
+        font-size: 0.77rem;
+      }
+
+      @media (prefers-color-scheme: light) {
+        .theme-chip::before {
+          content: "○";
+        }
+      }
+
+      .brand {
         display: inline-flex;
         align-items: center;
         gap: 10px;
-        font-size: 0.86rem;
+        font-size: 0.83rem;
         font-weight: 800;
         letter-spacing: -0.03em;
       }
 
-      .wordmark-mark {
+      .brand-mark {
         display: grid;
-        width: 30px;
-        height: 30px;
+        width: 29px;
+        height: 29px;
         place-items: center;
-        border-radius: 50%;
+        border: 1px solid var(--accent);
+        border-radius: 6px;
         background: var(--accent);
-        color: white;
+        color: var(--surface-inset);
         font-family: var(--mono);
-        font-size: 0.68rem;
+        font-size: 0.64rem;
       }
 
-      .nav-links {
+      .topbar {
         display: flex;
-        gap: 24px;
-        color: var(--ink-soft);
-        font-size: 0.83rem;
-      }
-
-      .nav-links a:hover,
-      .text-link:hover,
-      .contact-link:hover {
-        color: var(--accent-dark);
-      }
-
-      .availability {
-        display: inline-flex;
         align-items: center;
-        gap: 8px;
-        color: var(--accent-dark);
-        font-family: var(--mono);
-        font-size: 0.66rem;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        white-space: nowrap;
-      }
-
-      .availability::before {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: var(--accent);
-        content: "";
-      }
-
-      .button-link {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        min-height: 44px;
-        padding: 0 17px;
-        border: 1px solid var(--ink);
-        border-radius: 2px;
-        background: var(--ink);
-        color: white;
-        font-size: 0.78rem;
-        font-weight: 700;
-      }
-
-      .button-link:hover {
-        background: var(--accent-dark);
-        border-color: var(--accent-dark);
-      }
-
-      .button-link--light {
-        background: transparent;
-        color: var(--ink);
-      }
-
-      .button-link--light:hover {
-        color: white;
-      }
-
-      .tag {
-        display: inline-flex;
-        align-items: center;
-        min-height: 24px;
-        padding: 3px 8px;
-        border: 1px solid currentColor;
-        border-radius: 999px;
-        color: var(--ink-soft);
-        font-size: 0.59rem;
-        letter-spacing: 0.04em;
-        white-space: nowrap;
-      }
-
-      .tag--green {
-        border-color: #8ad7ba;
-        background: var(--accent-soft);
-        color: var(--accent-dark);
-      }
-
-      .metrics {
-        display: flex;
-        flex-wrap: wrap;
+        justify-content: space-between;
         gap: 20px;
+        min-height: 64px;
+        padding: 0 28px;
+        border-bottom: 1px solid var(--line);
+        background: var(--surface);
       }
 
-      .metric {
-        display: grid;
-        gap: 2px;
-      }
-
-      .metric-value {
-        font-size: 1.35rem;
-        font-weight: 800;
-        letter-spacing: -0.05em;
-      }
-
-      .metric-label {
-        color: var(--ink-faint);
-        font-size: 0.58rem;
-      }
-
-      .a-hero {
-        display: grid;
-        grid-template-columns: minmax(0, 1.3fr) minmax(270px, 0.7fr);
-        gap: 80px;
-        align-items: end;
-        padding: 92px 0 106px;
-      }
-
-      .a-hero h1 {
-        max-width: 750px;
-        margin: 14px 0 22px;
-        font-size: clamp(3.25rem, 8vw, 7.6rem);
-        line-height: 0.92;
-        letter-spacing: -0.085em;
-      }
-
-      .a-hero h1 span {
-        color: var(--accent);
-      }
-
-      .a-hero-copy {
-        max-width: 600px;
-        margin: 0;
-        color: var(--ink-soft);
-        font-size: clamp(1.05rem, 1.9vw, 1.34rem);
-        line-height: 1.45;
-      }
-
-      .a-actions {
+      .topbar-right,
+      .topbar-links {
         display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 30px;
+        align-items: center;
+        gap: 18px;
       }
 
-      .a-hero-note {
-        align-self: stretch;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 22px;
-        border: 1px solid var(--rule);
-        background: var(--paper);
-      }
-
-      .a-hero-note strong {
-        display: block;
-        max-width: 260px;
-        margin: 18px 0 32px;
-        font-size: 1.7rem;
-        line-height: 1.05;
-        letter-spacing: -0.06em;
-      }
-
-      .a-hero-note-list {
-        display: grid;
-        gap: 11px;
-        color: var(--ink-soft);
-        font-size: 0.82rem;
-      }
-
-      .a-hero-note-list div {
-        display: flex;
-        justify-content: space-between;
-        gap: 16px;
-        padding-top: 10px;
-        border-top: 1px solid var(--rule);
-      }
-
-      .a-hero-note-list span:first-child {
-        color: var(--ink-faint);
+      .topbar-links {
+        color: var(--text-soft);
         font-family: var(--mono);
         font-size: 0.63rem;
         text-transform: uppercase;
       }
 
-      .a-section {
-        padding: 74px 0;
+      .topbar-links a:hover,
+      .text-link:hover {
+        color: var(--accent);
       }
 
-      .a-section--rule {
-        border-top: 1px solid var(--rule);
-      }
-
-      .section-heading {
-        display: flex;
-        align-items: end;
-        justify-content: space-between;
-        gap: 28px;
-        margin-bottom: 30px;
-      }
-
-      .section-heading h2 {
-        margin: 8px 0 0;
-        font-size: clamp(2rem, 4vw, 3.8rem);
-        line-height: 0.98;
-        letter-spacing: -0.075em;
-      }
-
-      .section-heading p {
-        max-width: 340px;
-        margin: 0;
-        color: var(--ink-soft);
-        font-size: 0.92rem;
-      }
-
-      .a-feature {
-        display: grid;
-        grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-        min-height: 480px;
-        border: 1px solid var(--ink);
-        background: var(--paper);
-      }
-
-      .a-feature-visual {
-        position: relative;
-        display: flex;
-        min-height: 380px;
-        padding: 30px;
-        overflow: hidden;
-        background: var(--night);
-        color: white;
-      }
-
-      .a-feature-visual::before,
-      .b-console::before {
-        position: absolute;
-        inset: 28px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        content: "";
-      }
-
-      .a-feature-visual::after {
-        position: absolute;
-        right: -90px;
-        bottom: -110px;
-        width: 330px;
-        height: 330px;
-        border: 1px solid rgba(89, 220, 167, 0.5);
-        border-radius: 50%;
-        box-shadow: 0 0 0 28px rgba(89, 220, 167, 0.08), 0 0 0 56px rgba(89, 220, 167, 0.05);
-        content: "";
-      }
-
-      .architecture {
-        position: relative;
-        z-index: 1;
-        display: grid;
-        align-content: center;
-        width: min(100%, 390px);
-        gap: 12px;
-        margin: auto;
-      }
-
-      .architecture-label {
-        margin-bottom: 10px;
-        color: #88e4bf;
-        font-family: var(--mono);
-        font-size: 0.65rem;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-
-      .architecture-row {
-        display: grid;
-        grid-template-columns: 1fr 32px 1fr;
+      .pill {
+        display: inline-flex;
         align-items: center;
-        gap: 8px;
-      }
-
-      .architecture-node {
-        padding: 13px 14px;
-        border: 1px solid rgba(255, 255, 255, 0.28);
-        background: rgba(255, 255, 255, 0.07);
+        min-height: 25px;
+        padding: 3px 8px;
+        border: 1px solid var(--line-strong);
+        border-radius: 999px;
+        color: var(--text-soft);
         font-family: var(--mono);
-        font-size: 0.65rem;
+        font-size: 0.59rem;
+        white-space: nowrap;
       }
 
-      .architecture-node strong {
-        display: block;
-        margin-top: 3px;
-        color: white;
-        font-family: var(--sans);
-        font-size: 0.86rem;
-      }
-
-      .architecture-arrow {
-        color: #88e4bf;
-        font-family: var(--mono);
-        text-align: center;
-      }
-
-      .a-feature-copy {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: clamp(25px, 4vw, 48px);
-      }
-
-      .a-feature-copy h3 {
-        max-width: 400px;
-        margin: 16px 0 12px;
-        font-size: clamp(2rem, 4vw, 3.8rem);
-        line-height: 0.94;
-        letter-spacing: -0.08em;
-      }
-
-      .a-feature-copy p {
-        max-width: 450px;
-        margin: 0;
-        color: var(--ink-soft);
-        font-size: 1rem;
-      }
-
-      .a-feature-footer {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: end;
-        justify-content: space-between;
-        gap: 20px;
-        margin-top: 38px;
-      }
-
-      .a-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
-        margin-top: 14px;
-      }
-
-      .a-project {
-        display: flex;
-        min-height: 330px;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 26px;
-        border: 1px solid var(--rule);
-        background: var(--paper);
-        transition: transform 160ms ease, border-color 160ms ease;
-      }
-
-      .a-project:hover {
-        border-color: var(--accent);
-        transform: translateY(-4px);
-      }
-
-      .a-project h3 {
-        max-width: 390px;
-        margin: 23px 0 9px;
-        font-size: clamp(1.45rem, 2.6vw, 2.25rem);
-        line-height: 0.98;
-        letter-spacing: -0.07em;
-      }
-
-      .a-project p {
-        max-width: 440px;
-        margin: 0;
-        color: var(--ink-soft);
-        font-size: 0.88rem;
-      }
-
-      .a-project-top,
-      .a-project-bottom {
-        display: flex;
-        align-items: start;
-        justify-content: space-between;
-        gap: 16px;
-      }
-
-      .a-project-bottom {
-        align-items: end;
-        margin-top: 24px;
-      }
-
-      .a-project-bottom .tag-list {
-        justify-content: flex-end;
+      .pill--accent {
+        border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+        background: color-mix(in srgb, var(--accent) 12%, transparent);
+        color: var(--accent);
       }
 
       .tag-list {
@@ -515,793 +240,1089 @@
         gap: 5px;
       }
 
-      .a-project-arrow {
-        color: var(--accent-dark);
-        font-family: var(--mono);
-        font-size: 1.1rem;
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        min-height: 22px;
+        padding: 3px 7px;
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        color: var(--text-soft);
+        font-size: 0.56rem;
+        white-space: nowrap;
       }
 
-      .a-about {
-        display: grid;
-        grid-template-columns: 0.8fr 1.2fr;
-        gap: 80px;
+      .tag--accent {
+        border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
+        color: var(--accent);
       }
 
-      .a-about h2 {
-        max-width: 330px;
-        margin: 0;
-        font-size: clamp(2.2rem, 4vw, 4.1rem);
-        line-height: 0.94;
-        letter-spacing: -0.08em;
+      .metric-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 17px;
       }
 
-      .a-about-copy {
-        max-width: 620px;
+      .metric {
+        min-width: 82px;
       }
 
-      .a-about-copy p {
-        margin: 0 0 18px;
-        color: var(--ink-soft);
-        font-size: 1.15rem;
-      }
-
-      .skill-groups {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
-        margin-top: 32px;
-      }
-
-      .skill-group {
-        padding-top: 13px;
-        border-top: 1px solid var(--rule);
-      }
-
-      .skill-group strong {
+      .metric-value {
         display: block;
-        margin-bottom: 7px;
-        font-size: 0.76rem;
+        font-size: 1.2rem;
+        font-weight: 800;
+        letter-spacing: -0.06em;
       }
 
-      .skill-group p {
-        margin: 0;
-        color: var(--ink-soft);
-        font-size: 0.77rem;
+      .metric-label {
+        display: block;
+        margin-top: 1px;
+        color: var(--text-faint);
+        font-size: 0.52rem;
       }
 
-      .a-contact {
-        padding: 72px 0 130px;
-        background: var(--night);
-        color: white;
-      }
-
-      .a-contact-inner {
-        display: flex;
-        align-items: end;
-        justify-content: space-between;
-        gap: 30px;
-      }
-
-      .a-contact h2 {
-        max-width: 690px;
-        margin: 13px 0 0;
-        font-size: clamp(2.8rem, 7vw, 7.1rem);
-        line-height: 0.88;
-        letter-spacing: -0.09em;
-      }
-
-      .a-contact .eyebrow {
-        color: #88e4bf;
-      }
-
-      .contact-links {
-        display: grid;
-        gap: 10px;
-        min-width: 220px;
-        color: #d1d7d6;
-        font-family: var(--mono);
-        font-size: 0.72rem;
-      }
-
-      /* Variant B: a dark systems/workbench layout. */
-      .variant-b {
-        --b-line: #2d3b3e;
-        --b-muted: #a7b6b4;
-        background: #172224;
-        color: #edf5f1;
-      }
-
-      .b-shell {
-        display: grid;
-        grid-template-columns: 245px minmax(0, 1fr);
-        min-height: 100vh;
-      }
-
-      .b-rail {
-        position: sticky;
-        top: 0;
-        display: flex;
-        height: 100vh;
-        flex-direction: column;
-        padding: 30px 24px;
-        border-right: 1px solid var(--b-line);
-        background: #121b1d;
-      }
-
-      .b-rail .wordmark {
-        color: #edf5f1;
-      }
-
-      .b-rail .wordmark-mark {
-        background: #88e4bf;
-        color: #12201e;
-      }
-
-      .rail-kicker {
-        margin: 64px 0 18px;
-        color: #88e4bf;
-        font-size: 0.62rem;
-      }
-
-      .b-nav {
-        display: grid;
-        gap: 3px;
-      }
-
-      .b-nav a {
-        display: grid;
-        grid-template-columns: 29px 1fr;
-        gap: 7px;
-        padding: 9px 0;
-        color: var(--b-muted);
-        font-size: 0.73rem;
-      }
-
-      .b-nav a:hover {
-        color: white;
-      }
-
-      .b-nav .project-number {
-        color: #647977;
+      .project-number {
+        color: var(--accent);
         font-size: 0.59rem;
       }
 
-      .b-rail-footer {
-        margin-top: auto;
-        padding-top: 20px;
-        border-top: 1px solid var(--b-line);
-        color: var(--b-muted);
-        font-size: 0.72rem;
+      .panel-title {
+        color: var(--text-faint);
+        font-size: 0.59rem;
       }
 
-      .b-rail-footer strong {
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--accent);
+        font-size: 0.57rem;
+      }
+
+      .status::before {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent-strong);
+        content: "";
+      }
+
+      .pipeline {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        align-items: center;
+        gap: 8px;
+      }
+
+      .pipeline-node {
+        min-height: 65px;
+        padding: 11px;
+        border: 1px solid var(--line-strong);
+        background: var(--surface-inset);
+        color: var(--text-faint);
+        font-family: var(--mono);
+        font-size: 0.57rem;
+      }
+
+      .pipeline-node strong {
         display: block;
-        margin-bottom: 4px;
-        color: white;
-        font-size: 0.83rem;
+        margin-top: 4px;
+        color: var(--text);
+        font-family: var(--sans);
+        font-size: 0.73rem;
+        font-weight: 600;
       }
 
-      .b-main {
-        width: min(1180px, calc(100% - 100px));
-        margin: 0 auto;
-        padding: 30px 0 130px;
+      .pipeline-arrow {
+        display: none;
       }
 
-      .b-topbar {
+      .case-summary {
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 0.95rem;
+        line-height: 1.55;
+      }
+
+      .case-details {
+        margin-top: 22px;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .case-details > summary,
+      .project-row > summary {
         display: flex;
+        align-items: center;
         justify-content: space-between;
-        gap: 20px;
-        padding-bottom: 30px;
-        border-bottom: 1px solid var(--b-line);
-        color: var(--b-muted);
+        gap: 18px;
+        min-height: 46px;
+        cursor: pointer;
+        list-style: none;
+        color: var(--text-soft);
         font-family: var(--mono);
         font-size: 0.63rem;
         text-transform: uppercase;
       }
 
-      .b-topbar span:last-child {
-        color: #88e4bf;
+      .case-details > summary::-webkit-details-marker,
+      .project-row > summary::-webkit-details-marker {
+        display: none;
       }
 
-      .b-intro {
-        display: grid;
-        grid-template-columns: 1fr 0.65fr;
-        gap: 70px;
-        align-items: end;
-        padding: 90px 0 72px;
-      }
-
-      .b-intro h1 {
-        max-width: 690px;
-        margin: 15px 0 0;
-        font-size: clamp(3.3rem, 7vw, 7.2rem);
-        line-height: 0.88;
-        letter-spacing: -0.095em;
-      }
-
-      .b-intro h1 em {
-        color: #88e4bf;
-        font-style: normal;
-      }
-
-      .b-intro-copy {
-        color: var(--b-muted);
+      .case-details > summary::after,
+      .project-row > summary::after {
+        color: var(--accent);
+        content: "+";
         font-size: 1rem;
       }
 
-      .b-intro-copy p {
-        margin: 0 0 20px;
+      .case-details[open] > summary::after,
+      .project-row[open] > summary::after {
+        content: "−";
       }
 
-      .b-inline-link {
-        color: #88e4bf;
-        font-family: var(--mono);
-        font-size: 0.68rem;
-        text-transform: uppercase;
-      }
-
-      .b-case {
+      .details-grid {
         display: grid;
-        grid-template-columns: minmax(240px, 0.72fr) minmax(0, 1.28fr);
-        border: 1px solid var(--b-line);
-        background: #1c2b2e;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px 30px;
+        padding: 5px 0 25px;
       }
 
-      .b-console {
-        position: relative;
-        display: flex;
-        min-height: 480px;
-        padding: 30px;
-        overflow: hidden;
-        background: #0e1618;
-      }
-
-      .console-content {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        width: 100%;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-
-      .console-top {
-        display: flex;
-        justify-content: space-between;
-        color: #88e4bf;
-        font-family: var(--mono);
-        font-size: 0.59rem;
-      }
-
-      .console-flow {
-        display: grid;
-        gap: 10px;
-      }
-
-      .console-flow-row {
-        display: grid;
-        grid-template-columns: 1fr 25px 1fr;
-        align-items: center;
-        gap: 6px;
-      }
-
-      .console-flow-node {
-        padding: 12px;
-        border-left: 2px solid #88e4bf;
-        background: #1b2b2e;
-        color: #dce9e4;
-        font-family: var(--mono);
-        font-size: 0.62rem;
-      }
-
-      .console-flow-node span {
-        display: block;
-        margin-top: 3px;
-        color: white;
-        font-family: var(--sans);
-        font-size: 0.79rem;
-      }
-
-      .console-flow-arrow {
-        color: #88e4bf;
-        font-family: var(--mono);
-        text-align: center;
-      }
-
-      .console-caption {
-        max-width: 260px;
-        color: var(--b-muted);
-        font-size: 0.7rem;
-      }
-
-      .b-case-copy {
-        display: grid;
-        align-content: space-between;
-        gap: 44px;
-        padding: clamp(26px, 5vw, 58px);
-      }
-
-      .b-case-heading {
-        display: flex;
-        justify-content: space-between;
-        gap: 20px;
-        color: #88e4bf;
-        font-family: var(--mono);
-        font-size: 0.64rem;
-        text-transform: uppercase;
-      }
-
-      .b-case-copy h2 {
-        max-width: 580px;
-        margin: 25px 0 16px;
-        font-size: clamp(2.3rem, 5vw, 5.1rem);
-        line-height: 0.89;
-        letter-spacing: -0.09em;
-      }
-
-      .b-case-copy > div > p {
-        max-width: 580px;
+      .detail-block {
         margin: 0;
-        color: var(--b-muted);
-        font-size: 1rem;
       }
 
-      .b-case-bottom {
-        display: grid;
-        gap: 20px;
-      }
-
-      .b-metrics {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 28px;
-        padding: 18px 0;
-        border-top: 1px solid var(--b-line);
-        border-bottom: 1px solid var(--b-line);
-      }
-
-      .b-metric-value {
+      .detail-label {
         display: block;
-        color: white;
-        font-size: 1.35rem;
-        font-weight: 800;
-        letter-spacing: -0.06em;
-      }
-
-      .b-metric-label {
-        display: block;
-        margin-top: 2px;
-        color: var(--b-muted);
+        margin-bottom: 5px;
+        color: var(--accent);
         font-family: var(--mono);
         font-size: 0.57rem;
         text-transform: uppercase;
       }
 
-      .b-case-copy .tag {
-        border-color: #47605d;
-        color: #bfd1ca;
+      .detail-block p {
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 0.84rem;
+        line-height: 1.55;
+      }
+
+      /* B — existing workbench, now description-first and expandable. */
+      .b-page {
+        min-height: 100vh;
+      }
+
+      .b-layout {
+        display: grid;
+        grid-template-columns: 238px minmax(0, 1fr);
+        min-height: calc(100vh - 64px);
+      }
+
+      .b-sidebar {
+        position: sticky;
+        top: 0;
+        align-self: start;
+        height: calc(100vh - 64px);
+        padding: 27px 20px;
+        border-right: 1px solid var(--line);
+        background: var(--surface);
+      }
+
+      .sidebar-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 15px;
+      }
+
+      .sidebar-heading .panel-title {
+        color: var(--accent);
       }
 
       .b-project-list {
-        margin-top: 70px;
-        border-top: 1px solid var(--b-line);
-      }
-
-      .b-project-row {
         display: grid;
-        grid-template-columns: 55px minmax(160px, 0.75fr) minmax(200px, 1.15fr) minmax(130px, 0.6fr);
-        gap: 22px;
-        align-items: center;
-        padding: 23px 0;
-        border-bottom: 1px solid var(--b-line);
+        gap: 2px;
       }
 
-      .b-project-row .project-number {
-        color: #88e4bf;
-        font-size: 0.63rem;
-      }
-
-      .b-project-row h3 {
-        margin: 0;
-        font-size: 1.05rem;
-        letter-spacing: -0.04em;
-      }
-
-      .b-project-row p {
-        margin: 0;
-        color: var(--b-muted);
-        font-size: 0.78rem;
-      }
-
-      .b-project-row .tag-list {
-        justify-content: flex-end;
-      }
-
-      .b-about {
+      .b-project-link {
         display: grid;
-        grid-template-columns: 0.7fr 1.3fr;
-        gap: 80px;
-        padding: 100px 0 0;
+        grid-template-columns: 29px minmax(0, 1fr);
+        gap: 4px;
+        padding: 9px 7px;
+        border-left: 2px solid transparent;
+        color: var(--text-soft);
+        font-size: 0.72rem;
       }
 
-      .b-about h2 {
-        margin: 0;
-        color: #88e4bf;
+      .b-project-link:hover {
+        border-left-color: var(--accent);
+        background: var(--surface-raised);
+        color: var(--text);
+      }
+
+      .b-project-link small {
+        display: block;
+        grid-column: 2;
+        margin-top: -3px;
+        color: var(--text-faint);
         font-family: var(--mono);
-        font-size: 0.73rem;
-        font-weight: 400;
+        font-size: 0.54rem;
         text-transform: uppercase;
       }
 
-      .b-about-copy {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 35px;
-      }
-
-      .b-about-copy p {
-        margin: 0;
-        color: var(--b-muted);
-        font-size: 0.95rem;
-      }
-
-      .b-contact {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 30px;
-        align-items: end;
-        margin-top: 100px;
-        padding-top: 28px;
-        border-top: 1px solid var(--b-line);
-      }
-
-      .b-contact h2 {
-        margin: 0;
-        font-size: clamp(2rem, 4vw, 4.8rem);
-        line-height: 0.92;
-        letter-spacing: -0.08em;
-      }
-
-      .b-contact-links {
-        display: grid;
-        gap: 6px;
-        color: #88e4bf;
-        font-family: var(--mono);
+      .sidebar-footer {
+        position: absolute;
+        right: 20px;
+        bottom: 25px;
+        left: 20px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+        color: var(--text-faint);
         font-size: 0.68rem;
-        text-align: right;
-        text-transform: uppercase;
       }
 
-      /* Variant C: an editorial, narrative-first layout. */
-      .variant-c {
-        background: var(--warm);
-        color: #282520;
-        font-family: var(--sans);
+      .sidebar-footer strong {
+        display: block;
+        margin-bottom: 3px;
+        color: var(--text);
+        font-size: 0.77rem;
       }
 
-      .variant-c .shell {
-        width: min(1260px, calc(100% - 56px));
+      .b-main {
+        width: min(1130px, calc(100% - 100px));
+        margin: 0 auto;
+        padding: 55px 0 145px;
       }
 
-      .c-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 30px;
-        padding: 27px 0;
-        border-bottom: 1px solid #d8d0c4;
-      }
-
-      .c-wordmark {
-        font-family: var(--display);
-        font-size: 1.2rem;
-        font-weight: 700;
-        letter-spacing: -0.045em;
-      }
-
-      .c-header .nav-links {
-        color: #70695f;
-        font-family: var(--mono);
-        font-size: 0.63rem;
-        text-transform: uppercase;
-      }
-
-      .c-header .availability {
-        color: #476f59;
-      }
-
-      .c-hero {
+      .b-heading {
         display: grid;
-        grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
-        gap: 90px;
-        padding: 100px 0 110px;
-      }
-
-      .c-hero h1 {
-        max-width: 830px;
-        margin: 16px 0 23px;
-        font-family: var(--display);
-        font-size: clamp(4rem, 9.7vw, 10.2rem);
-        font-weight: 400;
-        line-height: 0.82;
-        letter-spacing: -0.095em;
-      }
-
-      .c-hero h1 em {
-        color: #bc5f3d;
-        font-style: italic;
-      }
-
-      .c-hero-copy {
-        max-width: 540px;
-        margin: 0;
-        color: #625c53;
-        font-size: 1.12rem;
-      }
-
-      .c-hero-note {
-        align-self: end;
-        padding-bottom: 8px;
-        border-top: 1px solid #bcb2a4;
-      }
-
-      .c-hero-note p {
-        margin: 15px 0 0;
-        color: #70695f;
-        font-family: var(--display);
-        font-size: 1.35rem;
-        line-height: 1.08;
-      }
-
-      .c-hero-note strong {
-        color: #282520;
-      }
-
-      .c-index {
-        display: grid;
-        grid-template-columns: 0.32fr 1.68fr;
+        grid-template-columns: minmax(0, 1fr) minmax(230px, 0.45fr);
         gap: 60px;
-        padding: 26px 0 8px;
-        border-top: 1px solid #bcb2a4;
+        align-items: end;
+        padding-bottom: 45px;
+        border-bottom: 1px solid var(--line);
       }
 
-      .c-index h2 {
+      .b-heading h1 {
+        max-width: 690px;
+        margin: 13px 0 0;
+        font-size: clamp(3rem, 7vw, 6.4rem);
+        line-height: 0.9;
+        letter-spacing: -0.09em;
+      }
+
+      .b-heading p {
         margin: 0;
-        color: #81776a;
-        font-family: var(--mono);
-        font-size: 0.65rem;
-        font-weight: 400;
-        text-transform: uppercase;
+        color: var(--text-soft);
+        font-size: 0.92rem;
       }
 
-      .c-index-list {
+      .b-case {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 0 50px;
+        grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.65fr);
+        margin-top: 48px;
+        border: 1px solid var(--line-strong);
+        background: var(--surface);
       }
 
-      .c-index-list a {
-        display: flex;
-        justify-content: space-between;
-        gap: 20px;
-        padding: 11px 0;
-        border-bottom: 1px solid #d8d0c4;
-        font-family: var(--display);
-        font-size: 1.12rem;
+      .b-case-main {
+        padding: clamp(25px, 4vw, 48px);
       }
 
-      .c-index-list a:hover {
-        color: #bc5f3d;
-      }
-
-      .c-index-list span {
-        color: #81776a;
-        font-family: var(--mono);
-        font-size: 0.58rem;
-      }
-
-      .c-entry {
-        display: grid;
-        grid-template-columns: 0.32fr 1.1fr 0.58fr;
-        gap: 45px;
-        padding: 76px 0;
-        border-top: 1px solid #bcb2a4;
-      }
-
-      .c-entry-number {
-        color: #bc5f3d;
-        font-family: var(--display);
-        font-size: clamp(3rem, 6vw, 6.3rem);
-        line-height: 0.8;
-        letter-spacing: -0.1em;
-      }
-
-      .c-entry-meta {
+      .b-case-meta {
         display: flex;
         flex-wrap: wrap;
-        gap: 8px 17px;
-        color: #81776a;
-        font-family: var(--mono);
-        font-size: 0.62rem;
-        text-transform: uppercase;
-      }
-
-      .c-entry h3 {
-        max-width: 720px;
-        margin: 16px 0 18px;
-        font-family: var(--display);
-        font-size: clamp(2.55rem, 5.3vw, 6rem);
-        font-weight: 400;
-        line-height: 0.86;
-        letter-spacing: -0.085em;
-      }
-
-      .c-entry-story {
-        max-width: 650px;
-        margin: 0;
-        color: #625c53;
-        font-family: var(--display);
-        font-size: 1.25rem;
-        line-height: 1.25;
-      }
-
-      .c-proof {
-        display: grid;
-        gap: 14px;
-        align-content: start;
-        padding-top: 8px;
-      }
-
-      .c-proof-title {
-        color: #81776a;
+        justify-content: space-between;
+        gap: 10px;
+        color: var(--text-faint);
         font-family: var(--mono);
         font-size: 0.61rem;
         text-transform: uppercase;
       }
 
-      .c-proof strong {
-        display: block;
-        font-family: var(--display);
-        font-size: 2rem;
-        font-weight: 400;
-        line-height: 0.94;
-        letter-spacing: -0.06em;
-      }
-
-      .c-proof p {
-        margin: 0;
-        color: #70695f;
-        font-size: 0.76rem;
-      }
-
-      .c-entry-visual {
-        grid-column: 2 / -1;
-        display: flex;
-        min-height: 180px;
-        align-items: center;
-        justify-content: center;
-        padding: 30px;
-        background: #e7ded1;
-      }
-
-      .c-schematic {
-        display: flex;
-        width: min(100%, 630px);
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        color: #625c53;
-        font-family: var(--mono);
-        font-size: 0.63rem;
-        text-align: center;
-        text-transform: uppercase;
-      }
-
-      .c-schematic-node {
-        display: grid;
-        width: 130px;
-        height: 74px;
-        place-items: center;
-        border: 1px solid #a89c8d;
-        background: rgba(255, 255, 255, 0.26);
-      }
-
-      .c-schematic-arrow {
-        color: #bc5f3d;
-        font-size: 1.2rem;
-      }
-
-      .c-lab {
-        display: grid;
-        grid-template-columns: 0.32fr 1.1fr 0.58fr;
-        gap: 45px;
-        padding: 80px 0;
-        border-top: 1px solid #bcb2a4;
-      }
-
-      .c-lab h2 {
-        margin: 0;
-        color: #81776a;
-        font-family: var(--mono);
-        font-size: 0.65rem;
-        font-weight: 400;
-        text-transform: uppercase;
-      }
-
-      .c-lab-copy h3 {
-        margin: 0 0 16px;
-        font-family: var(--display);
-        font-size: clamp(2.4rem, 5vw, 5rem);
-        font-weight: 400;
-        line-height: 0.88;
-        letter-spacing: -0.08em;
-      }
-
-      .c-lab-copy p {
-        max-width: 630px;
-        margin: 0;
-        color: #625c53;
-        font-family: var(--display);
-        font-size: 1.2rem;
-      }
-
-      .c-lab-side {
-        display: grid;
-        align-content: start;
-        gap: 13px;
-      }
-
-      .c-lab-side span {
-        padding-bottom: 7px;
-        border-bottom: 1px solid #d8d0c4;
-        color: #70695f;
-        font-family: var(--mono);
-        font-size: 0.62rem;
-        text-transform: uppercase;
-      }
-
-      .c-footer {
-        padding: 80px 0 150px;
-        border-top: 1px solid #bcb2a4;
-      }
-
-      .c-footer h2 {
-        max-width: 850px;
-        margin: 0 0 28px;
-        font-family: var(--display);
-        font-size: clamp(3.4rem, 8vw, 8.5rem);
-        font-weight: 400;
-        line-height: 0.82;
+      .b-case h2 {
+        max-width: 580px;
+        margin: 22px 0 16px;
+        font-size: clamp(2.3rem, 5vw, 5rem);
+        line-height: 0.9;
         letter-spacing: -0.09em;
       }
 
-      .c-footer-row {
+      .b-case-main .pipeline {
+        margin-top: 30px;
+      }
+
+      .b-inspector {
         display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 24px;
-        color: #70695f;
+        flex-direction: column;
+        gap: 25px;
+        padding: 25px;
+        border-left: 1px solid var(--line);
+        background: var(--surface-inset);
+      }
+
+      .inspector-block {
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .inspector-block:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+
+      .inspector-block h3 {
+        margin: 0 0 12px;
+        color: var(--text-faint);
         font-family: var(--mono);
-        font-size: 0.68rem;
+        font-size: 0.59rem;
+        font-weight: 400;
         text-transform: uppercase;
       }
 
-      /* The switcher is intentionally not part of any portfolio variant. */
+      .inspector-block p {
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 0.79rem;
+      }
+
+      .b-index {
+        margin-top: 58px;
+        border-top: 1px solid var(--line);
+      }
+
+      .project-row {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .project-row > summary {
+        min-height: 72px;
+        padding: 0 3px;
+      }
+
+      .project-row > summary > span:nth-child(2) {
+        flex: 1;
+        color: var(--text);
+        font-family: var(--sans);
+        font-size: 1rem;
+        font-weight: 650;
+        letter-spacing: -0.03em;
+        text-transform: none;
+      }
+
+      .project-row > summary > span:nth-child(3) {
+        max-width: 330px;
+        color: var(--text-soft);
+        font-family: var(--sans);
+        font-size: 0.77rem;
+        letter-spacing: 0;
+        text-align: right;
+        text-transform: none;
+      }
+
+      .project-row-content {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(190px, 0.45fr);
+        gap: 30px;
+        padding: 0 3px 26px 58px;
+      }
+
+      .project-row-content p {
+        margin: 0 0 16px;
+        color: var(--text-soft);
+        font-size: 0.84rem;
+      }
+
+      .b-about {
+        display: grid;
+        grid-template-columns: 0.7fr 1.3fr;
+        gap: 65px;
+        margin-top: 90px;
+        padding-top: 26px;
+        border-top: 1px solid var(--line);
+      }
+
+      .b-about h2 {
+        margin: 0;
+        color: var(--accent);
+        font-family: var(--mono);
+        font-size: 0.66rem;
+        font-weight: 400;
+        text-transform: uppercase;
+      }
+
+      .b-about p {
+        max-width: 650px;
+        margin: 0 0 14px;
+        color: var(--text-soft);
+        font-size: 1rem;
+      }
+
+      .b-contact {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 30px;
+        margin-top: 85px;
+        padding-top: 25px;
+        border-top: 1px solid var(--line);
+      }
+
+      .b-contact h2 {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 4.2rem);
+        line-height: 0.92;
+        letter-spacing: -0.08em;
+      }
+
+      .contact-links {
+        display: grid;
+        gap: 7px;
+        color: var(--accent);
+        font-family: var(--mono);
+        font-size: 0.65rem;
+        text-align: right;
+        text-transform: uppercase;
+      }
+
+      /* D — PostHog-inspired desktop: playful shell, serious project workspace. */
+      .d-page {
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at 8% 22%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 24%),
+          radial-gradient(circle at 92% 76%, color-mix(in srgb, var(--yellow) 13%, transparent), transparent 22%),
+          var(--bg);
+      }
+
+      .d-global {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        min-height: 58px;
+        padding: 0 22px;
+        border-bottom: 1px solid var(--line);
+        background: color-mix(in srgb, var(--surface) 92%, transparent);
+        backdrop-filter: blur(12px);
+      }
+
+      .d-global-nav {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        color: var(--text-soft);
+        font-family: var(--mono);
+        font-size: 0.59rem;
+        text-transform: uppercase;
+      }
+
+      .d-global-nav a:hover {
+        color: var(--accent);
+      }
+
+      .d-stage {
+        width: min(1280px, calc(100% - 56px));
+        margin: 0 auto;
+        padding: 57px 0 145px;
+      }
+
+      .d-intro {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 45px;
+        margin-bottom: 33px;
+      }
+
+      .d-intro h1 {
+        max-width: 670px;
+        margin: 12px 0 0;
+        font-size: clamp(2.7rem, 6vw, 5.7rem);
+        line-height: 0.9;
+        letter-spacing: -0.09em;
+      }
+
+      .d-intro p {
+        max-width: 315px;
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 0.87rem;
+      }
+
+      .d-window {
+        overflow: hidden;
+        border: 1px solid var(--line-strong);
+        border-radius: 10px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+      }
+
+      .window-chrome {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        min-height: 43px;
+        padding: 0 16px;
+        border-bottom: 1px solid var(--line);
+        background: var(--surface-raised);
+      }
+
+      .window-controls {
+        display: flex;
+        gap: 6px;
+      }
+
+      .window-controls i {
+        display: block;
+        width: 9px;
+        height: 9px;
+        border: 1px solid var(--line-strong);
+        border-radius: 50%;
+        background: var(--surface-inset);
+      }
+
+      .window-title {
+        color: var(--text-faint);
+        font-family: var(--mono);
+        font-size: 0.59rem;
+      }
+
+      .window-chrome .theme-chip {
+        font-size: 0.53rem;
+      }
+
+      .d-layout {
+        display: grid;
+        grid-template-columns: 210px minmax(0, 1fr) 245px;
+        min-height: 660px;
+      }
+
+      .d-rail,
+      .d-inspector {
+        background: var(--surface-inset);
+      }
+
+      .d-rail {
+        padding: 22px 15px;
+        border-right: 1px solid var(--line);
+      }
+
+      .d-rail h2 {
+        margin: 0 0 12px;
+        color: var(--text-faint);
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        font-weight: 400;
+        text-transform: uppercase;
+      }
+
+      .d-file {
+        display: grid;
+        grid-template-columns: 25px 1fr;
+        gap: 4px;
+        align-items: start;
+        padding: 8px 7px;
+        border-left: 2px solid transparent;
+        color: var(--text-soft);
+        font-size: 0.68rem;
+      }
+
+      .d-file:hover,
+      .d-file[aria-current="page"] {
+        border-left-color: var(--accent);
+        background: var(--surface-raised);
+        color: var(--text);
+      }
+
+      .d-file small {
+        display: block;
+        grid-column: 2;
+        margin-top: -4px;
+        color: var(--text-faint);
+        font-family: var(--mono);
+        font-size: 0.51rem;
+        text-transform: uppercase;
+      }
+
+      .d-main {
+        padding: 35px clamp(25px, 4vw, 55px);
+      }
+
+      .d-main-meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        color: var(--text-faint);
+        font-family: var(--mono);
+        font-size: 0.57rem;
+        text-transform: uppercase;
+      }
+
+      .d-main h2 {
+        max-width: 560px;
+        margin: 18px 0 12px;
+        font-size: clamp(2rem, 4.4vw, 4.2rem);
+        line-height: 0.92;
+        letter-spacing: -0.085em;
+      }
+
+      .d-main .case-summary {
+        max-width: 650px;
+      }
+
+      .d-main .pipeline {
+        margin: 28px 0 8px;
+      }
+
+      .d-inspector {
+        padding: 22px 18px;
+        border-left: 1px solid var(--line);
+      }
+
+      .d-inspector-section {
+        padding: 0 0 22px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .d-inspector-section:last-child {
+        margin-bottom: 0;
+        border-bottom: 0;
+      }
+
+      .d-inspector-section h3 {
+        margin: 0 0 12px;
+        color: var(--text-faint);
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        font-weight: 400;
+        text-transform: uppercase;
+      }
+
+      .d-inspector-section p {
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 0.75rem;
+      }
+
+      .d-project-drawer {
+        padding: 28px 19px 0;
+        border-top: 1px solid var(--line);
+        background: var(--surface-raised);
+      }
+
+      .d-project-drawer > h2 {
+        margin: 0 0 17px;
+        color: var(--text-faint);
+        font-family: var(--mono);
+        font-size: 0.59rem;
+        font-weight: 400;
+        text-transform: uppercase;
+      }
+
+      .d-drawer-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .d-drawer-grid .project-row {
+        border: 1px solid var(--line);
+        background: var(--surface);
+      }
+
+      .d-drawer-grid .project-row > summary {
+        display: grid;
+        grid-template-columns: 31px 1fr;
+        align-content: center;
+        min-height: 93px;
+        padding: 13px;
+      }
+
+      .d-drawer-grid .project-row > summary > span:nth-child(2) {
+        color: var(--text);
+        font-size: 0.79rem;
+        font-weight: 650;
+        letter-spacing: -0.02em;
+        text-transform: none;
+      }
+
+      .d-drawer-grid .project-row > summary > span:nth-child(3) {
+        grid-column: 2;
+        margin-top: 5px;
+        color: var(--text-faint);
+        font-family: var(--mono);
+        font-size: 0.51rem;
+        text-transform: uppercase;
+      }
+
+      .d-drawer-grid .project-row-content {
+        display: block;
+        padding: 0 13px 15px;
+      }
+
+      .d-drawer-grid .project-row-content p {
+        margin: 0 0 12px;
+        font-size: 0.73rem;
+      }
+
+      .d-footer {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 28px;
+        margin-top: 60px;
+        padding-top: 23px;
+        border-top: 1px solid var(--line);
+      }
+
+      .d-footer h2 {
+        margin: 0;
+        font-size: clamp(1.8rem, 4vw, 3.8rem);
+        line-height: 0.94;
+        letter-spacing: -0.08em;
+      }
+
+      /* E — IDE/editor layout: markdown-like project file plus inspector. */
+      .e-page {
+        min-height: 100vh;
+      }
+
+      .e-tabs {
+        display: flex;
+        align-items: end;
+        gap: 3px;
+        min-height: 40px;
+        padding: 0 20px;
+        border-bottom: 1px solid var(--line);
+        background: var(--surface-inset);
+      }
+
+      .e-tab {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 39px;
+        padding: 0 14px;
+        border: 1px solid transparent;
+        border-bottom: 0;
+        color: var(--text-soft);
+        font-family: var(--mono);
+        font-size: 0.6rem;
+      }
+
+      .e-tab[aria-current="page"] {
+        border-color: var(--line);
+        background: var(--surface);
+        color: var(--text);
+      }
+
+      .e-tab:hover {
+        color: var(--accent);
+      }
+
+      .e-layout {
+        display: grid;
+        grid-template-columns: 218px minmax(0, 1fr) 235px;
+        min-height: calc(100vh - 104px);
+      }
+
+      .e-tree,
+      .e-inspector {
+        padding: 24px 16px;
+        background: var(--surface-inset);
+      }
+
+      .e-tree {
+        border-right: 1px solid var(--line);
+      }
+
+      .e-inspector {
+        border-left: 1px solid var(--line);
+      }
+
+      .tree-heading {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 13px;
+        color: var(--text-faint);
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        text-transform: uppercase;
+      }
+
+      .tree-folder {
+        padding: 7px 5px;
+        color: var(--text-soft);
+        font-family: var(--mono);
+        font-size: 0.61rem;
+      }
+
+      .tree-files {
+        display: grid;
+        gap: 1px;
+        padding-left: 12px;
+        border-left: 1px solid var(--line);
+      }
+
+      .tree-file {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 6px;
+        color: var(--text-soft);
+        font-size: 0.66rem;
+      }
+
+      .tree-file:hover,
+      .tree-file[aria-current="page"] {
+        background: var(--surface-raised);
+        color: var(--text);
+      }
+
+      .tree-file[aria-current="page"]::before {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--accent);
+        content: "";
+      }
+
+      .e-editor {
+        min-width: 0;
+        padding: 45px clamp(25px, 6vw, 85px) 125px;
+        background: var(--surface);
+      }
+
+      .editor-crumb {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        color: var(--text-faint);
+        font-family: var(--mono);
+        font-size: 0.59rem;
+      }
+
+      .editor-crumb strong {
+        color: var(--accent);
+        font-weight: 400;
+      }
+
+      .e-editor h1 {
+        max-width: 740px;
+        margin: 24px 0 14px;
+        font-size: clamp(2.5rem, 6vw, 5.8rem);
+        line-height: 0.88;
+        letter-spacing: -0.095em;
+      }
+
+      .editor-lede {
+        max-width: 710px;
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      .code-file {
+        display: grid;
+        grid-template-columns: 84px minmax(0, 1fr);
+        gap: 20px;
+        margin-top: 42px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+      }
+
+      .code-gutter {
+        display: grid;
+        align-content: start;
+        gap: 14px;
+        color: var(--text-faint);
+        font-family: var(--mono);
+        font-size: 0.59rem;
+        text-align: right;
+      }
+
+      .code-body {
+        min-width: 0;
+      }
+
+      .code-section {
+        margin: 0 0 22px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .code-section > summary {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        cursor: pointer;
+        list-style: none;
+        color: var(--text);
+        font-family: var(--mono);
+        font-size: 0.75rem;
+      }
+
+      .code-section > summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .code-section > summary::before {
+        color: var(--accent);
+        content: "▸";
+      }
+
+      .code-section[open] > summary::before {
+        content: "▾";
+      }
+
+      .code-label {
+        color: var(--purple);
+        font-size: 0.62rem;
+      }
+
+      .code-section p {
+        max-width: 700px;
+        margin: 12px 0 18px 22px;
+        color: var(--text-soft);
+        font-size: 0.86rem;
+        line-height: 1.6;
+      }
+
+      .editor-result {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 25px;
+        margin: 6px 0 30px 22px;
+        padding: 13px;
+        border-left: 2px solid var(--accent);
+        background: var(--surface-inset);
+      }
+
+      .editor-result span {
+        color: var(--text-faint);
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        text-transform: uppercase;
+      }
+
+      .editor-result strong {
+        margin-left: 4px;
+        color: var(--text);
+        font-family: var(--sans);
+        font-size: 0.8rem;
+      }
+
+      .e-inspector h2 {
+        margin: 0 0 23px;
+        color: var(--text-faint);
+        font-family: var(--mono);
+        font-size: 0.59rem;
+        font-weight: 400;
+        text-transform: uppercase;
+      }
+
+      .e-inspector-section {
+        padding: 0 0 21px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .e-inspector-section:last-child {
+        border-bottom: 0;
+      }
+
+      .e-inspector-section h3 {
+        margin: 0 0 11px;
+        color: var(--accent);
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        font-weight: 400;
+        text-transform: uppercase;
+      }
+
+      .e-inspector-section p {
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 0.76rem;
+      }
+
+      .e-inspector .metric-list {
+        display: grid;
+        gap: 13px;
+      }
+
+      .e-inspector .metric-value {
+        font-size: 1.08rem;
+      }
+
+      .e-about {
+        display: grid;
+        grid-template-columns: 84px minmax(0, 1fr);
+        gap: 20px;
+        margin-top: 38px;
+        padding-top: 19px;
+        border-top: 1px solid var(--line);
+      }
+
+      .e-about p {
+        max-width: 650px;
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 0.84rem;
+      }
+
+      .e-footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 25px;
+        margin-top: 60px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+      }
+
+      .e-footer h2 {
+        margin: 0;
+        font-size: clamp(1.7rem, 4vw, 3.8rem);
+        line-height: 0.95;
+        letter-spacing: -0.08em;
+      }
+
+      .e-footer-links {
+        display: grid;
+        align-content: end;
+        gap: 7px;
+        color: var(--accent);
+        font-family: var(--mono);
+        font-size: 0.63rem;
+        text-transform: uppercase;
+        text-align: right;
+      }
+
+      /* Prototype-only switcher. */
       .prototype-switcher {
         position: fixed;
         z-index: 20;
         right: 50%;
-        bottom: 20px;
+        bottom: 18px;
         display: flex;
         align-items: center;
         gap: 4px;
         min-height: 48px;
         padding: 5px 7px;
-        border: 1px solid #52625e;
+        border: 1px solid var(--line-strong);
         border-radius: 999px;
-        background: #14201f;
-        box-shadow: 0 12px 30px rgba(16, 25, 27, 0.22);
-        color: white;
+        background: var(--surface-inset);
+        box-shadow: var(--shadow);
+        color: var(--text);
         transform: translateX(50%);
       }
 
@@ -1315,268 +1336,335 @@
         height: 34px;
         cursor: pointer;
         place-items: center;
+        border: 0;
         border-radius: 50%;
         background: transparent;
-        color: #b6c6c1;
-        font-size: 1.25rem;
-        line-height: 1;
+        color: var(--text-soft);
+        font-size: 1.2rem;
       }
 
       .switcher-button:hover,
       .switcher-button:focus-visible {
-        background: #2b423f;
-        color: white;
+        background: var(--surface-raised);
+        color: var(--accent);
         outline: none;
       }
 
       .switcher-label {
-        min-width: 190px;
-        padding: 0 9px;
-        color: #e7f0ec;
-        font-size: 0.63rem;
+        min-width: 185px;
+        padding: 0 8px;
+        color: var(--text-soft);
+        font-family: var(--mono);
+        font-size: 0.59rem;
         text-align: center;
+        text-transform: uppercase;
         white-space: nowrap;
       }
 
       .switcher-label span {
-        color: #88e4bf;
+        color: var(--accent);
       }
 
-      @media (max-width: 900px) {
-        .a-hero,
-        .c-hero {
-          grid-template-columns: 1fr;
-          gap: 45px;
-        }
-
-        .a-hero {
-          padding: 70px 0 80px;
-        }
-
-        .a-hero-note {
-          max-width: 500px;
-        }
-
-        .a-about,
-        .b-about,
-        .c-lab {
-          grid-template-columns: 1fr;
-          gap: 28px;
-        }
-
-        .b-shell {
+      @media (max-width: 1020px) {
+        .b-layout,
+        .e-layout {
           grid-template-columns: 190px minmax(0, 1fr);
         }
 
-        .b-main {
-          width: min(100% - 54px, 900px);
+        .b-sidebar,
+        .e-tree {
+          padding-right: 13px;
+          padding-left: 13px;
         }
 
-        .b-intro {
+        .d-layout {
+          grid-template-columns: 190px minmax(0, 1fr);
+        }
+
+        .d-inspector {
+          grid-column: 1 / -1;
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 15px;
+          border-top: 1px solid var(--line);
+          border-left: 0;
+        }
+
+        .d-inspector-section {
+          padding: 0 15px 0 0;
+          margin: 0;
+          border-right: 1px solid var(--line);
+          border-bottom: 0;
+        }
+
+        .d-inspector-section:last-child {
+          border-right: 0;
+        }
+
+        .e-inspector {
+          grid-column: 1 / -1;
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+          border-top: 1px solid var(--line);
+          border-left: 0;
+        }
+
+        .e-inspector h2 {
+          grid-column: 1 / -1;
+          margin: 0;
+        }
+
+        .e-inspector-section {
+          padding: 0 15px 0 0;
+          margin: 0;
+          border-right: 1px solid var(--line);
+          border-bottom: 0;
+        }
+
+        .e-inspector-section:last-child {
+          border-right: 0;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .topbar,
+        .d-global {
+          padding-right: 15px;
+          padding-left: 15px;
+        }
+
+        .topbar-links,
+        .d-global-nav {
+          display: none;
+        }
+
+        .topbar-right {
+          margin-left: auto;
+        }
+
+        .b-layout,
+        .e-layout,
+        .d-layout {
+          display: block;
+        }
+
+        .b-sidebar,
+        .e-tree {
+          position: static;
+          height: auto;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .b-sidebar {
+          padding: 18px 15px 12px;
+        }
+
+        .b-project-list {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .b-project-link {
+          display: block;
+          padding: 7px 5px;
+          font-size: 0.61rem;
+        }
+
+        .b-project-link .project-number {
+          display: block;
+          margin-bottom: 3px;
+        }
+
+        .b-project-link small {
+          margin-top: 3px;
+          font-size: 0.49rem;
+        }
+
+        .sidebar-footer {
+          display: none;
+        }
+
+        .b-main {
+          width: min(100% - 30px, 620px);
+          padding-top: 45px;
+        }
+
+        .b-heading {
           grid-template-columns: 1fr;
-          gap: 30px;
+          gap: 25px;
+          padding-bottom: 35px;
+        }
+
+        .b-heading h1,
+        .d-intro h1,
+        .e-editor h1 {
+          font-size: clamp(2.8rem, 14vw, 5rem);
         }
 
         .b-case {
           grid-template-columns: 1fr;
         }
 
-        .b-console {
-          min-height: 290px;
+        .b-inspector {
+          border-top: 1px solid var(--line);
+          border-left: 0;
         }
 
-        .b-project-row {
-          grid-template-columns: 44px minmax(150px, 0.8fr) minmax(180px, 1.2fr);
+        .project-row > summary {
+          min-height: 82px;
         }
 
-        .b-project-row .tag-list {
+        .project-row > summary > span:nth-child(3) {
           display: none;
         }
 
-        .c-entry {
-          grid-template-columns: 90px 1fr;
-          gap: 25px;
+        .project-row-content {
+          grid-template-columns: 1fr;
+          padding-left: 32px;
         }
 
-        .c-entry-visual {
-          grid-column: 2;
-        }
-
-        .c-proof {
-          grid-column: 2;
-          grid-template-columns: repeat(2, 1fr);
-        }
-
-        .c-index {
+        .b-about {
           grid-template-columns: 1fr;
           gap: 18px;
         }
-      }
 
-      @media (max-width: 680px) {
-        .shell,
-        .variant-c .shell {
-          width: min(100% - 30px, 560px);
-        }
-
-        .site-nav {
-          align-items: flex-start;
-        }
-
-        .nav-links {
-          display: none;
-        }
-
-        .availability {
-          margin-left: auto;
-          white-space: normal;
-          text-align: right;
-        }
-
-        .a-hero h1,
-        .b-intro h1 {
-          font-size: clamp(3.3rem, 18vw, 6rem);
-        }
-
-        .a-feature,
-        .a-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .a-feature-visual {
-          min-height: 310px;
-        }
-
-        .a-grid {
-          gap: 10px;
-        }
-
-        .a-section {
-          padding: 55px 0;
-        }
-
-        .section-heading,
-        .a-contact-inner {
+        .b-contact,
+        .d-footer,
+        .e-footer {
           align-items: start;
           flex-direction: column;
         }
 
-        .skill-groups {
-          grid-template-columns: 1fr;
-        }
-
-        .b-shell {
-          display: block;
-        }
-
-        .b-rail {
-          position: static;
-          height: auto;
-          padding: 20px 15px;
-          border-right: 0;
-          border-bottom: 1px solid var(--b-line);
-        }
-
-        .rail-kicker,
-        .b-rail-footer {
-          display: none;
-        }
-
-        .b-nav {
-          grid-template-columns: repeat(3, 1fr);
-          margin-top: 20px;
-        }
-
-        .b-nav a {
-          display: block;
-          padding: 5px 0;
-          font-size: 0.63rem;
-        }
-
-        .b-nav .project-number {
-          display: block;
-          margin-bottom: 2px;
-        }
-
-        .b-main {
-          width: min(100% - 30px, 560px);
-          padding-top: 20px;
-        }
-
-        .b-intro {
-          padding: 60px 0 50px;
-        }
-
-        .b-project-list {
-          margin-top: 52px;
-        }
-
-        .b-project-row {
-          grid-template-columns: 32px 1fr;
-          gap: 8px 14px;
-        }
-
-        .b-project-row p,
-        .b-project-row .tag-list {
-          grid-column: 2;
-        }
-
-        .b-about-copy {
-          grid-template-columns: 1fr;
-        }
-
-        .b-contact {
-          grid-template-columns: 1fr;
-        }
-
-        .b-contact-links {
+        .contact-links,
+        .e-footer-links {
           text-align: left;
         }
 
-        .c-hero {
-          padding: 70px 0 80px;
+        .d-stage {
+          width: min(100% - 30px, 620px);
+          padding-top: 42px;
         }
 
-        .c-hero h1 {
-          font-size: clamp(4rem, 22vw, 7rem);
+        .d-intro {
+          align-items: start;
+          flex-direction: column;
+          gap: 22px;
         }
 
-        .c-index-list {
-          grid-template-columns: 1fr;
+        .d-main {
+          padding: 30px 20px;
         }
 
-        .c-entry {
-          grid-template-columns: 1fr;
-          gap: 18px;
-          padding: 55px 0;
+        .d-drawer-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
-        .c-entry-number {
-          font-size: 3.6rem;
+        .d-inspector,
+        .e-inspector {
+          display: block;
         }
 
-        .c-entry-visual,
-        .c-proof {
-          grid-column: 1;
+        .d-inspector-section,
+        .e-inspector-section {
+          padding: 0 0 18px;
+          margin: 0 0 18px;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
         }
 
-        .c-proof {
-          grid-template-columns: 1fr 1fr;
+        .d-inspector-section:last-child,
+        .e-inspector-section:last-child {
+          padding-bottom: 0;
+          margin-bottom: 0;
+          border-bottom: 0;
         }
 
-        .c-schematic-node {
-          width: 90px;
-          height: 64px;
+        .e-tabs {
+          overflow-x: auto;
+          padding: 0 10px;
+        }
+
+        .e-tab {
+          flex: 0 0 auto;
+          padding: 0 10px;
           font-size: 0.54rem;
         }
 
+        .e-editor {
+          padding: 38px 20px 110px;
+        }
+
+        .code-file,
+        .e-about {
+          grid-template-columns: 43px minmax(0, 1fr);
+          gap: 12px;
+        }
+
+        .code-gutter {
+          font-size: 0.52rem;
+        }
+
+        .d-footer h2,
+        .e-footer h2 {
+          font-size: clamp(2.2rem, 11vw, 4rem);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .brand {
+          font-size: 0.75rem;
+        }
+
+        .topbar {
+          min-height: 57px;
+        }
+        .topbar-right {
+          gap: 8px;
+        }
+
+        .topbar-right .pill {
+          max-width: 118px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .b-project-list {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .b-case-main {
+          padding: 23px 18px;
+        }
+
+        .details-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .pipeline {
+          grid-template-columns: 1fr;
+          gap: 6px;
+        }
+
+        .pipeline-node {
+          min-height: 0;
+        }
+
+        .d-drawer-grid {
+          grid-template-columns: 1fr;
+        }
+
         .prototype-switcher {
-          bottom: 12px;
+          right: 12px;
+          left: 12px;
+          justify-content: space-between;
+          transform: none;
         }
 
         .switcher-label {
-          min-width: 150px;
-          font-size: 0.56rem;
+          min-width: 0;
+          flex: 1;
+          font-size: 0.55rem;
         }
       }
 
@@ -1612,10 +1700,16 @@
           client: "Personio",
           kind: "Product launch",
           period: "2023–2025",
-          summary: "A greenfield whistleblowing service built around anonymity, regulatory isolation, and dependable operations.",
-          story: "Co-architected and launched an EU-compliant service from product and regulatory requirements. Designed dual-AWS infrastructure and anonymous authentication, then stayed on as the primary technical owner.",
+          summary: "An EU-compliant whistleblowing service designed around anonymous reporting, regulatory isolation, and dependable operations.",
+          story: "Co-architected and launched the greenfield service from product and regulatory requirements. Designed dual-AWS infrastructure and anonymous authentication, then stayed on as the primary technical owner.",
+          details: {
+            problem: "Create a whistleblowing product that could protect reporter anonymity while keeping the service isolated for regulatory and operational reasons.",
+            role: "Co-architected the service, kicked off the Go codebase and AWS CDK infrastructure, then led a three-engineer maintenance team after launch.",
+            work: "Designed dual-AWS isolation and anonymous authentication. Established automated testing with Docker Testcontainers and Datadog synthetic monitoring.",
+            result: "Generated approximately €1M ARR soon after release; delivered 99.92% uptime, p99 latency below 200ms, and resolved 14 critical security vulnerabilities.",
+          },
           proof: [
-            ["€1M ARR", "generated soon after release"],
+            ["€1M ARR", "soon after release"],
             ["99.92%", "service uptime"],
             ["<200ms", "p99 latency"],
           ],
@@ -1629,12 +1723,18 @@
           client: "BEAT / FREENOW",
           kind: "Platform evolution",
           period: "2019–2023",
-          summary: "A core pricing engine moved out of a monolith into Go services with dynamic, incentive-driven geo-pricing.",
+          summary: "The core pricing engine moved out of a monolith into Go services with dynamic, incentive-driven geo-pricing.",
           story: "Led the extraction of the pricing engine and introduced hexagonal geo-zones to balance driver supply and demand across markets.",
+          details: {
+            problem: "Change a core pricing capability without keeping the monolith as the permanent owner of every market decision.",
+            role: "Led the pricing-service extraction and worked with the wider mobility platform around the new service boundary.",
+            work: "Introduced dynamic incentive-driven pricing based on hexagonal geo-zones, keeping the pricing logic explicit and independently deployable.",
+            result: "A separate Go pricing capability that could respond to supply and demand across markets without growing the original monolith.",
+          },
           proof: [
             ["Go", "new service boundary"],
             ["Geo-zones", "dynamic incentives"],
-            ["Supply", "demand balanced"],
+            ["Markets", "supply / demand"],
           ],
           stack: ["Golang", "Kafka", "gRPC", "AWS"],
           diagram: ["Monolith", "Pricing services", "Market signals"],
@@ -1646,12 +1746,18 @@
           client: "BEAT / FREENOW",
           kind: "Migration",
           period: "2019–2023",
-          summary: "Routing and authentication extracted from a monolith while old and new paths ran side by side.",
-          story: "Helped form the four-engineer team, built a Go API gateway for 10k+ RPS, and ran the legacy and replacement paths in parallel for 6–12 months before completing the live migration.",
+          summary: "Routing and authentication were extracted from a monolith while the old and new paths ran side by side.",
+          story: "Helped form the four-engineer team, built a Go API gateway handling 10k+ RPS, and ran the legacy and replacement paths in parallel for 6–12 months before completing the live migration.",
+          details: {
+            problem: "Replace routing and authentication in a live ride-hailing platform without a single high-risk cutover.",
+            role: "Helped form the four-engineer team, built the gateway and authentication path, and contributed to the migration strategy.",
+            work: "Used custom Kubernetes CRDs, Helm-based service discovery, a DynamoDB-backed authentication service, and a Redis idempotency guard.",
+            result: "Completed the live migration, removed the corresponding monolith functionality, and shipped a shared authorization library adopted by seven teams.",
+          },
           proof: [
             ["10k+ RPS", "gateway throughput"],
-            ["6–12 mo", "side-by-side migration"],
-            ["7 teams", "adopted authorization"],
+            ["6–12 mo", "parallel paths"],
+            ["7 teams", "authorization adopted"],
           ],
           stack: ["Golang", "Kubernetes", "DynamoDB", "Redis"],
           diagram: ["Legacy path", "Gateway", "Seven teams"],
@@ -1663,8 +1769,14 @@
           client: "Personio",
           kind: "Data reliability",
           period: "2023–2025",
-          summary: "A large user-data migration and schema redesign that cut P99 latency across 14 endpoints.",
+          summary: "A user-data snapshot tool and zero-downtime migration cut P99 latency across 14 endpoints.",
           story: "Identified an exponential database-growth issue, built a snapshot tool, and owned the zero-downtime migration of a 24GB dataset.",
+          details: {
+            problem: "Stop user-data snapshots from driving exponential database growth while keeping a large production dataset available.",
+            role: "Led the investigation, designed the snapshot approach, and owned the zero-downtime migration.",
+            work: "Changed the data shape and optimized PostgreSQL indexes and schema across the affected API surface.",
+            result: "Migrated 24GB without downtime and reduced P99 latency from 600ms to below 300ms across 14 endpoints.",
+          },
           proof: [
             ["24 GB", "migrated live"],
             ["600 → <300ms", "P99 latency"],
@@ -1680,8 +1792,14 @@
           client: "fashionTrade",
           kind: "Data integration",
           period: "2018–2019",
-          summary: "A distributed integration API for hundreds of wholesalers with fuzzy matching and asynchronous enrichment.",
-          story: "Led the implementation of an API that disambiguated messy customer data with Elasticsearch-based fuzzy matching and mapped it onto a master dataset through Kafka pipelines.",
+          summary: "A distributed integration API handled messy wholesaler data with fuzzy matching and asynchronous enrichment.",
+          story: "Led the implementation of an API that disambiguated customer data with Elasticsearch-based fuzzy matching and mapped it onto a master dataset through Kafka pipelines.",
+          details: {
+            problem: "Normalize inconsistent data from hundreds of fashion wholesalers without turning each integration into a bespoke manual project.",
+            role: "Led implementation of the distributed data-integration API and its matching and enrichment flow.",
+            work: "Combined Elasticsearch fuzzy matching with asynchronous Kafka pipelines and explicit race-condition handling.",
+            result: "Wholesaler data could be ingested, disambiguated, enriched, and mapped onto the master dataset through a repeatable service.",
+          },
           proof: [
             ["Hundreds", "of wholesalers"],
             ["Fuzzy", "matching + enrichment"],
@@ -1699,6 +1817,12 @@
           period: "2015–2018",
           summary: "A Java counterpart to an open-source enterprise CMS integration framework.",
           story: "Led development of reflection-based dynamic model mapping to reduce the effort needed for customer integrations, while reviewing and integrating community contributions.",
+          details: {
+            problem: "Reduce the repeated implementation work required to connect customer models to an enterprise CMS.",
+            role: "Led development of the Java framework and reviewed and integrated community contributions.",
+            work: "Implemented reflection-based dynamic model mapping and maintained the adapter framework alongside customer needs.",
+            result: "A shorter, more repeatable path for customer integrations around the open-source CMS framework.",
+          },
           proof: [
             ["Java", "adapter framework"],
             ["Dynamic", "model mapping"],
@@ -1714,8 +1838,14 @@
           client: "Personal work",
           kind: "In progress",
           period: "2026–now",
-          summary: "A private space for experiments with AI-assisted development, MCP, and better engineering workflows.",
-          story: "A deliberately evolving personal project. Public write-ups and demos can be added here when an experiment has earned its way out of the lab.",
+          summary: "A private space for experiments with AI-assisted development, MCP, and developer workflows.",
+          story: "A deliberately evolving personal project. Public write-ups and demos can be added when an experiment has earned its way out of the lab.",
+          details: {
+            problem: "Find useful, repeatable ways to work with AI tools without confusing experiments with production claims.",
+            role: "Independent exploration during a sabbatical focused on personal projects and AI engineering.",
+            work: "Experiments with OpenAI APIs, MCP, Claude Code, and developer tooling; the public version is not defined yet.",
+            result: "Private and still forming. This slot stays visible so a future public project has a clear home without inventing one now.",
+          },
           proof: [
             ["MCP", "tool interfaces"],
             ["LLM APIs", "experiments"],
@@ -1728,9 +1858,9 @@
       ];
 
       const variants = [
-        { key: "A", name: "Impact / case studies" },
-        { key: "B", name: "Systems / workbench" },
-        { key: "C", name: "Field notes / editorial" },
+        { key: "B", name: "Workbench / case files" },
+        { key: "D", name: "Project desktop / PostHog-inspired" },
+        { key: "E", name: "Repository / code review" },
       ];
 
       const app = document.querySelector("#app");
@@ -1746,337 +1876,193 @@
 
       const tags = (items, className = "") => items.map((item) => `<span class="tag ${className}">${esc(item)}</span>`).join("");
 
-      const metrics = (items, className = "") => items.map(([value, text]) => `
-        <div class="metric ${className}">
+      const metrics = (items) => items.map(([value, text]) => `
+        <div class="metric">
           <strong class="metric-value">${esc(value)}</strong>
           <span class="metric-label">${esc(text)}</span>
         </div>
       `).join("");
 
-      const schematic = (items, className = "") => `
-        <div class="${className}">
+      const pipeline = (items) => `
+        <div class="pipeline" aria-label="System flow">
           ${items.map((item, index) => `
-            <div class="${className}-row">
-              <div class="${className}-node">${index === 0 ? "input" : index === items.length - 1 ? "outcome" : "system"}<strong>${esc(item)}</strong></div>
-              ${index < items.length - 1 ? `<div class="${className}-arrow">→</div><div></div>` : ""}
+            <div class="pipeline-node">
+              ${index === 0 ? "constraint" : index === items.length - 1 ? "result" : "system"}
+              <strong>${esc(item)}</strong>
             </div>
+            ${index < items.length - 1 ? `<span class="pipeline-arrow" aria-hidden="true">→</span>` : ""}
           `).join("")}
         </div>
       `;
 
-      const renderAProject = (project) => `
-        <a class="a-project" href="#${esc(project.id)}">
-          <div>
-            <div class="a-project-top">
-              <span class="eyebrow">${esc(project.client)} / ${esc(project.kind)}</span>
-              <span class="a-project-arrow">↗</span>
-            </div>
-            <h3>${esc(project.title)}</h3>
-            <p>${esc(project.summary)}</p>
+      const details = (project, className = "case-details", open = false) => `
+        <details class="${className}"${open ? " open" : ""}>
+          <summary><span>Read the project notes</span><span>${open ? "expanded" : "expand"}</span></summary>
+          <div class="details-grid">
+            ${Object.entries(project.details).map(([key, value]) => `
+              <div class="detail-block">
+                <span class="detail-label">${esc(key)}</span>
+                <p>${esc(value)}</p>
+              </div>
+            `).join("")}
           </div>
-          <div class="a-project-bottom">
-            <span class="meta">${esc(project.period)}</span>
-            <div class="tag-list">${tags(project.stack.slice(0, 3))}</div>
-          </div>
-        </a>
+        </details>
       `;
 
-      const renderVariantA = () => {
-        const [featured, ...rest] = projects;
-        return `
-          <div class="site variant-a">
-            <header class="shell site-nav">
-              <a class="wordmark" href="#top" aria-label="Alexey Zarakovskiy home">
-                <span class="wordmark-mark">AZ</span>
-                <span>Alexey Zarakovskiy</span>
-              </a>
-              <nav class="nav-links" aria-label="Primary navigation">
-                <a href="#work">Work</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
-              </nav>
-              <span class="availability">Available for focused work</span>
-            </header>
-
-            <section class="shell a-hero" id="top">
-              <div>
-                <div class="eyebrow">/portfolio · Amsterdam · remote</div>
-                <h1>Systems that make <span>product</span> possible.</h1>
-                <p class="a-hero-copy">Senior backend engineer, full-stack when it matters. I help teams turn complicated product and platform constraints into reliable software people can build on.</p>
-                <div class="a-actions">
-                  <a class="button-link" href="#work">See selected work <span>↓</span></a>
-                  <a class="button-link button-link--light" href="mailto:work@azarakovskiy.com">Start a conversation</a>
-                </div>
-              </div>
-              <aside class="a-hero-note">
-                <div>
-                  <div class="eyebrow">What this version tests</div>
-                  <strong>Can impact-led case studies make technical depth feel approachable?</strong>
-                </div>
-                <div class="a-hero-note-list">
-                  <div><span>Focus</span><span>Outcomes before stack</span></div>
-                  <div><span>Shape</span><span>Featured story + index</span></div>
-                  <div><span>For</span><span>Recruiters, founders, peers</span></div>
-                </div>
-              </aside>
-            </section>
-
-            <section class="shell a-section a-section--rule" id="work">
-              <div class="section-heading">
-                <div>
-                  <div class="eyebrow">01 / selected work</div>
-                  <h2>Proof, not a technology list.</h2>
-                </div>
-                <p>Each story starts with a real constraint, then shows the system shape and the result. The resume stays concise; this page earns the longer version.</p>
-              </div>
-
-              <article class="a-feature" id="${esc(featured.id)}">
-                <div class="a-feature-visual">
-                  <div class="architecture">
-                    <div class="architecture-label">Architecture note / ${esc(featured.client)}</div>
-                    ${schematic(featured.diagram, "architecture")}
-                  </div>
-                </div>
-                <div class="a-feature-copy">
-                  <div>
-                    <div class="eyebrow">${esc(featured.kind)} · ${esc(featured.period)}</div>
-                    <h3>${esc(featured.title)}</h3>
-                    <p>${esc(featured.story)}</p>
-                  </div>
-                  <div class="a-feature-footer">
-                    <div class="metrics">${metrics(featured.proof)}</div>
-                    <div class="tag-list">${tags(featured.stack, "tag--green")}</div>
-                  </div>
-                </div>
-              </article>
-
-              <div class="a-grid">
-                ${rest.map(renderAProject).join("")}
-              </div>
-            </section>
-
-            <section class="shell a-section a-section--rule" id="about">
-              <div class="a-about">
-                <h2>Good engineering has a human side.</h2>
-                <div class="a-about-copy">
-                  <p>I work best where product constraints, distributed systems, and a real user outcome meet. Across HR, mobility, fashion, and enterprise CMS platforms, I have moved systems from idea to reliable service—and helped teams keep them understandable.</p>
-                  <p>Now starting a contractor / ZZP chapter: available for focused backend, platform, or full-stack work where ownership and clarity matter more than a fashionable stack.</p>
-                  <div class="skill-groups">
-                    <div class="skill-group"><strong>Build</strong><p>Golang · Java · Kotlin · Python · TypeScript · React</p></div>
-                    <div class="skill-group"><strong>Connect</strong><p>REST · gRPC · GraphQL · Kafka · SQS/SNS · JWT</p></div>
-                    <div class="skill-group"><strong>Run</strong><p>AWS · GCP · Kubernetes · Terraform · PostgreSQL · Redis</p></div>
-                    <div class="skill-group"><strong>Explore</strong><p>OpenAI API · MCP · Langfuse · Claude Code · developer tooling</p></div>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <footer class="a-contact" id="contact">
-              <div class="shell a-contact-inner">
-                <div>
-                  <div class="eyebrow">02 / contact</div>
-                  <h2>Have a hard problem?</h2>
-                </div>
-                <div class="contact-links">
-                  <a class="contact-link" href="mailto:work@azarakovskiy.com">work@azarakovskiy.com ↗</a>
-                  <a class="contact-link" href="https://linkedin.com/in/azarakovskiy">linkedin.com/in/azarakovskiy ↗</a>
-                  <a class="contact-link" href="https://github.com/azarakovskiy">github.com/azarakovskiy ↗</a>
-                </div>
-              </div>
-            </footer>
+      const projectRow = (project, className = "project-row") => `
+        <details class="${className}" id="${esc(project.id)}">
+          <summary>
+            <span class="project-number">${esc(project.number)}</span>
+            <span>${esc(project.title)}</span>
+            <span>${esc(project.client)} · ${esc(project.kind)}</span>
+          </summary>
+          <div class="project-row-content">
+            <div>
+              <p>${esc(project.story)}</p>
+              ${details(project)}
+            </div>
+            <div>
+              <div class="metric-list">${metrics(project.proof)}</div>
+              <div class="tag-list">${tags(project.stack)}</div>
+            </div>
           </div>
-        `;
-      };
+        </details>
+      `;
 
-      const renderBProject = (project) => `
-        <article class="b-project-row" id="${esc(project.id)}">
-          <span class="project-number">${esc(project.number)}</span>
-          <h3>${esc(project.title)}</h3>
-          <p>${esc(project.summary)}</p>
-          <div class="tag-list">${tags(project.stack.slice(0, 3))}</div>
-        </article>
+      const inspector = (project, className = "inspector-block") => `
+        <div class="${className}">
+          <h3>Project</h3>
+          <p><strong>${esc(project.client)}</strong><br />${esc(project.kind)} · ${esc(project.period)}</p>
+        </div>
+        <div class="${className}">
+          <h3>Evidence</h3>
+          <div class="metric-list">${metrics(project.proof)}</div>
+        </div>
+        <div class="${className}">
+          <h3>Stack</h3>
+          <div class="tag-list">${tags(project.stack, "tag--accent")}</div>
+        </div>
       `;
 
       const renderVariantB = () => {
         const featured = projects[0];
         return `
-          <div class="site variant-b">
-            <div class="b-shell">
-              <aside class="b-rail">
-                <a class="wordmark" href="#top" aria-label="Alexey Zarakovskiy home">
-                  <span class="wordmark-mark">AZ</span>
-                  <span>Alexey Zarakovskiy</span>
-                </a>
-                <div class="rail-kicker">/ system index</div>
-                <nav class="b-nav" aria-label="Project index">
-                  ${projects.map((project) => `<a href="#${esc(project.id)}"><span class="project-number">${esc(project.number)}</span><span>${esc(project.title)}</span></a>`).join("")}
+          <div class="site b-page">
+            <header class="topbar">
+              <a class="brand" href="#top" aria-label="Alexey Zarakovskiy home"><span class="brand-mark">AZ</span><span>Alexey Zarakovskiy</span></a>
+              <nav class="topbar-links" aria-label="Primary navigation"><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+              <div class="topbar-right"><span class="theme-chip">theme: system</span><span class="pill pill--accent">available for focused work</span></div>
+            </header>
+            <div class="b-layout" id="top">
+              <aside class="b-sidebar">
+                <div class="sidebar-heading"><span class="panel-title">/ project files</span><span class="mono muted">${projects.length}</span></div>
+                <nav class="b-project-list" aria-label="Project files">
+                  ${projects.map((project) => `<a class="b-project-link" href="#${esc(project.id)}"><span class="project-number">${esc(project.number)}</span><span>${esc(project.title)}</span><small>${esc(project.client)}</small></a>`).join("")}
                 </nav>
-                <div class="b-rail-footer"><strong>Senior backend engineer</strong>Full-stack · technology agnostic<br />Amsterdam / remote</div>
+                <div class="sidebar-footer"><strong>Senior backend engineer</strong>Full-stack · language agnostic<br />Amsterdam / remote</div>
               </aside>
-
-              <main class="b-main" id="top">
-                <div class="b-topbar"><span>Portfolio / workbench</span><span>Open to contractor conversations</span></div>
-                <section class="b-intro">
-                  <div>
-                    <div class="eyebrow">Systems in motion</div>
-                    <h1>Make the <em>hard</em> parts legible.</h1>
-                  </div>
-                  <div class="b-intro-copy">
-                    <p>This version treats the portfolio like a technical workbench: one selected system in focus, the rest available as a compact index.</p>
-                    <a class="b-inline-link" href="#selected">Open selected system ↓</a>
-                  </div>
+              <main class="b-main">
+                <section class="b-heading">
+                  <div><div class="eyebrow">/ portfolio / technical case files</div><h1>Selected work, with the missing context included.</h1></div>
+                  <p>Longer descriptions of the problem, my role, the decisions, and the result. Open a project row when you want more than a headline.</p>
                 </section>
-
-                <section class="b-case" id="selected">
-                  <div class="b-console">
-                    <div class="console-content">
-                      <div class="console-top"><span>case / ${esc(featured.number)}</span><span>status: shipped</span></div>
-                      <div class="console-flow">
-                        ${featured.diagram.map((item, index) => `
-                          <div class="console-flow-row">
-                            <div class="console-flow-node">${index === 0 ? "constraint" : index === featured.diagram.length - 1 ? "outcome" : "service"}<span>${esc(item)}</span></div>
-                            ${index < featured.diagram.length - 1 ? `<div class="console-flow-arrow">→</div><div></div>` : ""}
-                          </div>
-                        `).join("")}
-                      </div>
-                      <p class="console-caption">The visual is deliberately schematic. The question is whether a systems view helps a technical buyer scan the story.</p>
-                    </div>
+                <section class="b-case" id="work">
+                  <div class="b-case-main">
+                    <div class="b-case-meta"><span>${esc(featured.client)} / ${esc(featured.kind)}</span><span>${esc(featured.period)}</span></div>
+                    <h2>${esc(featured.title)}</h2>
+                    <p class="case-summary">${esc(featured.summary)}</p>
+                    ${pipeline(featured.diagram)}
+                    ${details(featured, "case-details", true)}
                   </div>
-                  <div class="b-case-copy">
-                    <div>
-                      <div class="b-case-heading"><span>${esc(featured.client)} / ${esc(featured.kind)}</span><span>${esc(featured.period)}</span></div>
-                      <h2>${esc(featured.title)}</h2>
-                      <p>${esc(featured.story)}</p>
-                    </div>
-                    <div class="b-case-bottom">
-                      <div class="b-metrics">
-                        ${featured.proof.map(([value, text]) => `<div><span class="b-metric-value">${esc(value)}</span><span class="b-metric-label">${esc(text)}</span></div>`).join("")}
-                      </div>
-                      <div class="tag-list">${tags(featured.stack)}</div>
-                    </div>
-                  </div>
+                  <aside class="b-inspector">${inspector(featured)}</aside>
                 </section>
-
-                <section class="b-project-list" aria-label="All project stories">
-                  ${projects.slice(1).map(renderBProject).join("")}
+                <section class="b-index" aria-label="All project files">
+                  <div class="sidebar-heading"><span class="panel-title">/ all projects</span><span class="status">details available</span></div>
+                  ${projects.slice(1).map((project) => projectRow(project)).join("")}
                 </section>
-
                 <section class="b-about" id="about">
-                  <h2>/ about the operator</h2>
-                  <div class="b-about-copy">
-                    <p>Senior backend engineer with a full-stack instinct. I have worked across HR, mobility, fashion, and enterprise CMS products, from greenfield launches to careful monolith extractions.</p>
-                    <p>Available for contractor / ZZP work where a team needs someone to own a boundary, make a migration safe, or turn an ambiguous requirement into a service that can be operated.</p>
-                  </div>
+                  <h2>/ about the engineer</h2>
+                  <div><p>I work where product constraints, distributed systems, and a real user outcome meet. Across HR, mobility, fashion, and enterprise CMS platforms, I have moved systems from idea to reliable service and helped teams keep them understandable.</p><p>Now starting a contractor / ZZP chapter: available for backend, platform, or full-stack work where ownership and clarity matter more than a fashionable stack.</p></div>
                 </section>
-
-                <footer class="b-contact" id="contact">
-                  <h2>Bring the constraint.<br />We can map the system.</h2>
-                  <div class="b-contact-links">
-                    <a href="mailto:work@azarakovskiy.com">work@azarakovskiy.com ↗</a>
-                    <a href="https://linkedin.com/in/azarakovskiy">LinkedIn ↗</a>
-                    <a href="https://github.com/azarakovskiy">GitHub ↗</a>
-                  </div>
-                </footer>
+                <footer class="b-contact" id="contact"><h2>Have a system worth making clearer?</h2><div class="contact-links"><a href="mailto:work@azarakovskiy.com">work@azarakovskiy.com ↗</a><a href="https://linkedin.com/in/azarakovskiy">LinkedIn ↗</a><a href="https://github.com/azarakovskiy">GitHub ↗</a></div></footer>
               </main>
             </div>
           </div>
         `;
       };
 
-      const renderCEntry = (project) => `
-        <article class="c-entry" id="${esc(project.id)}">
-          <div class="c-entry-number">${esc(project.number)}</div>
-          <div>
-            <div class="c-entry-meta"><span>${esc(project.client)}</span><span>${esc(project.kind)}</span><span>${esc(project.period)}</span></div>
-            <h3>${esc(project.title)}</h3>
-            <p class="c-entry-story">${esc(project.story)}</p>
-          </div>
-          <div class="c-proof">
-            <span class="c-proof-title">Evidence</span>
-            ${project.proof.slice(0, 2).map(([value, text]) => `<div><strong>${esc(value)}</strong><p>${esc(text)}</p></div>`).join("")}
-          </div>
-          <div class="c-entry-visual">
-            <div class="c-schematic">
-              ${project.diagram.map((item, index) => `<div class="c-schematic-node">${esc(item)}</div>${index < project.diagram.length - 1 ? `<span class="c-schematic-arrow">→</span>` : ""}`).join("")}
-            </div>
-          </div>
-        </article>
+      const renderDProject = (project) => `
+        <details class="project-row" id="${esc(project.id)}">
+          <summary><span class="project-number">${esc(project.number)}</span><span>${esc(project.title)}</span><span>${esc(project.client)} · ${esc(project.period)}</span></summary>
+          <div class="project-row-content"><p>${esc(project.story)}</p>${details(project)}<div class="tag-list">${tags(project.stack)}</div></div>
+        </details>
       `;
 
-      const renderVariantC = () => `
-        <div class="site variant-c">
-          <header class="shell c-header">
-            <a class="c-wordmark" href="#top">Alexey Zarakovskiy</a>
-            <nav class="nav-links" aria-label="Primary navigation">
-              <a href="#work">Stories</a>
-              <a href="#about">About</a>
-              <a href="#contact">Write</a>
-            </nav>
-            <span class="availability">Taking on selected work</span>
-          </header>
-
-          <main class="shell" id="top">
-            <section class="c-hero">
-              <div>
-                <div class="eyebrow">Independent engineer · Amsterdam / remote</div>
-                <h1>Build the <em>right</em> thing.</h1>
-                <p class="c-hero-copy">A field notebook of product constraints, platform decisions, and the systems that came out the other side.</p>
-              </div>
-              <aside class="c-hero-note">
-                <div class="eyebrow">What this version tests</div>
-                <p><strong>Can a narrative make seniority visible</strong> without turning every project into a case-study template?</p>
-              </aside>
-            </section>
-
-            <section class="c-index" id="work">
-              <h2>Contents</h2>
-              <nav class="c-index-list" aria-label="Story index">
-                ${projects.map((project) => `<a href="#${esc(project.id)}"><span>${esc(project.number)}</span>${esc(project.title)}<span>↘</span></a>`).join("")}
-              </nav>
-            </section>
-
-            <section aria-label="Project stories">
-              ${projects.map(renderCEntry).join("")}
-            </section>
-
-            <section class="c-lab" id="about">
-              <h2>About / now</h2>
-              <div class="c-lab-copy">
-                <h3>The through-line is ownership.</h3>
-                <p>I like work where the boundary is blurry at first: a product need becomes a service, a migration becomes a safer system, and a team becomes more confident because the moving parts finally have names.</p>
-              </div>
-              <div class="c-lab-side">
-                <span>Golang · Java · Kotlin</span>
-                <span>AWS · GCP · Kubernetes</span>
-                <span>PostgreSQL · Kafka · Redis</span>
-                <span>Full-stack when useful</span>
-                <span>AI engineering experiments</span>
-              </div>
-            </section>
-
-            <footer class="c-footer" id="contact">
-              <h2>Have a system worth making clearer?</h2>
-              <div class="c-footer-row">
-                <a href="mailto:work@azarakovskiy.com">work@azarakovskiy.com ↗</a>
-                <span>Senior backend engineer · full-stack · language agnostic</span>
-                <a href="https://linkedin.com/in/azarakovskiy">LinkedIn ↗</a>
-              </div>
-            </footer>
-          </main>
-        </div>
-      `;
-
-      const render = (key) => {
-        const normalized = variants.some((variant) => variant.key === key) ? key : "A";
-        app.innerHTML = normalized === "A" ? renderVariantA() : normalized === "B" ? renderVariantB() : renderVariantC();
-        const current = variants.find((variant) => variant.key === normalized);
-        label.innerHTML = `<span>${current.key}</span> · ${current.name}`;
-        document.title = `Alexey Zarakovskiy — ${current.name}`;
-        return normalized;
+      const renderVariantD = () => {
+        const featured = projects[0];
+        return `
+          <div class="site d-page">
+            <header class="d-global"><a class="brand" href="#top" aria-label="Alexey Zarakovskiy home"><span class="brand-mark">AZ</span><span>Alexey Zarakovskiy</span></a><nav class="d-global-nav" aria-label="Primary navigation"><a href="#work">Projects</a><a href="#about">About</a><a href="#contact">Contact</a></nav><div class="topbar-right"><span class="theme-chip">theme: system</span><span class="pill pill--accent">open to contractor work</span></div></header>
+            <main class="d-stage" id="top">
+              <section class="d-intro"><div><div class="eyebrow">/ project desktop / archive</div><h1>Work you can inspect, not just skim.</h1></div><p>PostHog-inspired chrome and workspace navigation, but the content stays practical: what was hard, what I owned, and what changed.</p></section>
+              <section class="d-window" id="work">
+                <div class="window-chrome"><div class="window-controls" aria-hidden="true"><i></i><i></i><i></i></div><span class="window-title">projects / anonymous-by-design.md</span><span class="theme-chip">system palette</span></div>
+                <div class="d-layout">
+                  <aside class="d-rail"><h2>Project archive</h2>${projects.map((project, index) => `<a class="d-file" href="#${esc(project.id)}"${index === 0 ? ' aria-current="page"' : ""}><span class="project-number">${esc(project.number)}</span><span>${esc(project.title)}</span><small>${esc(project.client)}</small></a>`).join("")}</aside>
+                  <article class="d-main">
+                    <div class="d-main-meta"><span>${esc(featured.client)} / ${esc(featured.kind)}</span><span>${esc(featured.period)}</span></div>
+                    <h2>${esc(featured.title)}</h2>
+                    <p class="case-summary">${esc(featured.story)}</p>
+                    ${pipeline(featured.diagram)}
+                    ${details(featured, "case-details", true)}
+                  </article>
+                  <aside class="d-inspector">${inspector(featured, "d-inspector-section")}</aside>
+                </div>
+                <section class="d-project-drawer"><h2>More project files · open any for the longer note</h2><div class="d-drawer-grid">${projects.slice(1).map(renderDProject).join("")}</div></section>
+              </section>
+              <section class="d-footer" id="about"><h2>Backend depth.<br />Full-stack range.</h2><div><p class="case-summary">Golang · Java · Kotlin · TypeScript · React · AWS · GCP · Kubernetes · PostgreSQL · Kafka</p><p class="mono muted">Amsterdam / remote · <a class="text-link" href="mailto:work@azarakovskiy.com">work@azarakovskiy.com ↗</a></p></div></section>
+              <footer class="d-footer" id="contact"><h2>Send the constraint.</h2><div class="contact-links"><a href="mailto:work@azarakovskiy.com">work@azarakovskiy.com ↗</a><a href="https://linkedin.com/in/azarakovskiy">LinkedIn ↗</a><a href="https://github.com/azarakovskiy">GitHub ↗</a></div></footer>
+            </main>
+          </div>
+        `;
       };
 
-      const normalizeVariant = (key) => variants.some((variant) => variant.key === key) ? key : "A";
-      const readVariant = () => (new URLSearchParams(location.search).get("variant") || "A").toUpperCase();
+      const renderEProject = (project) => `
+        <a class="tree-file" href="#${esc(project.id)}"${project.number === "01" ? ' aria-current="page"' : ""}><span>${project.number === "07" ? "◇" : "▱"}</span><span>${esc(project.id)}.md</span></a>
+      `;
+
+      const renderVariantE = () => {
+        const featured = projects[0];
+        return `
+          <div class="site e-page">
+            <header class="topbar"><a class="brand" href="#top" aria-label="Alexey Zarakovskiy home"><span class="brand-mark">AZ</span><span>Alexey Zarakovskiy</span></a><div class="topbar-right"><span class="theme-chip">theme: system</span><span class="pill">portfolio / read-only</span></div></header>
+            <nav class="e-tabs" aria-label="Open project files"><a class="e-tab" href="#about">about.md</a><a class="e-tab" href="#${esc(featured.id)}" aria-current="page">${esc(featured.id)}.md</a><a class="e-tab" href="#contact">contact.md</a></nav>
+            <div class="e-layout" id="top">
+              <aside class="e-tree"><div class="tree-heading"><span>portfolio</span><span>⌄</span></div><div class="tree-folder">/projects</div><div class="tree-files">${projects.map(renderEProject).join("")}</div><div class="tree-folder">/profile</div><div class="tree-files"><a class="tree-file" href="#about"><span>▱</span><span>about.md</span></a><a class="tree-file" href="#contact"><span>▱</span><span>contact.md</span></a></div></aside>
+              <main class="e-editor">
+                <div class="editor-crumb"><span>projects</span><span>/</span><strong>${esc(featured.id)}.md</strong></div>
+                <h1>${esc(featured.title)}</h1>
+                <p class="editor-lede">${esc(featured.summary)} ${esc(featured.story)}</p>
+                <div class="code-file" id="${esc(featured.id)}">
+                  <div class="code-gutter"><span>01</span><span>05</span><span>09</span><span>13</span><span>17</span></div>
+                  <div class="code-body">
+                    <details class="code-section" open><summary><span class="code-label">problem:</span> what needed to change</summary><p>${esc(featured.details.problem)}</p></details>
+                    <details class="code-section" open><summary><span class="code-label">role:</span> what I owned</summary><p>${esc(featured.details.role)}</p></details>
+                    <details class="code-section"><summary><span class="code-label">decisions:</span> how the system moved</summary><p>${esc(featured.details.work)}</p><div class="editor-result">${featured.diagram.map((item) => `<span>${esc(item)}</span>`).join("<strong>→</strong>")}</div></details>
+                    <details class="code-section" open><summary><span class="code-label">result:</span> what changed</summary><p>${esc(featured.details.result)}</p><div class="editor-result">${featured.proof.map(([value, text]) => `<span>${esc(text)}<strong>${esc(value)}</strong></span>`).join("")}</div></details>
+                  </div>
+                </div>
+                <section class="e-about" id="about"><div class="code-gutter"><span>ABOUT</span></div><p>I work across backend, platform, and full-stack boundaries. The useful part is not the language choice; it is making the tradeoff, migration, and operating model explicit enough for a team to own.</p></section>
+                <footer class="e-footer" id="contact"><h2>Open to the right constraint.</h2><div class="e-footer-links"><a href="mailto:work@azarakovskiy.com">work@azarakovskiy.com ↗</a><a href="https://linkedin.com/in/azarakovskiy">LinkedIn ↗</a><a href="https://github.com/azarakovskiy">GitHub ↗</a></div></footer>
+              </main>
+              <aside class="e-inspector"><h2>inspector</h2>${inspector(featured, "e-inspector-section")}</aside>
+            </div>
+          </div>
+        `;
+      };
+
+      const normalizeVariant = (key) => variants.some((variant) => variant.key === key) ? key : "B";
+      const readVariant = () => (new URLSearchParams(location.search).get("variant") || "B").toUpperCase();
 
       const syncVariantUrl = (key) => {
         const url = new URL(location.href);
@@ -2084,13 +2070,18 @@
         history.replaceState({}, "", url);
       };
 
+      const render = (key) => {
+        const normalized = normalizeVariant(key);
+        app.innerHTML = normalized === "B" ? renderVariantB() : normalized === "D" ? renderVariantD() : renderVariantE();
+        const current = variants.find((variant) => variant.key === normalized);
+        label.innerHTML = `<span>${current.key}</span> · ${current.name}`;
+        document.title = `Alexey Zarakovskiy — ${current.name}`;
+        return normalized;
+      };
+
       const setVariant = (key, updateUrl = true) => {
         const normalized = render(key);
-        if (updateUrl) {
-          const url = new URL(location.href);
-          url.searchParams.set("variant", normalized);
-          history.replaceState({}, "", url);
-        }
+        if (updateUrl) syncVariantUrl(normalized);
         window.scrollTo({ top: 0, behavior: "instant" });
       };
 
@@ -2113,7 +2104,6 @@
         render(normalized);
       });
 
-      // This is a prototype-only route; never carry the switcher into production.
       switcher.hidden = !location.pathname.includes("/prototype/");
       const initialVariant = normalizeVariant(readVariant());
       if (readVariant() !== initialVariant) syncVariantUrl(initialVariant);
