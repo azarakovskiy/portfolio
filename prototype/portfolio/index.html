@@ -1,0 +1,2123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Portfolio UI prototype for Alexey Zarakovskiy — senior backend engineer, full-stack, language and technology agnostic."
+    />
+    <title>Alexey Zarakovskiy — Portfolio prototype</title>
+    <style>
+      /*
+       * THROWAWAY PROTOTYPE
+       * Three portfolio variants, switchable via ?variant=, on
+       * /prototype/portfolio/. This file exists to choose a content shape;
+       * rewrite the winner before promoting it into the real site.
+       */
+      :root {
+        --ink: #11181c;
+        --ink-soft: #46515b;
+        --ink-faint: #7f8a94;
+        --rule: #dce3e2;
+        --accent: #059669;
+        --accent-dark: #065f46;
+        --accent-soft: #d1fae5;
+        --paper: #ffffff;
+        --fog: #f4f5f7;
+        --night: #10191b;
+        --warm: #f4efe7;
+        --display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+        color: var(--ink);
+        font-family: var(--sans);
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        min-width: 320px;
+        margin: 0;
+        background: var(--fog);
+        color: var(--ink);
+        line-height: 1.5;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button {
+        border: 0;
+        font: inherit;
+      }
+
+      .site {
+        min-height: 100vh;
+        overflow: hidden;
+      }
+
+      .shell {
+        width: min(1180px, calc(100% - 48px));
+        margin: 0 auto;
+      }
+
+      .eyebrow,
+      .label,
+      .route,
+      .meta,
+      .tag,
+      .metric-label,
+      .switcher-label,
+      .project-number,
+      .rail-kicker {
+        font-family: var(--mono);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow {
+        color: var(--accent-dark);
+        font-size: 0.72rem;
+        font-weight: 700;
+      }
+
+      .muted {
+        color: var(--ink-soft);
+      }
+
+      .site-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 24px 0;
+        border-bottom: 1px solid var(--rule);
+      }
+
+      .wordmark {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.86rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+      }
+
+      .wordmark-mark {
+        display: grid;
+        width: 30px;
+        height: 30px;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--accent);
+        color: white;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 24px;
+        color: var(--ink-soft);
+        font-size: 0.83rem;
+      }
+
+      .nav-links a:hover,
+      .text-link:hover,
+      .contact-link:hover {
+        color: var(--accent-dark);
+      }
+
+      .availability {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--accent-dark);
+        font-family: var(--mono);
+        font-size: 0.66rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        white-space: nowrap;
+      }
+
+      .availability::before {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--accent);
+        content: "";
+      }
+
+      .button-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-height: 44px;
+        padding: 0 17px;
+        border: 1px solid var(--ink);
+        border-radius: 2px;
+        background: var(--ink);
+        color: white;
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+
+      .button-link:hover {
+        background: var(--accent-dark);
+        border-color: var(--accent-dark);
+      }
+
+      .button-link--light {
+        background: transparent;
+        color: var(--ink);
+      }
+
+      .button-link--light:hover {
+        color: white;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        min-height: 24px;
+        padding: 3px 8px;
+        border: 1px solid currentColor;
+        border-radius: 999px;
+        color: var(--ink-soft);
+        font-size: 0.59rem;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+      }
+
+      .tag--green {
+        border-color: #8ad7ba;
+        background: var(--accent-soft);
+        color: var(--accent-dark);
+      }
+
+      .metrics {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .metric {
+        display: grid;
+        gap: 2px;
+      }
+
+      .metric-value {
+        font-size: 1.35rem;
+        font-weight: 800;
+        letter-spacing: -0.05em;
+      }
+
+      .metric-label {
+        color: var(--ink-faint);
+        font-size: 0.58rem;
+      }
+
+      .a-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.3fr) minmax(270px, 0.7fr);
+        gap: 80px;
+        align-items: end;
+        padding: 92px 0 106px;
+      }
+
+      .a-hero h1 {
+        max-width: 750px;
+        margin: 14px 0 22px;
+        font-size: clamp(3.25rem, 8vw, 7.6rem);
+        line-height: 0.92;
+        letter-spacing: -0.085em;
+      }
+
+      .a-hero h1 span {
+        color: var(--accent);
+      }
+
+      .a-hero-copy {
+        max-width: 600px;
+        margin: 0;
+        color: var(--ink-soft);
+        font-size: clamp(1.05rem, 1.9vw, 1.34rem);
+        line-height: 1.45;
+      }
+
+      .a-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 30px;
+      }
+
+      .a-hero-note {
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 22px;
+        border: 1px solid var(--rule);
+        background: var(--paper);
+      }
+
+      .a-hero-note strong {
+        display: block;
+        max-width: 260px;
+        margin: 18px 0 32px;
+        font-size: 1.7rem;
+        line-height: 1.05;
+        letter-spacing: -0.06em;
+      }
+
+      .a-hero-note-list {
+        display: grid;
+        gap: 11px;
+        color: var(--ink-soft);
+        font-size: 0.82rem;
+      }
+
+      .a-hero-note-list div {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding-top: 10px;
+        border-top: 1px solid var(--rule);
+      }
+
+      .a-hero-note-list span:first-child {
+        color: var(--ink-faint);
+        font-family: var(--mono);
+        font-size: 0.63rem;
+        text-transform: uppercase;
+      }
+
+      .a-section {
+        padding: 74px 0;
+      }
+
+      .a-section--rule {
+        border-top: 1px solid var(--rule);
+      }
+
+      .section-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 28px;
+        margin-bottom: 30px;
+      }
+
+      .section-heading h2 {
+        margin: 8px 0 0;
+        font-size: clamp(2rem, 4vw, 3.8rem);
+        line-height: 0.98;
+        letter-spacing: -0.075em;
+      }
+
+      .section-heading p {
+        max-width: 340px;
+        margin: 0;
+        color: var(--ink-soft);
+        font-size: 0.92rem;
+      }
+
+      .a-feature {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+        min-height: 480px;
+        border: 1px solid var(--ink);
+        background: var(--paper);
+      }
+
+      .a-feature-visual {
+        position: relative;
+        display: flex;
+        min-height: 380px;
+        padding: 30px;
+        overflow: hidden;
+        background: var(--night);
+        color: white;
+      }
+
+      .a-feature-visual::before,
+      .b-console::before {
+        position: absolute;
+        inset: 28px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        content: "";
+      }
+
+      .a-feature-visual::after {
+        position: absolute;
+        right: -90px;
+        bottom: -110px;
+        width: 330px;
+        height: 330px;
+        border: 1px solid rgba(89, 220, 167, 0.5);
+        border-radius: 50%;
+        box-shadow: 0 0 0 28px rgba(89, 220, 167, 0.08), 0 0 0 56px rgba(89, 220, 167, 0.05);
+        content: "";
+      }
+
+      .architecture {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        align-content: center;
+        width: min(100%, 390px);
+        gap: 12px;
+        margin: auto;
+      }
+
+      .architecture-label {
+        margin-bottom: 10px;
+        color: #88e4bf;
+        font-family: var(--mono);
+        font-size: 0.65rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .architecture-row {
+        display: grid;
+        grid-template-columns: 1fr 32px 1fr;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .architecture-node {
+        padding: 13px 14px;
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        background: rgba(255, 255, 255, 0.07);
+        font-family: var(--mono);
+        font-size: 0.65rem;
+      }
+
+      .architecture-node strong {
+        display: block;
+        margin-top: 3px;
+        color: white;
+        font-family: var(--sans);
+        font-size: 0.86rem;
+      }
+
+      .architecture-arrow {
+        color: #88e4bf;
+        font-family: var(--mono);
+        text-align: center;
+      }
+
+      .a-feature-copy {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: clamp(25px, 4vw, 48px);
+      }
+
+      .a-feature-copy h3 {
+        max-width: 400px;
+        margin: 16px 0 12px;
+        font-size: clamp(2rem, 4vw, 3.8rem);
+        line-height: 0.94;
+        letter-spacing: -0.08em;
+      }
+
+      .a-feature-copy p {
+        max-width: 450px;
+        margin: 0;
+        color: var(--ink-soft);
+        font-size: 1rem;
+      }
+
+      .a-feature-footer {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: end;
+        justify-content: space-between;
+        gap: 20px;
+        margin-top: 38px;
+      }
+
+      .a-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 14px;
+      }
+
+      .a-project {
+        display: flex;
+        min-height: 330px;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 26px;
+        border: 1px solid var(--rule);
+        background: var(--paper);
+        transition: transform 160ms ease, border-color 160ms ease;
+      }
+
+      .a-project:hover {
+        border-color: var(--accent);
+        transform: translateY(-4px);
+      }
+
+      .a-project h3 {
+        max-width: 390px;
+        margin: 23px 0 9px;
+        font-size: clamp(1.45rem, 2.6vw, 2.25rem);
+        line-height: 0.98;
+        letter-spacing: -0.07em;
+      }
+
+      .a-project p {
+        max-width: 440px;
+        margin: 0;
+        color: var(--ink-soft);
+        font-size: 0.88rem;
+      }
+
+      .a-project-top,
+      .a-project-bottom {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .a-project-bottom {
+        align-items: end;
+        margin-top: 24px;
+      }
+
+      .a-project-bottom .tag-list {
+        justify-content: flex-end;
+      }
+
+      .tag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+
+      .a-project-arrow {
+        color: var(--accent-dark);
+        font-family: var(--mono);
+        font-size: 1.1rem;
+      }
+
+      .a-about {
+        display: grid;
+        grid-template-columns: 0.8fr 1.2fr;
+        gap: 80px;
+      }
+
+      .a-about h2 {
+        max-width: 330px;
+        margin: 0;
+        font-size: clamp(2.2rem, 4vw, 4.1rem);
+        line-height: 0.94;
+        letter-spacing: -0.08em;
+      }
+
+      .a-about-copy {
+        max-width: 620px;
+      }
+
+      .a-about-copy p {
+        margin: 0 0 18px;
+        color: var(--ink-soft);
+        font-size: 1.15rem;
+      }
+
+      .skill-groups {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 32px;
+      }
+
+      .skill-group {
+        padding-top: 13px;
+        border-top: 1px solid var(--rule);
+      }
+
+      .skill-group strong {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 0.76rem;
+      }
+
+      .skill-group p {
+        margin: 0;
+        color: var(--ink-soft);
+        font-size: 0.77rem;
+      }
+
+      .a-contact {
+        padding: 72px 0 130px;
+        background: var(--night);
+        color: white;
+      }
+
+      .a-contact-inner {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 30px;
+      }
+
+      .a-contact h2 {
+        max-width: 690px;
+        margin: 13px 0 0;
+        font-size: clamp(2.8rem, 7vw, 7.1rem);
+        line-height: 0.88;
+        letter-spacing: -0.09em;
+      }
+
+      .a-contact .eyebrow {
+        color: #88e4bf;
+      }
+
+      .contact-links {
+        display: grid;
+        gap: 10px;
+        min-width: 220px;
+        color: #d1d7d6;
+        font-family: var(--mono);
+        font-size: 0.72rem;
+      }
+
+      /* Variant B: a dark systems/workbench layout. */
+      .variant-b {
+        --b-line: #2d3b3e;
+        --b-muted: #a7b6b4;
+        background: #172224;
+        color: #edf5f1;
+      }
+
+      .b-shell {
+        display: grid;
+        grid-template-columns: 245px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      .b-rail {
+        position: sticky;
+        top: 0;
+        display: flex;
+        height: 100vh;
+        flex-direction: column;
+        padding: 30px 24px;
+        border-right: 1px solid var(--b-line);
+        background: #121b1d;
+      }
+
+      .b-rail .wordmark {
+        color: #edf5f1;
+      }
+
+      .b-rail .wordmark-mark {
+        background: #88e4bf;
+        color: #12201e;
+      }
+
+      .rail-kicker {
+        margin: 64px 0 18px;
+        color: #88e4bf;
+        font-size: 0.62rem;
+      }
+
+      .b-nav {
+        display: grid;
+        gap: 3px;
+      }
+
+      .b-nav a {
+        display: grid;
+        grid-template-columns: 29px 1fr;
+        gap: 7px;
+        padding: 9px 0;
+        color: var(--b-muted);
+        font-size: 0.73rem;
+      }
+
+      .b-nav a:hover {
+        color: white;
+      }
+
+      .b-nav .project-number {
+        color: #647977;
+        font-size: 0.59rem;
+      }
+
+      .b-rail-footer {
+        margin-top: auto;
+        padding-top: 20px;
+        border-top: 1px solid var(--b-line);
+        color: var(--b-muted);
+        font-size: 0.72rem;
+      }
+
+      .b-rail-footer strong {
+        display: block;
+        margin-bottom: 4px;
+        color: white;
+        font-size: 0.83rem;
+      }
+
+      .b-main {
+        width: min(1180px, calc(100% - 100px));
+        margin: 0 auto;
+        padding: 30px 0 130px;
+      }
+
+      .b-topbar {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid var(--b-line);
+        color: var(--b-muted);
+        font-family: var(--mono);
+        font-size: 0.63rem;
+        text-transform: uppercase;
+      }
+
+      .b-topbar span:last-child {
+        color: #88e4bf;
+      }
+
+      .b-intro {
+        display: grid;
+        grid-template-columns: 1fr 0.65fr;
+        gap: 70px;
+        align-items: end;
+        padding: 90px 0 72px;
+      }
+
+      .b-intro h1 {
+        max-width: 690px;
+        margin: 15px 0 0;
+        font-size: clamp(3.3rem, 7vw, 7.2rem);
+        line-height: 0.88;
+        letter-spacing: -0.095em;
+      }
+
+      .b-intro h1 em {
+        color: #88e4bf;
+        font-style: normal;
+      }
+
+      .b-intro-copy {
+        color: var(--b-muted);
+        font-size: 1rem;
+      }
+
+      .b-intro-copy p {
+        margin: 0 0 20px;
+      }
+
+      .b-inline-link {
+        color: #88e4bf;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        text-transform: uppercase;
+      }
+
+      .b-case {
+        display: grid;
+        grid-template-columns: minmax(240px, 0.72fr) minmax(0, 1.28fr);
+        border: 1px solid var(--b-line);
+        background: #1c2b2e;
+      }
+
+      .b-console {
+        position: relative;
+        display: flex;
+        min-height: 480px;
+        padding: 30px;
+        overflow: hidden;
+        background: #0e1618;
+      }
+
+      .console-content {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .console-top {
+        display: flex;
+        justify-content: space-between;
+        color: #88e4bf;
+        font-family: var(--mono);
+        font-size: 0.59rem;
+      }
+
+      .console-flow {
+        display: grid;
+        gap: 10px;
+      }
+
+      .console-flow-row {
+        display: grid;
+        grid-template-columns: 1fr 25px 1fr;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .console-flow-node {
+        padding: 12px;
+        border-left: 2px solid #88e4bf;
+        background: #1b2b2e;
+        color: #dce9e4;
+        font-family: var(--mono);
+        font-size: 0.62rem;
+      }
+
+      .console-flow-node span {
+        display: block;
+        margin-top: 3px;
+        color: white;
+        font-family: var(--sans);
+        font-size: 0.79rem;
+      }
+
+      .console-flow-arrow {
+        color: #88e4bf;
+        font-family: var(--mono);
+        text-align: center;
+      }
+
+      .console-caption {
+        max-width: 260px;
+        color: var(--b-muted);
+        font-size: 0.7rem;
+      }
+
+      .b-case-copy {
+        display: grid;
+        align-content: space-between;
+        gap: 44px;
+        padding: clamp(26px, 5vw, 58px);
+      }
+
+      .b-case-heading {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        color: #88e4bf;
+        font-family: var(--mono);
+        font-size: 0.64rem;
+        text-transform: uppercase;
+      }
+
+      .b-case-copy h2 {
+        max-width: 580px;
+        margin: 25px 0 16px;
+        font-size: clamp(2.3rem, 5vw, 5.1rem);
+        line-height: 0.89;
+        letter-spacing: -0.09em;
+      }
+
+      .b-case-copy > div > p {
+        max-width: 580px;
+        margin: 0;
+        color: var(--b-muted);
+        font-size: 1rem;
+      }
+
+      .b-case-bottom {
+        display: grid;
+        gap: 20px;
+      }
+
+      .b-metrics {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 28px;
+        padding: 18px 0;
+        border-top: 1px solid var(--b-line);
+        border-bottom: 1px solid var(--b-line);
+      }
+
+      .b-metric-value {
+        display: block;
+        color: white;
+        font-size: 1.35rem;
+        font-weight: 800;
+        letter-spacing: -0.06em;
+      }
+
+      .b-metric-label {
+        display: block;
+        margin-top: 2px;
+        color: var(--b-muted);
+        font-family: var(--mono);
+        font-size: 0.57rem;
+        text-transform: uppercase;
+      }
+
+      .b-case-copy .tag {
+        border-color: #47605d;
+        color: #bfd1ca;
+      }
+
+      .b-project-list {
+        margin-top: 70px;
+        border-top: 1px solid var(--b-line);
+      }
+
+      .b-project-row {
+        display: grid;
+        grid-template-columns: 55px minmax(160px, 0.75fr) minmax(200px, 1.15fr) minmax(130px, 0.6fr);
+        gap: 22px;
+        align-items: center;
+        padding: 23px 0;
+        border-bottom: 1px solid var(--b-line);
+      }
+
+      .b-project-row .project-number {
+        color: #88e4bf;
+        font-size: 0.63rem;
+      }
+
+      .b-project-row h3 {
+        margin: 0;
+        font-size: 1.05rem;
+        letter-spacing: -0.04em;
+      }
+
+      .b-project-row p {
+        margin: 0;
+        color: var(--b-muted);
+        font-size: 0.78rem;
+      }
+
+      .b-project-row .tag-list {
+        justify-content: flex-end;
+      }
+
+      .b-about {
+        display: grid;
+        grid-template-columns: 0.7fr 1.3fr;
+        gap: 80px;
+        padding: 100px 0 0;
+      }
+
+      .b-about h2 {
+        margin: 0;
+        color: #88e4bf;
+        font-family: var(--mono);
+        font-size: 0.73rem;
+        font-weight: 400;
+        text-transform: uppercase;
+      }
+
+      .b-about-copy {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 35px;
+      }
+
+      .b-about-copy p {
+        margin: 0;
+        color: var(--b-muted);
+        font-size: 0.95rem;
+      }
+
+      .b-contact {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 30px;
+        align-items: end;
+        margin-top: 100px;
+        padding-top: 28px;
+        border-top: 1px solid var(--b-line);
+      }
+
+      .b-contact h2 {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 4.8rem);
+        line-height: 0.92;
+        letter-spacing: -0.08em;
+      }
+
+      .b-contact-links {
+        display: grid;
+        gap: 6px;
+        color: #88e4bf;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        text-align: right;
+        text-transform: uppercase;
+      }
+
+      /* Variant C: an editorial, narrative-first layout. */
+      .variant-c {
+        background: var(--warm);
+        color: #282520;
+        font-family: var(--sans);
+      }
+
+      .variant-c .shell {
+        width: min(1260px, calc(100% - 56px));
+      }
+
+      .c-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 30px;
+        padding: 27px 0;
+        border-bottom: 1px solid #d8d0c4;
+      }
+
+      .c-wordmark {
+        font-family: var(--display);
+        font-size: 1.2rem;
+        font-weight: 700;
+        letter-spacing: -0.045em;
+      }
+
+      .c-header .nav-links {
+        color: #70695f;
+        font-family: var(--mono);
+        font-size: 0.63rem;
+        text-transform: uppercase;
+      }
+
+      .c-header .availability {
+        color: #476f59;
+      }
+
+      .c-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+        gap: 90px;
+        padding: 100px 0 110px;
+      }
+
+      .c-hero h1 {
+        max-width: 830px;
+        margin: 16px 0 23px;
+        font-family: var(--display);
+        font-size: clamp(4rem, 9.7vw, 10.2rem);
+        font-weight: 400;
+        line-height: 0.82;
+        letter-spacing: -0.095em;
+      }
+
+      .c-hero h1 em {
+        color: #bc5f3d;
+        font-style: italic;
+      }
+
+      .c-hero-copy {
+        max-width: 540px;
+        margin: 0;
+        color: #625c53;
+        font-size: 1.12rem;
+      }
+
+      .c-hero-note {
+        align-self: end;
+        padding-bottom: 8px;
+        border-top: 1px solid #bcb2a4;
+      }
+
+      .c-hero-note p {
+        margin: 15px 0 0;
+        color: #70695f;
+        font-family: var(--display);
+        font-size: 1.35rem;
+        line-height: 1.08;
+      }
+
+      .c-hero-note strong {
+        color: #282520;
+      }
+
+      .c-index {
+        display: grid;
+        grid-template-columns: 0.32fr 1.68fr;
+        gap: 60px;
+        padding: 26px 0 8px;
+        border-top: 1px solid #bcb2a4;
+      }
+
+      .c-index h2 {
+        margin: 0;
+        color: #81776a;
+        font-family: var(--mono);
+        font-size: 0.65rem;
+        font-weight: 400;
+        text-transform: uppercase;
+      }
+
+      .c-index-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0 50px;
+      }
+
+      .c-index-list a {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 11px 0;
+        border-bottom: 1px solid #d8d0c4;
+        font-family: var(--display);
+        font-size: 1.12rem;
+      }
+
+      .c-index-list a:hover {
+        color: #bc5f3d;
+      }
+
+      .c-index-list span {
+        color: #81776a;
+        font-family: var(--mono);
+        font-size: 0.58rem;
+      }
+
+      .c-entry {
+        display: grid;
+        grid-template-columns: 0.32fr 1.1fr 0.58fr;
+        gap: 45px;
+        padding: 76px 0;
+        border-top: 1px solid #bcb2a4;
+      }
+
+      .c-entry-number {
+        color: #bc5f3d;
+        font-family: var(--display);
+        font-size: clamp(3rem, 6vw, 6.3rem);
+        line-height: 0.8;
+        letter-spacing: -0.1em;
+      }
+
+      .c-entry-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 17px;
+        color: #81776a;
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        text-transform: uppercase;
+      }
+
+      .c-entry h3 {
+        max-width: 720px;
+        margin: 16px 0 18px;
+        font-family: var(--display);
+        font-size: clamp(2.55rem, 5.3vw, 6rem);
+        font-weight: 400;
+        line-height: 0.86;
+        letter-spacing: -0.085em;
+      }
+
+      .c-entry-story {
+        max-width: 650px;
+        margin: 0;
+        color: #625c53;
+        font-family: var(--display);
+        font-size: 1.25rem;
+        line-height: 1.25;
+      }
+
+      .c-proof {
+        display: grid;
+        gap: 14px;
+        align-content: start;
+        padding-top: 8px;
+      }
+
+      .c-proof-title {
+        color: #81776a;
+        font-family: var(--mono);
+        font-size: 0.61rem;
+        text-transform: uppercase;
+      }
+
+      .c-proof strong {
+        display: block;
+        font-family: var(--display);
+        font-size: 2rem;
+        font-weight: 400;
+        line-height: 0.94;
+        letter-spacing: -0.06em;
+      }
+
+      .c-proof p {
+        margin: 0;
+        color: #70695f;
+        font-size: 0.76rem;
+      }
+
+      .c-entry-visual {
+        grid-column: 2 / -1;
+        display: flex;
+        min-height: 180px;
+        align-items: center;
+        justify-content: center;
+        padding: 30px;
+        background: #e7ded1;
+      }
+
+      .c-schematic {
+        display: flex;
+        width: min(100%, 630px);
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        color: #625c53;
+        font-family: var(--mono);
+        font-size: 0.63rem;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .c-schematic-node {
+        display: grid;
+        width: 130px;
+        height: 74px;
+        place-items: center;
+        border: 1px solid #a89c8d;
+        background: rgba(255, 255, 255, 0.26);
+      }
+
+      .c-schematic-arrow {
+        color: #bc5f3d;
+        font-size: 1.2rem;
+      }
+
+      .c-lab {
+        display: grid;
+        grid-template-columns: 0.32fr 1.1fr 0.58fr;
+        gap: 45px;
+        padding: 80px 0;
+        border-top: 1px solid #bcb2a4;
+      }
+
+      .c-lab h2 {
+        margin: 0;
+        color: #81776a;
+        font-family: var(--mono);
+        font-size: 0.65rem;
+        font-weight: 400;
+        text-transform: uppercase;
+      }
+
+      .c-lab-copy h3 {
+        margin: 0 0 16px;
+        font-family: var(--display);
+        font-size: clamp(2.4rem, 5vw, 5rem);
+        font-weight: 400;
+        line-height: 0.88;
+        letter-spacing: -0.08em;
+      }
+
+      .c-lab-copy p {
+        max-width: 630px;
+        margin: 0;
+        color: #625c53;
+        font-family: var(--display);
+        font-size: 1.2rem;
+      }
+
+      .c-lab-side {
+        display: grid;
+        align-content: start;
+        gap: 13px;
+      }
+
+      .c-lab-side span {
+        padding-bottom: 7px;
+        border-bottom: 1px solid #d8d0c4;
+        color: #70695f;
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        text-transform: uppercase;
+      }
+
+      .c-footer {
+        padding: 80px 0 150px;
+        border-top: 1px solid #bcb2a4;
+      }
+
+      .c-footer h2 {
+        max-width: 850px;
+        margin: 0 0 28px;
+        font-family: var(--display);
+        font-size: clamp(3.4rem, 8vw, 8.5rem);
+        font-weight: 400;
+        line-height: 0.82;
+        letter-spacing: -0.09em;
+      }
+
+      .c-footer-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 24px;
+        color: #70695f;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        text-transform: uppercase;
+      }
+
+      /* The switcher is intentionally not part of any portfolio variant. */
+      .prototype-switcher {
+        position: fixed;
+        z-index: 20;
+        right: 50%;
+        bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        min-height: 48px;
+        padding: 5px 7px;
+        border: 1px solid #52625e;
+        border-radius: 999px;
+        background: #14201f;
+        box-shadow: 0 12px 30px rgba(16, 25, 27, 0.22);
+        color: white;
+        transform: translateX(50%);
+      }
+
+      .prototype-switcher[hidden] {
+        display: none;
+      }
+
+      .switcher-button {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        cursor: pointer;
+        place-items: center;
+        border-radius: 50%;
+        background: transparent;
+        color: #b6c6c1;
+        font-size: 1.25rem;
+        line-height: 1;
+      }
+
+      .switcher-button:hover,
+      .switcher-button:focus-visible {
+        background: #2b423f;
+        color: white;
+        outline: none;
+      }
+
+      .switcher-label {
+        min-width: 190px;
+        padding: 0 9px;
+        color: #e7f0ec;
+        font-size: 0.63rem;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      .switcher-label span {
+        color: #88e4bf;
+      }
+
+      @media (max-width: 900px) {
+        .a-hero,
+        .c-hero {
+          grid-template-columns: 1fr;
+          gap: 45px;
+        }
+
+        .a-hero {
+          padding: 70px 0 80px;
+        }
+
+        .a-hero-note {
+          max-width: 500px;
+        }
+
+        .a-about,
+        .b-about,
+        .c-lab {
+          grid-template-columns: 1fr;
+          gap: 28px;
+        }
+
+        .b-shell {
+          grid-template-columns: 190px minmax(0, 1fr);
+        }
+
+        .b-main {
+          width: min(100% - 54px, 900px);
+        }
+
+        .b-intro {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+
+        .b-case {
+          grid-template-columns: 1fr;
+        }
+
+        .b-console {
+          min-height: 290px;
+        }
+
+        .b-project-row {
+          grid-template-columns: 44px minmax(150px, 0.8fr) minmax(180px, 1.2fr);
+        }
+
+        .b-project-row .tag-list {
+          display: none;
+        }
+
+        .c-entry {
+          grid-template-columns: 90px 1fr;
+          gap: 25px;
+        }
+
+        .c-entry-visual {
+          grid-column: 2;
+        }
+
+        .c-proof {
+          grid-column: 2;
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .c-index {
+          grid-template-columns: 1fr;
+          gap: 18px;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .shell,
+        .variant-c .shell {
+          width: min(100% - 30px, 560px);
+        }
+
+        .site-nav {
+          align-items: flex-start;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .availability {
+          margin-left: auto;
+          white-space: normal;
+          text-align: right;
+        }
+
+        .a-hero h1,
+        .b-intro h1 {
+          font-size: clamp(3.3rem, 18vw, 6rem);
+        }
+
+        .a-feature,
+        .a-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .a-feature-visual {
+          min-height: 310px;
+        }
+
+        .a-grid {
+          gap: 10px;
+        }
+
+        .a-section {
+          padding: 55px 0;
+        }
+
+        .section-heading,
+        .a-contact-inner {
+          align-items: start;
+          flex-direction: column;
+        }
+
+        .skill-groups {
+          grid-template-columns: 1fr;
+        }
+
+        .b-shell {
+          display: block;
+        }
+
+        .b-rail {
+          position: static;
+          height: auto;
+          padding: 20px 15px;
+          border-right: 0;
+          border-bottom: 1px solid var(--b-line);
+        }
+
+        .rail-kicker,
+        .b-rail-footer {
+          display: none;
+        }
+
+        .b-nav {
+          grid-template-columns: repeat(3, 1fr);
+          margin-top: 20px;
+        }
+
+        .b-nav a {
+          display: block;
+          padding: 5px 0;
+          font-size: 0.63rem;
+        }
+
+        .b-nav .project-number {
+          display: block;
+          margin-bottom: 2px;
+        }
+
+        .b-main {
+          width: min(100% - 30px, 560px);
+          padding-top: 20px;
+        }
+
+        .b-intro {
+          padding: 60px 0 50px;
+        }
+
+        .b-project-list {
+          margin-top: 52px;
+        }
+
+        .b-project-row {
+          grid-template-columns: 32px 1fr;
+          gap: 8px 14px;
+        }
+
+        .b-project-row p,
+        .b-project-row .tag-list {
+          grid-column: 2;
+        }
+
+        .b-about-copy {
+          grid-template-columns: 1fr;
+        }
+
+        .b-contact {
+          grid-template-columns: 1fr;
+        }
+
+        .b-contact-links {
+          text-align: left;
+        }
+
+        .c-hero {
+          padding: 70px 0 80px;
+        }
+
+        .c-hero h1 {
+          font-size: clamp(4rem, 22vw, 7rem);
+        }
+
+        .c-index-list {
+          grid-template-columns: 1fr;
+        }
+
+        .c-entry {
+          grid-template-columns: 1fr;
+          gap: 18px;
+          padding: 55px 0;
+        }
+
+        .c-entry-number {
+          font-size: 3.6rem;
+        }
+
+        .c-entry-visual,
+        .c-proof {
+          grid-column: 1;
+        }
+
+        .c-proof {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .c-schematic-node {
+          width: 90px;
+          height: 64px;
+          font-size: 0.54rem;
+        }
+
+        .prototype-switcher {
+          bottom: 12px;
+        }
+
+        .switcher-label {
+          min-width: 150px;
+          font-size: 0.56rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main id="app"></main>
+
+    <nav class="prototype-switcher" id="prototype-switcher" aria-label="Prototype variants">
+      <button class="switcher-button" id="previous-variant" type="button" aria-label="Previous variant">←</button>
+      <div class="switcher-label" id="variant-label"></div>
+      <button class="switcher-button" id="next-variant" type="button" aria-label="Next variant">→</button>
+    </nav>
+
+    <script>
+      const projects = [
+        {
+          id: "anonymous-by-design",
+          number: "01",
+          title: "Anonymous by design",
+          client: "Personio",
+          kind: "Product launch",
+          period: "2023–2025",
+          summary: "A greenfield whistleblowing service built around anonymity, regulatory isolation, and dependable operations.",
+          story: "Co-architected and launched an EU-compliant service from product and regulatory requirements. Designed dual-AWS infrastructure and anonymous authentication, then stayed on as the primary technical owner.",
+          proof: [
+            ["€1M ARR", "generated soon after release"],
+            ["99.92%", "service uptime"],
+            ["<200ms", "p99 latency"],
+          ],
+          stack: ["Golang", "AWS CDK", "Kubernetes", "Datadog"],
+          diagram: ["Product + regulation", "Anonymous service", "Isolated AWS"],
+        },
+        {
+          id: "pricing-engine",
+          number: "02",
+          title: "Extracting the engine",
+          client: "BEAT / FREENOW",
+          kind: "Platform evolution",
+          period: "2019–2023",
+          summary: "A core pricing engine moved out of a monolith into Go services with dynamic, incentive-driven geo-pricing.",
+          story: "Led the extraction of the pricing engine and introduced hexagonal geo-zones to balance driver supply and demand across markets.",
+          proof: [
+            ["Go", "new service boundary"],
+            ["Geo-zones", "dynamic incentives"],
+            ["Supply", "demand balanced"],
+          ],
+          stack: ["Golang", "Kafka", "gRPC", "AWS"],
+          diagram: ["Monolith", "Pricing services", "Market signals"],
+        },
+        {
+          id: "gateway-migration",
+          number: "03",
+          title: "10k+ requests, no big bang",
+          client: "BEAT / FREENOW",
+          kind: "Migration",
+          period: "2019–2023",
+          summary: "Routing and authentication extracted from a monolith while old and new paths ran side by side.",
+          story: "Helped form the four-engineer team, built a Go API gateway for 10k+ RPS, and ran the legacy and replacement paths in parallel for 6–12 months before completing the live migration.",
+          proof: [
+            ["10k+ RPS", "gateway throughput"],
+            ["6–12 mo", "side-by-side migration"],
+            ["7 teams", "adopted authorization"],
+          ],
+          stack: ["Golang", "Kubernetes", "DynamoDB", "Redis"],
+          diagram: ["Legacy path", "Gateway", "Seven teams"],
+        },
+        {
+          id: "survey-migration",
+          number: "04",
+          title: "24 GB, zero downtime",
+          client: "Personio",
+          kind: "Data reliability",
+          period: "2023–2025",
+          summary: "A large user-data migration and schema redesign that cut P99 latency across 14 endpoints.",
+          story: "Identified an exponential database-growth issue, built a snapshot tool, and owned the zero-downtime migration of a 24GB dataset.",
+          proof: [
+            ["24 GB", "migrated live"],
+            ["600 → <300ms", "P99 latency"],
+            ["14", "endpoints improved"],
+          ],
+          stack: ["Kotlin", "PostgreSQL", "Kafka", "React"],
+          diagram: ["Snapshot tool", "Safe migration", "Faster queries"],
+        },
+        {
+          id: "messy-data",
+          number: "05",
+          title: "Messy data, mapped reliably",
+          client: "fashionTrade",
+          kind: "Data integration",
+          period: "2018–2019",
+          summary: "A distributed integration API for hundreds of wholesalers with fuzzy matching and asynchronous enrichment.",
+          story: "Led the implementation of an API that disambiguated messy customer data with Elasticsearch-based fuzzy matching and mapped it onto a master dataset through Kafka pipelines.",
+          proof: [
+            ["Hundreds", "of wholesalers"],
+            ["Fuzzy", "matching + enrichment"],
+            ["Kafka", "race handling"],
+          ],
+          stack: ["Java", "Elasticsearch", "Kafka", "GCP"],
+          diagram: ["Wholesale data", "Match + enrich", "Master dataset"],
+        },
+        {
+          id: "developer-accelerator",
+          number: "06",
+          title: "A shorter path to integration",
+          client: "SDL Web",
+          kind: "Open source",
+          period: "2015–2018",
+          summary: "A Java counterpart to an open-source enterprise CMS integration framework.",
+          story: "Led development of reflection-based dynamic model mapping to reduce the effort needed for customer integrations, while reviewing and integrating community contributions.",
+          proof: [
+            ["Java", "adapter framework"],
+            ["Dynamic", "model mapping"],
+            ["OSS", "community input"],
+          ],
+          stack: ["Java", "Spring", "Gradle", "OSS"],
+          diagram: ["CMS model", "Adapter layer", "Customer app"],
+        },
+        {
+          id: "ai-lab",
+          number: "07",
+          title: "AI engineering lab",
+          client: "Personal work",
+          kind: "In progress",
+          period: "2026–now",
+          summary: "A private space for experiments with AI-assisted development, MCP, and better engineering workflows.",
+          story: "A deliberately evolving personal project. Public write-ups and demos can be added here when an experiment has earned its way out of the lab.",
+          proof: [
+            ["MCP", "tool interfaces"],
+            ["LLM APIs", "experiments"],
+            ["Private", "still forming"],
+          ],
+          stack: ["OpenAI API", "MCP", "Claude Code", "Developer tooling"],
+          diagram: ["Question", "Experiment", "Useful workflow"],
+          personal: true,
+        },
+      ];
+
+      const variants = [
+        { key: "A", name: "Impact / case studies" },
+        { key: "B", name: "Systems / workbench" },
+        { key: "C", name: "Field notes / editorial" },
+      ];
+
+      const app = document.querySelector("#app");
+      const switcher = document.querySelector("#prototype-switcher");
+      const label = document.querySelector("#variant-label");
+
+      const esc = (value) => String(value).replace(/[&<>\"]/g, (character) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+      })[character]);
+
+      const tags = (items, className = "") => items.map((item) => `<span class="tag ${className}">${esc(item)}</span>`).join("");
+
+      const metrics = (items, className = "") => items.map(([value, text]) => `
+        <div class="metric ${className}">
+          <strong class="metric-value">${esc(value)}</strong>
+          <span class="metric-label">${esc(text)}</span>
+        </div>
+      `).join("");
+
+      const schematic = (items, className = "") => `
+        <div class="${className}">
+          ${items.map((item, index) => `
+            <div class="${className}-row">
+              <div class="${className}-node">${index === 0 ? "input" : index === items.length - 1 ? "outcome" : "system"}<strong>${esc(item)}</strong></div>
+              ${index < items.length - 1 ? `<div class="${className}-arrow">→</div><div></div>` : ""}
+            </div>
+          `).join("")}
+        </div>
+      `;
+
+      const renderAProject = (project) => `
+        <a class="a-project" href="#${esc(project.id)}">
+          <div>
+            <div class="a-project-top">
+              <span class="eyebrow">${esc(project.client)} / ${esc(project.kind)}</span>
+              <span class="a-project-arrow">↗</span>
+            </div>
+            <h3>${esc(project.title)}</h3>
+            <p>${esc(project.summary)}</p>
+          </div>
+          <div class="a-project-bottom">
+            <span class="meta">${esc(project.period)}</span>
+            <div class="tag-list">${tags(project.stack.slice(0, 3))}</div>
+          </div>
+        </a>
+      `;
+
+      const renderVariantA = () => {
+        const [featured, ...rest] = projects;
+        return `
+          <div class="site variant-a">
+            <header class="shell site-nav">
+              <a class="wordmark" href="#top" aria-label="Alexey Zarakovskiy home">
+                <span class="wordmark-mark">AZ</span>
+                <span>Alexey Zarakovskiy</span>
+              </a>
+              <nav class="nav-links" aria-label="Primary navigation">
+                <a href="#work">Work</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+              </nav>
+              <span class="availability">Available for focused work</span>
+            </header>
+
+            <section class="shell a-hero" id="top">
+              <div>
+                <div class="eyebrow">/portfolio · Amsterdam · remote</div>
+                <h1>Systems that make <span>product</span> possible.</h1>
+                <p class="a-hero-copy">Senior backend engineer, full-stack when it matters. I help teams turn complicated product and platform constraints into reliable software people can build on.</p>
+                <div class="a-actions">
+                  <a class="button-link" href="#work">See selected work <span>↓</span></a>
+                  <a class="button-link button-link--light" href="mailto:work@azarakovskiy.com">Start a conversation</a>
+                </div>
+              </div>
+              <aside class="a-hero-note">
+                <div>
+                  <div class="eyebrow">What this version tests</div>
+                  <strong>Can impact-led case studies make technical depth feel approachable?</strong>
+                </div>
+                <div class="a-hero-note-list">
+                  <div><span>Focus</span><span>Outcomes before stack</span></div>
+                  <div><span>Shape</span><span>Featured story + index</span></div>
+                  <div><span>For</span><span>Recruiters, founders, peers</span></div>
+                </div>
+              </aside>
+            </section>
+
+            <section class="shell a-section a-section--rule" id="work">
+              <div class="section-heading">
+                <div>
+                  <div class="eyebrow">01 / selected work</div>
+                  <h2>Proof, not a technology list.</h2>
+                </div>
+                <p>Each story starts with a real constraint, then shows the system shape and the result. The resume stays concise; this page earns the longer version.</p>
+              </div>
+
+              <article class="a-feature" id="${esc(featured.id)}">
+                <div class="a-feature-visual">
+                  <div class="architecture">
+                    <div class="architecture-label">Architecture note / ${esc(featured.client)}</div>
+                    ${schematic(featured.diagram, "architecture")}
+                  </div>
+                </div>
+                <div class="a-feature-copy">
+                  <div>
+                    <div class="eyebrow">${esc(featured.kind)} · ${esc(featured.period)}</div>
+                    <h3>${esc(featured.title)}</h3>
+                    <p>${esc(featured.story)}</p>
+                  </div>
+                  <div class="a-feature-footer">
+                    <div class="metrics">${metrics(featured.proof)}</div>
+                    <div class="tag-list">${tags(featured.stack, "tag--green")}</div>
+                  </div>
+                </div>
+              </article>
+
+              <div class="a-grid">
+                ${rest.map(renderAProject).join("")}
+              </div>
+            </section>
+
+            <section class="shell a-section a-section--rule" id="about">
+              <div class="a-about">
+                <h2>Good engineering has a human side.</h2>
+                <div class="a-about-copy">
+                  <p>I work best where product constraints, distributed systems, and a real user outcome meet. Across HR, mobility, fashion, and enterprise CMS platforms, I have moved systems from idea to reliable service—and helped teams keep them understandable.</p>
+                  <p>Now starting a contractor / ZZP chapter: available for focused backend, platform, or full-stack work where ownership and clarity matter more than a fashionable stack.</p>
+                  <div class="skill-groups">
+                    <div class="skill-group"><strong>Build</strong><p>Golang · Java · Kotlin · Python · TypeScript · React</p></div>
+                    <div class="skill-group"><strong>Connect</strong><p>REST · gRPC · GraphQL · Kafka · SQS/SNS · JWT</p></div>
+                    <div class="skill-group"><strong>Run</strong><p>AWS · GCP · Kubernetes · Terraform · PostgreSQL · Redis</p></div>
+                    <div class="skill-group"><strong>Explore</strong><p>OpenAI API · MCP · Langfuse · Claude Code · developer tooling</p></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <footer class="a-contact" id="contact">
+              <div class="shell a-contact-inner">
+                <div>
+                  <div class="eyebrow">02 / contact</div>
+                  <h2>Have a hard problem?</h2>
+                </div>
+                <div class="contact-links">
+                  <a class="contact-link" href="mailto:work@azarakovskiy.com">work@azarakovskiy.com ↗</a>
+                  <a class="contact-link" href="https://linkedin.com/in/azarakovskiy">linkedin.com/in/azarakovskiy ↗</a>
+                  <a class="contact-link" href="https://github.com/azarakovskiy">github.com/azarakovskiy ↗</a>
+                </div>
+              </div>
+            </footer>
+          </div>
+        `;
+      };
+
+      const renderBProject = (project) => `
+        <article class="b-project-row" id="${esc(project.id)}">
+          <span class="project-number">${esc(project.number)}</span>
+          <h3>${esc(project.title)}</h3>
+          <p>${esc(project.summary)}</p>
+          <div class="tag-list">${tags(project.stack.slice(0, 3))}</div>
+        </article>
+      `;
+
+      const renderVariantB = () => {
+        const featured = projects[0];
+        return `
+          <div class="site variant-b">
+            <div class="b-shell">
+              <aside class="b-rail">
+                <a class="wordmark" href="#top" aria-label="Alexey Zarakovskiy home">
+                  <span class="wordmark-mark">AZ</span>
+                  <span>Alexey Zarakovskiy</span>
+                </a>
+                <div class="rail-kicker">/ system index</div>
+                <nav class="b-nav" aria-label="Project index">
+                  ${projects.map((project) => `<a href="#${esc(project.id)}"><span class="project-number">${esc(project.number)}</span><span>${esc(project.title)}</span></a>`).join("")}
+                </nav>
+                <div class="b-rail-footer"><strong>Senior backend engineer</strong>Full-stack · technology agnostic<br />Amsterdam / remote</div>
+              </aside>
+
+              <main class="b-main" id="top">
+                <div class="b-topbar"><span>Portfolio / workbench</span><span>Open to contractor conversations</span></div>
+                <section class="b-intro">
+                  <div>
+                    <div class="eyebrow">Systems in motion</div>
+                    <h1>Make the <em>hard</em> parts legible.</h1>
+                  </div>
+                  <div class="b-intro-copy">
+                    <p>This version treats the portfolio like a technical workbench: one selected system in focus, the rest available as a compact index.</p>
+                    <a class="b-inline-link" href="#selected">Open selected system ↓</a>
+                  </div>
+                </section>
+
+                <section class="b-case" id="selected">
+                  <div class="b-console">
+                    <div class="console-content">
+                      <div class="console-top"><span>case / ${esc(featured.number)}</span><span>status: shipped</span></div>
+                      <div class="console-flow">
+                        ${featured.diagram.map((item, index) => `
+                          <div class="console-flow-row">
+                            <div class="console-flow-node">${index === 0 ? "constraint" : index === featured.diagram.length - 1 ? "outcome" : "service"}<span>${esc(item)}</span></div>
+                            ${index < featured.diagram.length - 1 ? `<div class="console-flow-arrow">→</div><div></div>` : ""}
+                          </div>
+                        `).join("")}
+                      </div>
+                      <p class="console-caption">The visual is deliberately schematic. The question is whether a systems view helps a technical buyer scan the story.</p>
+                    </div>
+                  </div>
+                  <div class="b-case-copy">
+                    <div>
+                      <div class="b-case-heading"><span>${esc(featured.client)} / ${esc(featured.kind)}</span><span>${esc(featured.period)}</span></div>
+                      <h2>${esc(featured.title)}</h2>
+                      <p>${esc(featured.story)}</p>
+                    </div>
+                    <div class="b-case-bottom">
+                      <div class="b-metrics">
+                        ${featured.proof.map(([value, text]) => `<div><span class="b-metric-value">${esc(value)}</span><span class="b-metric-label">${esc(text)}</span></div>`).join("")}
+                      </div>
+                      <div class="tag-list">${tags(featured.stack)}</div>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="b-project-list" aria-label="All project stories">
+                  ${projects.slice(1).map(renderBProject).join("")}
+                </section>
+
+                <section class="b-about" id="about">
+                  <h2>/ about the operator</h2>
+                  <div class="b-about-copy">
+                    <p>Senior backend engineer with a full-stack instinct. I have worked across HR, mobility, fashion, and enterprise CMS products, from greenfield launches to careful monolith extractions.</p>
+                    <p>Available for contractor / ZZP work where a team needs someone to own a boundary, make a migration safe, or turn an ambiguous requirement into a service that can be operated.</p>
+                  </div>
+                </section>
+
+                <footer class="b-contact" id="contact">
+                  <h2>Bring the constraint.<br />We can map the system.</h2>
+                  <div class="b-contact-links">
+                    <a href="mailto:work@azarakovskiy.com">work@azarakovskiy.com ↗</a>
+                    <a href="https://linkedin.com/in/azarakovskiy">LinkedIn ↗</a>
+                    <a href="https://github.com/azarakovskiy">GitHub ↗</a>
+                  </div>
+                </footer>
+              </main>
+            </div>
+          </div>
+        `;
+      };
+
+      const renderCEntry = (project) => `
+        <article class="c-entry" id="${esc(project.id)}">
+          <div class="c-entry-number">${esc(project.number)}</div>
+          <div>
+            <div class="c-entry-meta"><span>${esc(project.client)}</span><span>${esc(project.kind)}</span><span>${esc(project.period)}</span></div>
+            <h3>${esc(project.title)}</h3>
+            <p class="c-entry-story">${esc(project.story)}</p>
+          </div>
+          <div class="c-proof">
+            <span class="c-proof-title">Evidence</span>
+            ${project.proof.slice(0, 2).map(([value, text]) => `<div><strong>${esc(value)}</strong><p>${esc(text)}</p></div>`).join("")}
+          </div>
+          <div class="c-entry-visual">
+            <div class="c-schematic">
+              ${project.diagram.map((item, index) => `<div class="c-schematic-node">${esc(item)}</div>${index < project.diagram.length - 1 ? `<span class="c-schematic-arrow">→</span>` : ""}`).join("")}
+            </div>
+          </div>
+        </article>
+      `;
+
+      const renderVariantC = () => `
+        <div class="site variant-c">
+          <header class="shell c-header">
+            <a class="c-wordmark" href="#top">Alexey Zarakovskiy</a>
+            <nav class="nav-links" aria-label="Primary navigation">
+              <a href="#work">Stories</a>
+              <a href="#about">About</a>
+              <a href="#contact">Write</a>
+            </nav>
+            <span class="availability">Taking on selected work</span>
+          </header>
+
+          <main class="shell" id="top">
+            <section class="c-hero">
+              <div>
+                <div class="eyebrow">Independent engineer · Amsterdam / remote</div>
+                <h1>Build the <em>right</em> thing.</h1>
+                <p class="c-hero-copy">A field notebook of product constraints, platform decisions, and the systems that came out the other side.</p>
+              </div>
+              <aside class="c-hero-note">
+                <div class="eyebrow">What this version tests</div>
+                <p><strong>Can a narrative make seniority visible</strong> without turning every project into a case-study template?</p>
+              </aside>
+            </section>
+
+            <section class="c-index" id="work">
+              <h2>Contents</h2>
+              <nav class="c-index-list" aria-label="Story index">
+                ${projects.map((project) => `<a href="#${esc(project.id)}"><span>${esc(project.number)}</span>${esc(project.title)}<span>↘</span></a>`).join("")}
+              </nav>
+            </section>
+
+            <section aria-label="Project stories">
+              ${projects.map(renderCEntry).join("")}
+            </section>
+
+            <section class="c-lab" id="about">
+              <h2>About / now</h2>
+              <div class="c-lab-copy">
+                <h3>The through-line is ownership.</h3>
+                <p>I like work where the boundary is blurry at first: a product need becomes a service, a migration becomes a safer system, and a team becomes more confident because the moving parts finally have names.</p>
+              </div>
+              <div class="c-lab-side">
+                <span>Golang · Java · Kotlin</span>
+                <span>AWS · GCP · Kubernetes</span>
+                <span>PostgreSQL · Kafka · Redis</span>
+                <span>Full-stack when useful</span>
+                <span>AI engineering experiments</span>
+              </div>
+            </section>
+
+            <footer class="c-footer" id="contact">
+              <h2>Have a system worth making clearer?</h2>
+              <div class="c-footer-row">
+                <a href="mailto:work@azarakovskiy.com">work@azarakovskiy.com ↗</a>
+                <span>Senior backend engineer · full-stack · language agnostic</span>
+                <a href="https://linkedin.com/in/azarakovskiy">LinkedIn ↗</a>
+              </div>
+            </footer>
+          </main>
+        </div>
+      `;
+
+      const render = (key) => {
+        const normalized = variants.some((variant) => variant.key === key) ? key : "A";
+        app.innerHTML = normalized === "A" ? renderVariantA() : normalized === "B" ? renderVariantB() : renderVariantC();
+        const current = variants.find((variant) => variant.key === normalized);
+        label.innerHTML = `<span>${current.key}</span> · ${current.name}`;
+        document.title = `Alexey Zarakovskiy — ${current.name}`;
+        return normalized;
+      };
+
+      const normalizeVariant = (key) => variants.some((variant) => variant.key === key) ? key : "A";
+      const readVariant = () => (new URLSearchParams(location.search).get("variant") || "A").toUpperCase();
+
+      const syncVariantUrl = (key) => {
+        const url = new URL(location.href);
+        url.searchParams.set("variant", key);
+        history.replaceState({}, "", url);
+      };
+
+      const setVariant = (key, updateUrl = true) => {
+        const normalized = render(key);
+        if (updateUrl) {
+          const url = new URL(location.href);
+          url.searchParams.set("variant", normalized);
+          history.replaceState({}, "", url);
+        }
+        window.scrollTo({ top: 0, behavior: "instant" });
+      };
+
+      const cycle = (direction) => {
+        const currentIndex = variants.findIndex((variant) => variant.key === normalizeVariant(readVariant()));
+        const nextIndex = (currentIndex + direction + variants.length) % variants.length;
+        setVariant(variants[nextIndex].key);
+      };
+
+      document.querySelector("#previous-variant").addEventListener("click", () => cycle(-1));
+      document.querySelector("#next-variant").addEventListener("click", () => cycle(1));
+      document.addEventListener("keydown", (event) => {
+        if (["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName) || document.activeElement?.isContentEditable) return;
+        if (event.key === "ArrowLeft") cycle(-1);
+        if (event.key === "ArrowRight") cycle(1);
+      });
+      window.addEventListener("popstate", () => {
+        const normalized = normalizeVariant(readVariant());
+        if (readVariant() !== normalized) syncVariantUrl(normalized);
+        render(normalized);
+      });
+
+      // This is a prototype-only route; never carry the switcher into production.
+      switcher.hidden = !location.pathname.includes("/prototype/");
+      const initialVariant = normalizeVariant(readVariant());
+      if (readVariant() !== initialVariant) syncVariantUrl(initialVariant);
+      render(initialVariant);
+    </script>
+  </body>
+</html>
