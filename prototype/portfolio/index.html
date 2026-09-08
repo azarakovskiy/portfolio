@@ -11,10 +11,9 @@
     <title>Alexey Zarakovskiy — Senior software engineer</title>
     <style>
       /*
-       * THROWAWAY UI PROTOTYPE
-       * Question: which resume-native version of B3 makes project evidence
-       * easiest to scan and understand?
-       * Three B3-derived variants, switchable via ?variant=B3, B4, or B5.
+       * LOCKED PROTOTYPE DIRECTION
+       * Verdict: B5, the resume-native evidence sheet.
+       * The explored B3/B4/B5 variants remain in this branch's history.
        */
       :root {
         color-scheme: light;
@@ -45,7 +44,6 @@
       body {
         min-width: 320px;
         margin: 0;
-        padding-bottom: 86px;
         background: var(--canvas);
         color: var(--ink);
         font-family: var(--sans);
@@ -257,56 +255,6 @@
         scroll-margin-top: 20px;
       }
 
-      .case-columns {
-        display: grid;
-        grid-template-columns: 145px minmax(0, 1fr) 220px;
-        align-items: start;
-        gap: 34px;
-        padding-top: 32px;
-      }
-
-      .case-context {
-        position: relative;
-        display: grid;
-        gap: 5px;
-        padding-left: 18px;
-        border-left: 2px solid var(--rule);
-        color: var(--ink-faint);
-        font-family: var(--mono);
-        font-size: 10.5px;
-      }
-
-      .case-context::before {
-        position: absolute;
-        top: 2px;
-        left: -6px;
-        width: 10px;
-        height: 10px;
-        border: 2px solid var(--accent);
-        border-radius: 50%;
-        background: var(--surface);
-        content: "";
-      }
-
-      .case-context strong {
-        color: var(--ink);
-        font-family: var(--sans);
-        font-size: 13.5px;
-      }
-
-      .case-main h3 {
-        margin: 0;
-        font-size: 27px;
-        letter-spacing: -0.015em;
-        line-height: 1.08;
-      }
-
-      .case-summary {
-        max-width: 66ch;
-        margin: 8px 0 21px;
-        color: var(--ink-soft);
-        font-size: 13.5px;
-      }
 
       .case-detail {
         display: grid;
@@ -332,28 +280,6 @@
         font-size: 12.5px;
       }
 
-      .case-evidence {
-        position: sticky;
-        top: 18px;
-        padding: 15px 0 0 17px;
-        border-top: 2px solid var(--accent);
-        border-left: 1px solid var(--rule);
-      }
-
-      .rail-heading {
-        margin: 0 0 11px;
-        color: var(--ink-faint);
-        font-family: var(--mono);
-        font-size: 9.5px;
-        font-weight: 500;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-      }
-
-      .proof-list {
-        display: grid;
-        gap: 12px;
-      }
 
       .proof-item {
         display: grid;
@@ -368,11 +294,6 @@
         font-size: 13px;
       }
 
-      .technology-group {
-        margin-top: 23px;
-        padding-top: 14px;
-        border-top: 1px solid var(--rule);
-      }
 
       .tags {
         display: flex;
@@ -391,121 +312,6 @@
         line-height: 1.3;
       }
 
-      .resume-entry {
-        position: relative;
-        margin: 32px 0 0;
-        padding: 0 0 2px 20px;
-        border-left: 2px solid var(--rule);
-      }
-
-      .resume-entry::before {
-        position: absolute;
-        top: 5px;
-        left: -6px;
-        width: 10px;
-        height: 10px;
-        border: 2px solid var(--accent);
-        border-radius: 50%;
-        background: var(--surface);
-        content: "";
-      }
-
-      .resume-entry-head {
-        display: flex;
-        align-items: baseline;
-        gap: 5px 14px;
-        flex-wrap: wrap;
-        margin-bottom: 2px;
-      }
-
-      .resume-entry-head h3 {
-        margin: 0;
-        font-size: 18px;
-        line-height: 1.2;
-      }
-
-      .resume-entry-kind,
-      .resume-entry-date {
-        color: var(--ink-faint);
-        font-family: var(--mono);
-        font-size: 10.5px;
-      }
-
-      .resume-entry-kind {
-        margin-right: auto;
-      }
-
-      .resume-entry-summary {
-        max-width: 82ch;
-        margin: 0 0 12px;
-        color: var(--ink-soft);
-        font-size: 12.5px;
-      }
-
-      .resume-project-title {
-        margin: 0 0 7px;
-        padding-left: 8px;
-        border-left: 2px solid var(--accent);
-        font-size: 14px;
-        font-weight: 700;
-        line-height: 1.3;
-      }
-
-      .resume-project-title .tag {
-        margin-left: 7px;
-        vertical-align: 1px;
-      }
-
-      .resume-bullets {
-        margin: 0;
-        padding-left: 17px;
-      }
-
-      .resume-bullets li {
-        margin-bottom: 7px;
-        color: var(--ink-soft);
-        font-size: 12.5px;
-      }
-
-      .resume-bullets li::marker {
-        color: var(--ink-faint);
-      }
-
-      .resume-bullets strong {
-        color: var(--ink);
-        font-weight: 600;
-      }
-
-      .resume-evidence {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5px 17px;
-        margin-top: 13px;
-        padding-top: 11px;
-        border-top: 1px solid var(--rule);
-        color: var(--ink-soft);
-        font-size: 10.5px;
-      }
-
-      .resume-evidence strong {
-        color: var(--ink);
-        font-family: var(--mono);
-        font-size: 11.5px;
-      }
-
-      .resume-technologies {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2px 0;
-        margin-top: 10px;
-        color: var(--ink-faint);
-        font-size: 10.5px;
-      }
-
-      .resume-technology:not(:last-child)::after {
-        margin: 0 7px 0 4px;
-        content: "·";
-      }
 
       .case-sheet {
         margin-top: 32px;
@@ -630,62 +436,6 @@
         font-weight: 600;
       }
 
-      .prototype-switcher {
-        position: fixed;
-        z-index: 20;
-        bottom: max(14px, env(safe-area-inset-bottom));
-        left: 50%;
-        display: grid;
-        grid-template-columns: 44px minmax(0, 1fr) 44px;
-        width: min(390px, calc(100% - 24px));
-        overflow: hidden;
-        border: 1px solid var(--ink);
-        border-radius: 4px;
-        background: var(--ink);
-        box-shadow: 0 10px 30px rgb(17 24 28 / 20%);
-        color: var(--surface);
-        transform: translateX(-50%);
-      }
-
-      .prototype-switcher button {
-        min-height: 46px;
-        padding: 0;
-        border: 0;
-        background: transparent;
-        color: inherit;
-        cursor: pointer;
-        font-family: var(--mono);
-        font-size: 16px;
-      }
-
-      .prototype-switcher button:hover {
-        background: var(--accent-dark);
-      }
-
-      .prototype-switcher output {
-        display: grid;
-        grid-template-columns: auto minmax(0, 1fr);
-        align-items: center;
-        gap: 9px;
-        min-width: 0;
-        padding: 0 12px;
-        border-right: 1px solid var(--ink-soft);
-        border-left: 1px solid var(--ink-soft);
-        font-size: 11px;
-        line-height: 1.15;
-      }
-
-      .prototype-switcher strong {
-        color: #6ee7b7;
-        font-family: var(--mono);
-        font-size: 12px;
-      }
-
-      .prototype-switcher span {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
 
       @media (max-width: 860px) {
         .page {
@@ -700,23 +450,6 @@
           overflow-x: auto;
         }
 
-        .case-columns {
-          grid-template-columns: 135px minmax(0, 1fr);
-        }
-
-        .case-evidence {
-          position: static;
-          grid-column: 2;
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-          gap: 26px;
-        }
-
-        .technology-group {
-          margin-top: 0;
-          padding-top: 0;
-          border-top: 0;
-        }
       }
 
       @media (max-width: 640px) {
@@ -744,7 +477,6 @@
 
         .profile-row,
         .work-heading,
-        .case-columns,
         .case-sheet-head,
         .sheet-footer {
           grid-template-columns: 1fr;
@@ -767,46 +499,6 @@
           min-height: 102px;
         }
 
-        .case-columns {
-          gap: 24px;
-          padding-top: 26px;
-        }
-
-        .case-context {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 3px 12px;
-        }
-
-        .case-main h3 {
-          font-size: 24px;
-        }
-
-        .case-detail {
-          grid-template-columns: 1fr;
-          gap: 5px;
-        }
-
-        .case-evidence {
-          grid-column: 1;
-          grid-template-columns: 1fr;
-          gap: 0;
-        }
-
-        .technology-group {
-          margin-top: 20px;
-          padding-top: 13px;
-          border-top: 1px solid var(--rule);
-        }
-
-        .resume-entry-head {
-          display: grid;
-          gap: 2px;
-        }
-
-        .resume-entry-kind {
-          margin-right: 0;
-        }
 
         .case-sheet-head,
         .sheet-footer {
@@ -1022,15 +714,7 @@
       const personalProjects = projects.filter((project) => project.personal);
       const prototypeProjects = [...professionalProjects, ...personalProjects];
 
-      const variantNames = {
-        B3: "Case columns",
-        B4: "Resume entry",
-        B5: "Evidence sheet"
-      };
-      const variantKeys = Object.keys(variantNames);
       const urlState = new URLSearchParams(window.location.search);
-      const requestedVariant = urlState.get("variant")?.toUpperCase();
-      let currentVariant = variantNames[requestedVariant] ? requestedVariant : "B3";
       let selectedProjectId = prototypeProjects.some(({ id }) => id === urlState.get("case"))
         ? urlState.get("case")
         : prototypeProjects[0].id;
@@ -1097,8 +781,8 @@
         </span>
       `;
 
-      const proof = (items, className = "proof-list") => `
-        <div class="${className}">
+      const proof = (items) => `
+        <div class="sheet-proof">
           ${items.map(([value, label]) => `
             <span class="proof-item">
               <strong>${esc(value)}</strong>
@@ -1134,56 +818,6 @@
         </div>
       `;
 
-      const caseColumns = (project) => `
-        <article class="reader case-columns" id="case-reader" aria-live="polite" aria-labelledby="case-reader-title">
-          <div class="case-context">
-            <strong>${esc(project.client)}</strong>
-            <span>${esc(project.kind)}</span>
-            <span>${esc(period(project))}</span>
-          </div>
-          <div class="case-main">
-            <h3 id="case-reader-title">${esc(project.title)}</h3>
-            <p class="case-summary">${esc(project.summary)}</p>
-            <div>${caseDetails(project)}</div>
-          </div>
-          <aside class="case-evidence" aria-label="Evidence and technologies">
-            <div>
-              <h4 class="rail-heading">Evidence</h4>
-              ${proof(project.proof)}
-            </div>
-            <div class="technology-group">
-              <h4 class="rail-heading">Technologies</h4>
-              ${tags(project.stack)}
-            </div>
-          </aside>
-        </article>
-      `;
-
-      const resumeEntry = (project) => `
-        <article class="reader resume-entry" id="case-reader" aria-live="polite" aria-labelledby="case-reader-title">
-          <header class="resume-entry-head">
-            <h3>${esc(project.client)}</h3>
-            <span class="resume-entry-kind">${esc(project.personal ? "In the lab" : project.kind)}</span>
-            <span class="resume-entry-date">${esc(period(project))}</span>
-          </header>
-          <p class="resume-entry-summary">${esc(project.summary)}</p>
-          <div class="resume-project-title">
-            <span id="case-reader-title">${esc(project.title)}</span>
-            <span class="tag">${esc(project.stack[0])}</span>
-          </div>
-          <ul class="resume-bullets">
-            ${Object.entries(project.details).map(([key, value]) => `
-              <li><strong>${detailLabels[key]}:</strong> ${esc(value)}</li>
-            `).join("")}
-          </ul>
-          <div class="resume-evidence">
-            ${project.proof.map(([value, label]) => `<span><strong>${esc(value)}</strong> ${esc(label)}</span>`).join("")}
-          </div>
-          <div class="resume-technologies">
-            ${project.stack.map((item) => `<span class="resume-technology">${esc(item)}</span>`).join("")}
-          </div>
-        </article>
-      `;
 
       const evidenceSheet = (project) => `
         <article class="reader case-sheet" id="case-reader" aria-live="polite" aria-labelledby="case-reader-title">
@@ -1198,7 +832,7 @@
               <p>${esc(project.summary)}</p>
             </div>
           </header>
-          ${proof(project.proof, "sheet-proof")}
+          ${proof(project.proof)}
           <div class="sheet-details">${caseDetails(project)}</div>
           <footer class="sheet-footer">
             <strong>Technologies</strong>
@@ -1207,54 +841,21 @@
         </article>
       `;
 
-      const pages = {
-        B3: () => workShell(
-          "The B3 structure, redrawn in the resume’s visual language: context, narrative, and evidence stay in parallel columns.",
-          caseColumns(selectedProject())
-        ),
-        B4: () => workShell(
-          "The selected case reads like an expanded resume entry, keeping the familiar timeline, project marker, bullets, and inline evidence.",
-          resumeEntry(selectedProject())
-        ),
-        B5: () => workShell(
-          "The same tabbed desk with outcomes promoted into a compact strip before the case breakdown.",
-          evidenceSheet(selectedProject())
-        )
-      };
-
-      const prototypeSwitcher = () => {
-        const state = `${variantNames[currentVariant]}: ${selectedProject().title}`;
-        return `
-          <aside class="prototype-switcher" aria-label="Prototype variants">
-            <button type="button" data-variant-step="-1" aria-label="Previous variant">&#8592;</button>
-            <output aria-live="polite">
-              <strong>${currentVariant}</strong>
-              <span title="${esc(state)}">${esc(state)}</span>
-            </output>
-            <button type="button" data-variant-step="1" aria-label="Next variant">&#8594;</button>
-          </aside>
-        `;
-      };
 
       const updateUrl = () => {
         const url = new URL(window.location.href);
-        url.searchParams.set("variant", currentVariant);
+        url.searchParams.delete("variant");
         url.searchParams.set("case", selectedProjectId);
         window.history.replaceState(null, "", url);
       };
 
       const render = () => {
-        document.body.dataset.variant = currentVariant;
-        app.innerHTML = `${pages[currentVariant]()}${prototypeSwitcher()}`;
+        app.innerHTML = workShell(
+          "Outcomes first, followed by the problem, ownership, technical decisions, and result.",
+          evidenceSheet(selectedProject())
+        );
       };
 
-      const changeVariant = (step) => {
-        const currentIndex = variantKeys.indexOf(currentVariant);
-        currentVariant = variantKeys[(currentIndex + step + variantKeys.length) % variantKeys.length];
-        updateUrl();
-        render();
-        window.scrollTo(0, 0);
-      };
 
       const changeCase = (projectId) => {
         selectedProjectId = projectId;
@@ -1264,15 +865,6 @@
       };
 
       app.addEventListener("click", (event) => {
-        const variantButton = event.target.closest("[data-variant-step]");
-
-        if (variantButton) {
-          const step = Number(variantButton.dataset.variantStep);
-          changeVariant(step);
-          document.querySelector(`[data-variant-step="${step}"]`)?.focus();
-          return;
-        }
-
         const caseButton = event.target.closest("[data-case]");
         if (caseButton) changeCase(caseButton.dataset.case);
       });
@@ -1286,11 +878,6 @@
           event.target.closest("input, textarea, [contenteditable]")
         ) return;
 
-        if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
-          event.preventDefault();
-          changeVariant(event.key === "ArrowLeft" ? -1 : 1);
-          return;
-        }
 
         if (event.key === "ArrowUp" || event.key === "ArrowDown") {
           const currentIndex = prototypeProjects.findIndex(({ id }) => id === selectedProjectId);
