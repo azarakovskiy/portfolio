@@ -7,7 +7,7 @@
     <meta name="color-scheme" content="light" />
     <title>Alexey Zarakovskiy — Senior backend engineer</title>
     <!-- Scroll-first visual prototype: all work is readable without JavaScript or reveal controls. -->
-    <link rel="stylesheet" href="styles.prototype.css?revision=availability" />
+    <link rel="stylesheet" href="styles.prototype.css?revision=customer-rail" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -54,160 +54,204 @@
       <section class="projects-section" id="projects" aria-labelledby="projects-title">
         <div class="container">
           <h2 class="route" id="projects-title">/projects</h2>
-          <div class="project-list">
-          <article class="project" id="anonymous-by-design" aria-labelledby="anonymous-by-design-title">
-            <header class="project-heading">
-              <div class="project-meta">
-                <strong>Personio</strong>
-                <span>Product launch</span>
-                <span>2023 – 2025</span>
-              </div>
-              <h3 class="project-title" id="anonymous-by-design-title">Anonymous by design</h3>
-              <p class="project-summary">An EU-compliant whistleblowing service built around anonymous reporting and isolated infrastructure.</p>
-            </header>
-            <div class="project-body">
-              <dl class="project-proof">
-                <div class="proof-item"><dt>soon after release</dt><dd>€1M ARR</dd></div>
-                <div class="proof-item"><dt>service uptime</dt><dd>99.92%</dd></div>
-                <div class="proof-item"><dt>p99 latency</dt><dd>&lt;200ms</dd></div>
-              </dl>
-              <div class="project-details">
-                <section class="project-detail"><h4>The problem</h4><p>Protect reporter anonymity while isolating the service for regulatory and operational reasons.</p></section>
-                <section class="project-detail"><h4>My ownership</h4><p>I co-architected the service, started the Go codebase and AWS CDK infrastructure, then led a three-engineer maintenance team after launch.</p></section>
-                <section class="project-detail"><h4>Technical decisions</h4><p>I designed dual-AWS isolation and anonymous authentication. I set up automated testing with Docker Testcontainers and Datadog synthetic monitoring.</p></section>
-                <section class="project-detail"><h4>Result</h4><p>Soon after release, the service generated approximately €1M ARR, reached 99.92% uptime, kept p99 latency below 200ms, and resolved 14 critical security vulnerabilities.</p></section>
-              </div>
-              <footer class="project-footer">
-                <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Golang</li><li>AWS CDK</li><li>Kubernetes</li><li>Datadog</li></ul></div>
-              </footer>
-            </div>
-          </article>
+          <div class="customer-list">
+            <section class="customer-group" id="personio" aria-labelledby="personio-title">
+              <header class="customer-heading">
+                <div class="customer-identity">
+                  <h3 class="customer-title" id="personio-title">Personio</h3>
+                  <p class="customer-summary">Anonymous reporting and reliable survey data.</p>
+                </div>
+                <div class="customer-meta">
+                  <p class="customer-period">2023 – 2025</p>
+                  <p class="customer-count">2 projects</p>
+                </div>
+              </header>
+              <div class="customer-projects">
+                <article class="project" id="anonymous-by-design" aria-labelledby="anonymous-by-design-title">
+                  <header class="project-heading">
+                    <div class="project-meta">
+                      <span>Product launch</span>
+                    </div>
+                    <h4 class="project-title" id="anonymous-by-design-title">Anonymous by design</h4>
+                    <p class="project-summary">An EU-compliant whistleblowing service built around anonymous reporting and isolated infrastructure.</p>
+                  </header>
+                  <div class="project-body">
+                    <dl class="project-proof">
+                      <div class="proof-item"><dt>soon after release</dt><dd>€1M ARR</dd></div>
+                      <div class="proof-item"><dt>service uptime</dt><dd>99.92%</dd></div>
+                      <div class="proof-item"><dt>p99 latency</dt><dd>&lt;200ms</dd></div>
+                    </dl>
+                    <div class="project-details">
+                      <section class="project-detail"><h5>The problem</h5><p>Protect reporter anonymity while isolating the service for regulatory and operational reasons.</p></section>
+                      <section class="project-detail"><h5>My ownership</h5><p>I co-architected the service, started the Go codebase and AWS CDK infrastructure, then led a three-engineer maintenance team after launch.</p></section>
+                      <section class="project-detail"><h5>Technical decisions</h5><p>I designed dual-AWS isolation and anonymous authentication. I set up automated testing with Docker Testcontainers and Datadog synthetic monitoring.</p></section>
+                      <section class="project-detail"><h5>Result</h5><p>Soon after release, the service generated approximately €1M ARR, reached 99.92% uptime, kept p99 latency below 200ms, and resolved 14 critical security vulnerabilities.</p></section>
+                    </div>
+                    <footer class="project-footer">
+                      <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Golang</li><li>AWS CDK</li><li>Kubernetes</li><li>Datadog</li></ul></div>
+                    </footer>
+                  </div>
+                </article>
 
-          <article class="project" id="survey-migration" aria-labelledby="survey-migration-title">
-            <header class="project-heading">
-              <div class="project-meta">
-                <strong>Personio</strong>
-                <span>Data reliability</span>
-                <span>2023 – 2025</span>
+                <article class="project" id="survey-migration" aria-labelledby="survey-migration-title">
+                  <header class="project-heading">
+                    <div class="project-meta">
+                      <span>Data reliability</span>
+                    </div>
+                    <h4 class="project-title" id="survey-migration-title">24 GB, zero downtime</h4>
+                    <p class="project-summary">A user-data snapshot tool and zero-downtime migration reduced P99 latency across 14 endpoints.</p>
+                  </header>
+                  <div class="project-body">
+                    <dl class="project-proof">
+                      <div class="proof-item"><dt>migrated live</dt><dd>24 GB</dd></div>
+                      <div class="proof-item"><dt>P99 latency</dt><dd>600ms to &lt;300ms</dd></div>
+                      <div class="proof-item"><dt>endpoints improved</dt><dd>14</dd></div>
+                    </dl>
+                    <div class="project-details">
+                      <section class="project-detail"><h5>The problem</h5><p>Stop user-data snapshots from driving exponential database growth while keeping a large production dataset available.</p></section>
+                      <section class="project-detail"><h5>My ownership</h5><p>I led the investigation, designed the snapshot approach, and owned the zero-downtime migration.</p></section>
+                      <section class="project-detail"><h5>Technical decisions</h5><p>I changed the data shape and optimized PostgreSQL indexes and schema across the affected API surface.</p></section>
+                      <section class="project-detail"><h5>Result</h5><p>I migrated 24GB without downtime and reduced P99 latency from 600ms to below 300ms across 14 endpoints.</p></section>
+                    </div>
+                    <footer class="project-footer">
+                      <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Kotlin</li><li>PostgreSQL</li><li>Kafka</li><li>React</li></ul></div>
+                    </footer>
+                  </div>
+                </article>
               </div>
-              <h3 class="project-title" id="survey-migration-title">24 GB, zero downtime</h3>
-              <p class="project-summary">A user-data snapshot tool and zero-downtime migration reduced P99 latency across 14 endpoints.</p>
-            </header>
-            <div class="project-body">
-              <dl class="project-proof">
-                <div class="proof-item"><dt>migrated live</dt><dd>24 GB</dd></div>
-                <div class="proof-item"><dt>P99 latency</dt><dd>600ms to &lt;300ms</dd></div>
-                <div class="proof-item"><dt>endpoints improved</dt><dd>14</dd></div>
-              </dl>
-              <div class="project-details">
-                <section class="project-detail"><h4>The problem</h4><p>Stop user-data snapshots from driving exponential database growth while keeping a large production dataset available.</p></section>
-                <section class="project-detail"><h4>My ownership</h4><p>I led the investigation, designed the snapshot approach, and owned the zero-downtime migration.</p></section>
-                <section class="project-detail"><h4>Technical decisions</h4><p>I changed the data shape and optimized PostgreSQL indexes and schema across the affected API surface.</p></section>
-                <section class="project-detail"><h4>Result</h4><p>I migrated 24GB without downtime and reduced P99 latency from 600ms to below 300ms across 14 endpoints.</p></section>
-              </div>
-              <footer class="project-footer">
-                <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Kotlin</li><li>PostgreSQL</li><li>Kafka</li><li>React</li></ul></div>
-              </footer>
-            </div>
-          </article>
+            </section>
 
-          <article class="project" id="gateway-migration" aria-labelledby="gateway-migration-title">
-            <header class="project-heading">
-              <div class="project-meta">
-                <strong>BEAT / FREENOW</strong>
-                <span>Migration</span>
-                <span>2019 – 2023</span>
-              </div>
-              <h3 class="project-title" id="gateway-migration-title">API gateway migration</h3>
-              <p class="project-summary">Routing and authentication moved out of a monolith while the old and new paths ran in parallel.</p>
-            </header>
-            <div class="project-body">
-              <dl class="project-proof">
-                <div class="proof-item"><dt>gateway throughput</dt><dd>10k+ RPS</dd></div>
-                <div class="proof-item"><dt>parallel paths</dt><dd>6 to 12 months</dd></div>
-                <div class="proof-item"><dt>authorization adopted</dt><dd>7 teams</dd></div>
-              </dl>
-              <div class="project-details">
-                <section class="project-detail"><h4>The problem</h4><p>Replace routing and authentication in a live ride-hailing platform without one high-risk cutover.</p></section>
-                <section class="project-detail"><h4>My ownership</h4><p>I helped form the four-engineer team, built the gateway and authentication path, and contributed to the migration strategy.</p></section>
-                <section class="project-detail"><h4>Technical decisions</h4><p>I used custom Kubernetes CRDs, Helm-based service discovery, a DynamoDB-backed authentication service, and a Redis idempotency guard.</p></section>
-                <section class="project-detail"><h4>Result</h4><p>The live migration removed the corresponding monolith functionality, and seven teams adopted the shared authorization library.</p></section>
-              </div>
-              <footer class="project-footer">
-                <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Golang</li><li>Kubernetes</li><li>DynamoDB</li><li>Redis</li></ul></div>
-                <a class="project-source" href="https://github.com/zalando/skipper/pull/2048">Public contribution: Kubernetes label filters in Skipper</a>
-              </footer>
-            </div>
-          </article>
+            <section class="customer-group" id="beat-freenow" aria-labelledby="beat-freenow-title">
+              <header class="customer-heading">
+                <div class="customer-identity">
+                  <h3 class="customer-title" id="beat-freenow-title">BEAT / FREENOW</h3>
+                  <p class="customer-summary">Routing, authentication and pricing for a ride-hailing platform.</p>
+                </div>
+                <div class="customer-meta">
+                  <p class="customer-period">2019 – 2023</p>
+                  <p class="customer-count">2 projects</p>
+                </div>
+              </header>
+              <div class="customer-projects">
+                <article class="project" id="gateway-migration" aria-labelledby="gateway-migration-title">
+                  <header class="project-heading">
+                    <div class="project-meta">
+                      <span>Migration</span>
+                    </div>
+                    <h4 class="project-title" id="gateway-migration-title">API gateway migration</h4>
+                    <p class="project-summary">Routing and authentication moved out of a monolith while the old and new paths ran in parallel.</p>
+                  </header>
+                  <div class="project-body">
+                    <dl class="project-proof">
+                      <div class="proof-item"><dt>gateway throughput</dt><dd>10k+ RPS</dd></div>
+                      <div class="proof-item"><dt>parallel paths</dt><dd>6 to 12 months</dd></div>
+                      <div class="proof-item"><dt>authorization adopted</dt><dd>7 teams</dd></div>
+                    </dl>
+                    <div class="project-details">
+                      <section class="project-detail"><h5>The problem</h5><p>Replace routing and authentication in a live ride-hailing platform without one high-risk cutover.</p></section>
+                      <section class="project-detail"><h5>My ownership</h5><p>I helped form the four-engineer team, built the gateway and authentication path, and contributed to the migration strategy.</p></section>
+                      <section class="project-detail"><h5>Technical decisions</h5><p>I used custom Kubernetes CRDs, Helm-based service discovery, a DynamoDB-backed authentication service, and a Redis idempotency guard.</p></section>
+                      <section class="project-detail"><h5>Result</h5><p>The live migration removed the corresponding monolith functionality, and seven teams adopted the shared authorization library.</p></section>
+                    </div>
+                    <footer class="project-footer">
+                      <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Golang</li><li>Kubernetes</li><li>DynamoDB</li><li>Redis</li></ul></div>
+                      <a class="project-source" href="https://github.com/zalando/skipper/pull/2048">Public contribution: Kubernetes label filters in Skipper</a>
+                    </footer>
+                  </div>
+                </article>
 
-          <article class="project" id="pricing-engine" aria-labelledby="pricing-engine-title">
-            <header class="project-heading">
-              <div class="project-meta">
-                <strong>BEAT / FREENOW</strong>
-                <span>Platform evolution</span>
-                <span>2019 – 2023</span>
+                <article class="project" id="pricing-engine" aria-labelledby="pricing-engine-title">
+                  <header class="project-heading">
+                    <div class="project-meta">
+                      <span>Platform evolution</span>
+                    </div>
+                    <h4 class="project-title" id="pricing-engine-title">Pricing engine extraction</h4>
+                    <p class="project-summary">I led the extraction of the core pricing engine from a monolith into Go services with dynamic, incentive-driven geo-pricing.</p>
+                  </header>
+                  <div class="project-body">
+                    <div class="project-details">
+                      <section class="project-detail"><h5>The problem</h5><p>Move a core pricing capability out of the monolith without leaving it as the permanent owner of every market decision.</p></section>
+                      <section class="project-detail"><h5>My ownership</h5><p>I led the pricing-service extraction and worked with the wider mobility platform around the new service boundary.</p></section>
+                      <section class="project-detail"><h5>Technical decisions</h5><p>I introduced dynamic, incentive-driven pricing based on hexagonal geo-zones and kept the pricing logic independently deployable.</p></section>
+                      <section class="project-detail"><h5>Result</h5><p>The separate Go pricing capability could respond to supply and demand across markets without expanding the original monolith.</p></section>
+                    </div>
+                    <footer class="project-footer">
+                      <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Golang</li><li>Kafka</li><li>gRPC</li><li>AWS</li></ul></div>
+                    </footer>
+                  </div>
+                </article>
               </div>
-              <h3 class="project-title" id="pricing-engine-title">Pricing engine extraction</h3>
-              <p class="project-summary">I led the extraction of the core pricing engine from a monolith into Go services with dynamic, incentive-driven geo-pricing.</p>
-            </header>
-            <div class="project-body">
-              <div class="project-details">
-                <section class="project-detail"><h4>The problem</h4><p>Move a core pricing capability out of the monolith without leaving it as the permanent owner of every market decision.</p></section>
-                <section class="project-detail"><h4>My ownership</h4><p>I led the pricing-service extraction and worked with the wider mobility platform around the new service boundary.</p></section>
-                <section class="project-detail"><h4>Technical decisions</h4><p>I introduced dynamic, incentive-driven pricing based on hexagonal geo-zones and kept the pricing logic independently deployable.</p></section>
-                <section class="project-detail"><h4>Result</h4><p>The separate Go pricing capability could respond to supply and demand across markets without expanding the original monolith.</p></section>
-              </div>
-              <footer class="project-footer">
-                <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Golang</li><li>Kafka</li><li>gRPC</li><li>AWS</li></ul></div>
-              </footer>
-            </div>
-          </article>
+            </section>
 
-          <article class="project" id="messy-data" aria-labelledby="messy-data-title">
-            <header class="project-heading">
-              <div class="project-meta">
-                <strong>fashionTrade</strong>
-                <span>Data integration</span>
-                <span>2018 – 2019</span>
+            <section class="customer-group" id="fashiontrade" aria-labelledby="fashiontrade-title">
+              <header class="customer-heading">
+                <div class="customer-identity">
+                  <h3 class="customer-title" id="fashiontrade-title">fashionTrade</h3>
+                  <p class="customer-summary">Wholesaler data integration and enrichment.</p>
+                </div>
+                <div class="customer-meta">
+                  <p class="customer-period">2018 – 2019</p>
+                  <p class="customer-count">1 project</p>
+                </div>
+              </header>
+              <div class="customer-projects">
+                <article class="project" id="messy-data" aria-labelledby="messy-data-title">
+                  <header class="project-heading">
+                    <div class="project-meta">
+                      <span>Data integration</span>
+                    </div>
+                    <h4 class="project-title" id="messy-data-title">Wholesaler data integration with fuzzy matching</h4>
+                    <p class="project-summary">A distributed integration API handled wholesaler data with fuzzy matching and asynchronous enrichment.</p>
+                  </header>
+                  <div class="project-body">
+                    <div class="project-details">
+                      <section class="project-detail"><h5>The problem</h5><p>Normalize inconsistent data from hundreds of fashion wholesalers without turning each integration into a manual project.</p></section>
+                      <section class="project-detail"><h5>My ownership</h5><p>I led the distributed data-integration API and its matching and enrichment flow.</p></section>
+                      <section class="project-detail"><h5>Technical decisions</h5><p>I combined Elasticsearch fuzzy matching with asynchronous Kafka pipelines and explicit race-condition handling.</p></section>
+                      <section class="project-detail"><h5>Result</h5><p>The service ingested, disambiguated, enriched, and mapped wholesaler data onto the master dataset through a repeatable flow.</p></section>
+                    </div>
+                    <footer class="project-footer">
+                      <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Java</li><li>Elasticsearch</li><li>Kafka</li><li>GCP</li></ul></div>
+                    </footer>
+                  </div>
+                </article>
               </div>
-              <h3 class="project-title" id="messy-data-title">Wholesaler data integration with fuzzy matching</h3>
-              <p class="project-summary">A distributed integration API handled wholesaler data with fuzzy matching and asynchronous enrichment.</p>
-            </header>
-            <div class="project-body">
-              <div class="project-details">
-                <section class="project-detail"><h4>The problem</h4><p>Normalize inconsistent data from hundreds of fashion wholesalers without turning each integration into a manual project.</p></section>
-                <section class="project-detail"><h4>My ownership</h4><p>I led the distributed data-integration API and its matching and enrichment flow.</p></section>
-                <section class="project-detail"><h4>Technical decisions</h4><p>I combined Elasticsearch fuzzy matching with asynchronous Kafka pipelines and explicit race-condition handling.</p></section>
-                <section class="project-detail"><h4>Result</h4><p>The service ingested, disambiguated, enriched, and mapped wholesaler data onto the master dataset through a repeatable flow.</p></section>
-              </div>
-              <footer class="project-footer">
-                <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Java</li><li>Elasticsearch</li><li>Kafka</li><li>GCP</li></ul></div>
-              </footer>
-            </div>
-          </article>
+            </section>
 
-          <article class="project" id="developer-accelerator" aria-labelledby="developer-accelerator-title">
-            <header class="project-heading">
-              <div class="project-meta">
-                <strong>SDL Web</strong>
-                <span>Open source</span>
-                <span>2015 – 2018</span>
+            <section class="customer-group" id="sdl-web" aria-labelledby="sdl-web-title">
+              <header class="customer-heading">
+                <div class="customer-identity">
+                  <h3 class="customer-title" id="sdl-web-title">SDL Web</h3>
+                  <p class="customer-summary">Java integrations for an enterprise content management system.</p>
+                </div>
+                <div class="customer-meta">
+                  <p class="customer-period">2015 – 2018</p>
+                  <p class="customer-count">1 project</p>
+                </div>
+              </header>
+              <div class="customer-projects">
+                <article class="project" id="developer-accelerator" aria-labelledby="developer-accelerator-title">
+                  <header class="project-heading">
+                    <div class="project-meta">
+                      <span>Open source</span>
+                    </div>
+                    <h4 class="project-title" id="developer-accelerator-title">Java CMS integration framework</h4>
+                    <p class="project-summary">A Java framework for integrating customer models with an open-source enterprise CMS.</p>
+                  </header>
+                  <div class="project-body">
+                    <div class="project-details">
+                      <section class="project-detail"><h5>The problem</h5><p>Reduce repeated implementation work when connecting customer models to an enterprise CMS.</p></section>
+                      <section class="project-detail"><h5>My ownership</h5><p>I led development of the Java framework and reviewed and integrated community contributions.</p></section>
+                      <section class="project-detail"><h5>Technical decisions</h5><p>I implemented reflection-based dynamic model mapping and maintained the adapter framework alongside customer needs.</p></section>
+                      <section class="project-detail"><h5>Result</h5><p>The framework gave customers a shorter, more repeatable path to integrations around the open-source CMS.</p></section>
+                    </div>
+                    <footer class="project-footer">
+                      <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Java</li><li>Spring</li><li>Gradle</li><li>OSS</li></ul></div>
+                    </footer>
+                  </div>
+                </article>
               </div>
-              <h3 class="project-title" id="developer-accelerator-title">Java CMS integration framework</h3>
-              <p class="project-summary">A Java framework for integrating customer models with an open-source enterprise CMS.</p>
-            </header>
-            <div class="project-body">
-              <div class="project-details">
-                <section class="project-detail"><h4>The problem</h4><p>Reduce repeated implementation work when connecting customer models to an enterprise CMS.</p></section>
-                <section class="project-detail"><h4>My ownership</h4><p>I led development of the Java framework and reviewed and integrated community contributions.</p></section>
-                <section class="project-detail"><h4>Technical decisions</h4><p>I implemented reflection-based dynamic model mapping and maintained the adapter framework alongside customer needs.</p></section>
-                <section class="project-detail"><h4>Result</h4><p>The framework gave customers a shorter, more repeatable path to integrations around the open-source CMS.</p></section>
-              </div>
-              <footer class="project-footer">
-                <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Java</li><li>Spring</li><li>Gradle</li><li>OSS</li></ul></div>
-              </footer>
-            </div>
-          </article>
+            </section>
           </div>
         </div>
       </section>
