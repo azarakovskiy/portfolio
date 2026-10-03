@@ -3,901 +3,248 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Freelance software developer portfolio for Alexey Zarakovskiy, covering backend, platform, full-stack, and production engineering work."
-    />
+    <meta name="description" content="Alexey Zarakovskiy, senior backend engineer. Selected work in backend services, platform engineering, live migrations and full-stack development." />
     <meta name="color-scheme" content="light" />
-    <title>Alexey Zarakovskiy — Senior software engineer</title>
-    <style>
-      /*
-       * LOCKED PROTOTYPE DIRECTION
-       * Verdict: B5, the resume-native evidence sheet.
-       * The explored B3/B4/B5 variants remain in this branch's history.
-       */
-      :root {
-        color-scheme: light;
-        --ink: #11181c;
-        --ink-soft: #3c4752;
-        --ink-faint: #7b8794;
-        --rule: #dce3e2;
-        --accent: #059669;
-        --accent-dark: #065f46;
-        --accent-soft: #d1fae5;
-        --surface: #ffffff;
-        --canvas: #f4f5f7;
-        --sans:
-          "Liberation Sans", "Helvetica Neue", Arial, "DejaVu Sans", sans-serif;
-        --mono: "Liberation Mono", "Courier New", monospace;
-      }
-
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
-      body {
-        min-width: 320px;
-        margin: 0;
-        background: var(--canvas);
-        color: var(--ink);
-        font-family: var(--sans);
-        font-size: 13px;
-        line-height: 1.5;
-        text-rendering: optimizeLegibility;
-      }
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      a:hover {
-        color: var(--accent-dark);
-      }
-
-      button {
-        font: inherit;
-      }
-
-      a:focus-visible,
-      button:focus-visible {
-        outline: 3px solid var(--accent);
-        outline-offset: 3px;
-      }
-
-      ::selection {
-        background: var(--accent-soft);
-        color: var(--ink);
-      }
-
-      .page {
-        width: min(1040px, 100%);
-        min-height: 100vh;
-        margin: 0 auto;
-        padding: 48px 38px 70px;
-        background: var(--surface);
-      }
-
-      .identity-name {
-        margin: 0 0 5px;
-        font-size: 34px;
-        font-weight: 700;
-        letter-spacing: -0.015em;
-        line-height: 1.1;
-      }
-
-      .identity-tagline {
-        margin: 0 0 11px;
-        color: var(--ink-soft);
-        font-size: 15px;
-      }
-
-      .contact-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 4px 20px;
-        color: var(--ink-soft);
-        font-size: 12.5px;
-      }
-
-      .contact-list > span {
-        white-space: nowrap;
-      }
-
-      .contact-label {
-        margin-right: 3px;
-        color: var(--ink-faint);
-        font-family: var(--mono);
-        font-size: 10.5px;
-        letter-spacing: 0.07em;
-        text-transform: uppercase;
-      }
-
-      .section {
-        margin-top: 25px;
-      }
-
-      .route {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 14px;
-        color: var(--accent-dark);
-        font-family: var(--mono);
-        font-size: 11.5px;
-        letter-spacing: 0.02em;
-      }
-
-      .route::after {
-        height: 1px;
-        background: var(--rule);
-        content: "";
-        flex: 1;
-      }
-
-      .profile-row {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
-        align-items: start;
-        gap: 28px;
-      }
-
-      .profile-copy {
-        max-width: 76ch;
-        margin: 0;
-        color: var(--ink-soft);
-        font-size: 13.5px;
-      }
-
-      .availability {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        white-space: nowrap;
-        color: var(--ink-soft);
-        font-size: 12px;
-      }
-
-      .availability::before {
-        width: 8px;
-        height: 8px;
-        border: 2px solid var(--accent);
-        border-radius: 50%;
-        background: var(--surface);
-        content: "";
-        flex: none;
-      }
-
-      .work-heading {
-        display: grid;
-        grid-template-columns: minmax(220px, 0.72fr) minmax(320px, 1.28fr);
-        align-items: end;
-        gap: 34px;
-        margin-bottom: 17px;
-      }
-
-      .work-heading h2 {
-        margin: 0;
-        font-size: 21px;
-        line-height: 1.15;
-      }
-
-      .work-heading p {
-        max-width: 66ch;
-        margin: 0;
-        color: var(--ink-soft);
-        font-size: 12.5px;
-      }
-
-      .project-tabs {
-        display: grid;
-        grid-template-columns: repeat(7, minmax(0, 1fr));
-        border-top: 1px solid var(--rule);
-        border-left: 1px solid var(--rule);
-      }
-
-      .project-tab {
-        display: grid;
-        align-content: space-between;
-        gap: 15px;
-        min-width: 0;
-        min-height: 112px;
-        padding: 12px 11px 13px;
-        border: 0;
-        border-right: 1px solid var(--rule);
-        border-bottom: 1px solid var(--rule);
-        background: var(--surface);
-        color: inherit;
-        cursor: pointer;
-        text-align: left;
-      }
-
-      .project-tab:hover {
-        background: color-mix(in srgb, var(--accent-soft) 38%, var(--surface));
-      }
-
-      .project-tab[aria-pressed="true"] {
-        background: var(--accent-soft);
-        box-shadow: inset 0 -3px 0 var(--accent);
-      }
-
-      .project-tab-period {
-        color: var(--ink-faint);
-        font-family: var(--mono);
-        font-size: 9.5px;
-        white-space: nowrap;
-      }
-
-      .project-tab-copy {
-        display: grid;
-        gap: 3px;
-      }
-
-      .project-tab-title {
-        font-size: 12.5px;
-        font-weight: 700;
-        line-height: 1.2;
-      }
-
-      .project-tab-client {
-        color: var(--ink-faint);
-        font-size: 10.5px;
-        line-height: 1.25;
-      }
-
-      .reader {
-        scroll-margin-top: 20px;
-      }
-
-
-      .case-detail {
-        display: grid;
-        grid-template-columns: 112px minmax(0, 1fr);
-        gap: 18px;
-        padding: 14px 0 15px;
-        border-top: 1px solid var(--rule);
-      }
-
-      .case-detail h4 {
-        margin: 1px 0 0;
-        color: var(--ink-faint);
-        font-family: var(--mono);
-        font-size: 9.5px;
-        font-weight: 500;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-      }
-
-      .case-detail p {
-        margin: 0;
-        color: var(--ink-soft);
-        font-size: 12.5px;
-      }
-
-
-      .proof-item {
-        display: grid;
-        gap: 1px;
-        color: var(--ink-soft);
-        font-size: 10.5px;
-      }
-
-      .proof-item strong {
-        color: var(--ink);
-        font-family: var(--mono);
-        font-size: 13px;
-      }
-
-
-      .tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5px;
-      }
-
-      .tag {
-        padding: 3px 7px;
-        border: 1px solid var(--rule);
-        border-radius: 3px;
-        background: var(--surface);
-        color: var(--ink-soft);
-        font-size: 10.5px;
-        font-weight: 500;
-        line-height: 1.3;
-      }
-
-
-      .case-sheet {
-        margin-top: 32px;
-        border: 1px solid var(--rule);
-      }
-
-      .case-sheet-head {
-        display: grid;
-        grid-template-columns: 150px minmax(0, 1fr);
-        gap: 28px;
-        padding: 21px 22px 20px;
-        border-bottom: 1px solid var(--rule);
-      }
-
-      .sheet-meta {
-        display: grid;
-        align-content: start;
-        gap: 4px;
-        color: var(--ink-faint);
-        font-family: var(--mono);
-        font-size: 10.5px;
-      }
-
-      .sheet-meta strong {
-        color: var(--ink);
-        font-family: var(--sans);
-        font-size: 13.5px;
-      }
-
-      .sheet-title h3 {
-        margin: 0;
-        font-size: 25px;
-        letter-spacing: -0.012em;
-        line-height: 1.1;
-      }
-
-      .sheet-title p {
-        max-width: 68ch;
-        margin: 7px 0 0;
-        color: var(--ink-soft);
-        font-size: 12.5px;
-      }
-
-      .sheet-proof {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        border-bottom: 1px solid var(--rule);
-        background: color-mix(in srgb, var(--accent-soft) 24%, var(--surface));
-      }
-
-      .sheet-proof .proof-item {
-        min-height: 70px;
-        padding: 14px 22px;
-        border-right: 1px solid var(--rule);
-      }
-
-      .sheet-proof .proof-item:last-child {
-        border-right: 0;
-      }
-
-      .sheet-proof .proof-item strong {
-        color: var(--accent-dark);
-        font-size: 14px;
-      }
-
-      .sheet-details {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .sheet-details .case-detail {
-        display: block;
-        min-height: 142px;
-        padding: 19px 22px 21px;
-        border-top: 0;
-        border-right: 1px solid var(--rule);
-        border-bottom: 1px solid var(--rule);
-      }
-
-      .sheet-details .case-detail:nth-child(even) {
-        border-right: 0;
-      }
-
-      .sheet-details .case-detail:nth-last-child(-n + 2) {
-        border-bottom: 0;
-      }
-
-      .sheet-details .case-detail h4 {
-        margin: 0 0 8px;
-      }
-
-      .sheet-footer {
-        display: grid;
-        grid-template-columns: 150px minmax(0, 1fr);
-        gap: 28px;
-        padding: 14px 22px 15px;
-        border-top: 1px solid var(--rule);
-      }
-
-      .sheet-footer strong {
-        color: var(--ink-faint);
-        font-family: var(--mono);
-        font-size: 9.5px;
-        font-weight: 500;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-      }
-
-      .footer {
-        margin-top: 38px;
-      }
-
-      .footer p {
-        margin: 0;
-        color: var(--ink-soft);
-        font-size: 12.5px;
-      }
-
-      .footer a {
-        border-bottom: 1px solid currentColor;
-        color: var(--accent-dark);
-        font-weight: 600;
-      }
-
-
-      @media (max-width: 860px) {
-        .page {
-          padding-right: 28px;
-          padding-left: 28px;
-        }
-
-        .project-tabs {
-          grid-auto-columns: minmax(150px, 1fr);
-          grid-auto-flow: column;
-          grid-template-columns: none;
-          overflow-x: auto;
-        }
-
-      }
-
-      @media (max-width: 640px) {
-        body {
-          background: var(--surface);
-        }
-
-        .page {
-          padding: 29px 18px 56px;
-        }
-
-        .identity-name {
-          font-size: 27px;
-        }
-
-        .identity-tagline {
-          font-size: 14px;
-        }
-
-        .contact-list {
-          display: grid;
-          gap: 3px;
-          font-size: 12px;
-        }
-
-        .profile-row,
-        .work-heading,
-        .case-sheet-head,
-        .sheet-footer {
-          grid-template-columns: 1fr;
-        }
-
-        .profile-row,
-        .work-heading {
-          gap: 10px;
-        }
-
-        .availability {
-          white-space: normal;
-        }
-
-        .project-tabs {
-          grid-auto-columns: 164px;
-        }
-
-        .project-tab {
-          min-height: 102px;
-        }
-
-
-        .case-sheet-head,
-        .sheet-footer {
-          gap: 10px;
-        }
-
-        .sheet-proof,
-        .sheet-details {
-          grid-template-columns: 1fr;
-        }
-
-        .sheet-proof .proof-item,
-        .sheet-proof .proof-item:last-child {
-          min-height: 0;
-          border-right: 0;
-          border-bottom: 1px solid var(--rule);
-        }
-
-        .sheet-proof .proof-item:last-child {
-          border-bottom: 0;
-        }
-
-        .sheet-details .case-detail,
-        .sheet-details .case-detail:nth-child(even),
-        .sheet-details .case-detail:nth-last-child(-n + 2) {
-          min-height: 0;
-          border-right: 0;
-          border-bottom: 1px solid var(--rule);
-        }
-
-        .sheet-details .case-detail:last-child {
-          border-bottom: 0;
-        }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        html {
-          scroll-behavior: auto;
-        }
-      }
-    </style>
+    <title>Alexey Zarakovskiy — Senior backend engineer</title>
+    <!-- Scroll-first visual prototype: all work is readable without JavaScript or reveal controls. -->
+    <link rel="stylesheet" href="styles.prototype.css?revision=availability" />
   </head>
   <body>
-    <div id="app"></div>
-
-
-    <script>
-      const projects = [
-        {
-          id: "anonymous-by-design",
-          title: "Anonymous by design",
-          client: "Personio",
-          kind: "Product launch",
-          period: "2023 to 2025",
-          summary: "An EU-compliant whistleblowing service built around anonymous reporting and isolated infrastructure.",
-          details: {
-            problem: "Protect reporter anonymity while isolating the service for regulatory and operational reasons.",
-            role: "I co-architected the service, started the Go codebase and AWS CDK infrastructure, then led a three-engineer maintenance team after launch.",
-            decisions: "I designed dual-AWS isolation and anonymous authentication. I set up automated testing with Docker Testcontainers and Datadog synthetic monitoring.",
-            result: "Soon after release, the service generated approximately €1M ARR, reached 99.92% uptime, kept p99 latency below 200ms, and resolved 14 critical security vulnerabilities."
-          },
-          proof: [
-            ["€1M ARR", "soon after release"],
-            ["99.92%", "service uptime"],
-            ["<200ms", "p99 latency"]
-          ],
-          stack: ["Golang", "AWS CDK", "Kubernetes", "Datadog"]
-        },
-        {
-          id: "pricing-engine",
-          title: "Pricing engine extraction",
-          client: "BEAT / FREENOW",
-          kind: "Platform evolution",
-          period: "2019 to 2023",
-          summary: "I led the extraction of the core pricing engine from a monolith into Go services with dynamic, incentive-driven geo-pricing.",
-          details: {
-            problem: "Move a core pricing capability out of the monolith without leaving it as the permanent owner of every market decision.",
-            role: "I led the pricing-service extraction and worked with the wider mobility platform around the new service boundary.",
-            decisions: "I introduced dynamic, incentive-driven pricing based on hexagonal geo-zones and kept the pricing logic independently deployable.",
-            result: "The separate Go pricing capability could respond to supply and demand across markets without expanding the original monolith."
-          },
-          proof: [
-            ["Go", "new service boundary"],
-            ["Geo-zones", "dynamic incentives"],
-            ["Markets", "supply / demand"]
-          ],
-          stack: ["Golang", "Kafka", "gRPC", "AWS"]
-        },
-        {
-          id: "gateway-migration",
-          title: "API gateway migration",
-          client: "BEAT / FREENOW",
-          kind: "Migration",
-          period: "2019 to 2023",
-          summary: "Routing and authentication moved out of a monolith while the old and new paths ran in parallel.",
-          details: {
-            problem: "Replace routing and authentication in a live ride-hailing platform without one high-risk cutover.",
-            role: "I helped form the four-engineer team, built the gateway and authentication path, and contributed to the migration strategy.",
-            decisions: "I used custom Kubernetes CRDs, Helm-based service discovery, a DynamoDB-backed authentication service, and a Redis idempotency guard.",
-            result: "The live migration removed the corresponding monolith functionality, and seven teams adopted the shared authorization library."
-          },
-          proof: [
-            ["10k+ RPS", "gateway throughput"],
-            ["6 to 12 months", "parallel paths"],
-            ["7 teams", "authorization adopted"]
-          ],
-          stack: ["Golang", "Kubernetes", "DynamoDB", "Redis"]
-        },
-        {
-          id: "survey-migration",
-          title: "24 GB, zero downtime",
-          client: "Personio",
-          kind: "Data reliability",
-          period: "2023 to 2025",
-          summary: "A user-data snapshot tool and zero-downtime migration reduced P99 latency across 14 endpoints.",
-          details: {
-            problem: "Stop user-data snapshots from driving exponential database growth while keeping a large production dataset available.",
-            role: "I led the investigation, designed the snapshot approach, and owned the zero-downtime migration.",
-            decisions: "I changed the data shape and optimized PostgreSQL indexes and schema across the affected API surface.",
-            result: "I migrated 24GB without downtime and reduced P99 latency from 600ms to below 300ms across 14 endpoints."
-          },
-          proof: [
-            ["24 GB", "migrated live"],
-            ["600ms to <300ms", "P99 latency"],
-            ["14", "endpoints improved"]
-          ],
-          stack: ["Kotlin", "PostgreSQL", "Kafka", "React"]
-        },
-        {
-          id: "messy-data",
-          title: "Wholesaler data integration with fuzzy matching",
-          client: "fashionTrade",
-          kind: "Data integration",
-          period: "2018 to 2019",
-          summary: "A distributed integration API handled wholesaler data with fuzzy matching and asynchronous enrichment.",
-          details: {
-            problem: "Normalize inconsistent data from hundreds of fashion wholesalers without turning each integration into a manual project.",
-            role: "I led the distributed data-integration API and its matching and enrichment flow.",
-            decisions: "I combined Elasticsearch fuzzy matching with asynchronous Kafka pipelines and explicit race-condition handling.",
-            result: "The service ingested, disambiguated, enriched, and mapped wholesaler data onto the master dataset through a repeatable flow."
-          },
-          proof: [
-            ["Hundreds", "of wholesalers"],
-            ["Fuzzy", "matching + enrichment"],
-            ["Kafka", "race handling"]
-          ],
-          stack: ["Java", "Elasticsearch", "Kafka", "GCP"]
-        },
-        {
-          id: "developer-accelerator",
-          title: "Java CMS integration framework",
-          client: "SDL Web",
-          kind: "Open source",
-          period: "2015 to 2018",
-          summary: "A Java framework for integrating customer models with an open-source enterprise CMS.",
-          details: {
-            problem: "Reduce repeated implementation work when connecting customer models to an enterprise CMS.",
-            role: "I led development of the Java framework and reviewed and integrated community contributions.",
-            decisions: "I implemented reflection-based dynamic model mapping and maintained the adapter framework alongside customer needs.",
-            result: "The framework gave customers a shorter, more repeatable path to integrations around the open-source CMS."
-          },
-          proof: [
-            ["Java", "adapter framework"],
-            ["Dynamic", "model mapping"],
-            ["OSS", "community input"]
-          ],
-          stack: ["Java", "Spring", "Gradle", "OSS"]
-        },
-        {
-          id: "ai-lab",
-          title: "Independent AI tooling experiments",
-          client: "Personal work",
-          kind: "In progress",
-          period: "2026 to now",
-          summary: "A private space for experiments with AI-assisted development, MCP, and developer workflows.",
-          details: {
-            problem: "Test useful, repeatable ways to work with AI tools without presenting experiments as production work.",
-            role: "Independent exploration during a sabbatical focused on personal projects and AI engineering.",
-            decisions: "I am experimenting with OpenAI APIs, MCP, Claude Code, and developer tooling. The public version is not defined yet.",
-            result: "Private and still forming. This slot stays visible so a future public project has a clear home without inventing one now."
-          },
-          proof: [
-            ["MCP", "tool interfaces"],
-            ["LLM APIs", "experiments"],
-            ["Private", "still forming"]
-          ],
-          stack: ["OpenAI API", "MCP", "Claude Code", "Developer tooling"],
-          personal: true
-        }
-      ];
-
-
-      const app = document.querySelector("#app");
-
-      const esc = (value) => String(value).replace(/[&<>"']/g, (character) => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-      })[character]);
-
-      const detailLabels = {
-        problem: "The problem",
-        role: "My ownership",
-        decisions: "Technical decisions",
-        result: "Result"
-      };
-
-      const professionalProjects = projects
-        .filter((project) => !project.personal)
-        .sort((left, right) => right.period.localeCompare(left.period));
-      const personalProjects = projects.filter((project) => project.personal);
-      const prototypeProjects = [...professionalProjects, ...personalProjects];
-
-      const urlState = new URLSearchParams(window.location.search);
-      let selectedProjectId = prototypeProjects.some(({ id }) => id === urlState.get("case"))
-        ? urlState.get("case")
-        : prototypeProjects[0].id;
-
-      const selectedProject = () =>
-        prototypeProjects.find(({ id }) => id === selectedProjectId) || prototypeProjects[0];
-
-      const period = (project) => project.period.replace(" to ", " – ");
-
-      const identity = () => `
-        <header class="identity" id="top">
-          <h1 class="identity-name">Alexey Zarakovskiy</h1>
-          <p class="identity-tagline">Senior Backend Engineer; full-stack; language and technology agnostic</p>
-          <div class="contact-list">
-            <span><span class="contact-label">Email</span><a href="mailto:work@azarakovskiy.com">work@azarakovskiy.com</a></span>
-            <span><span class="contact-label">LinkedIn</span><a href="https://linkedin.com/in/azarakovskiy">linkedin.com/in/azarakovskiy</a></span>
-            <span><span class="contact-label">GitHub</span><a href="https://github.com/azarakovskiy">github.com/azarakovskiy</a></span>
-          </div>
-        </header>
-      `;
-
-      const profile = () => `
-        <section class="section" aria-labelledby="profile-title">
-          <div class="route" id="profile-title">/portfolio</div>
-          <div class="profile-row">
-            <p class="profile-copy">Selected project evidence from product launches, migrations, platform evolution, and data systems. Choose a case to read the problem, ownership, technical decisions, and result.</p>
-            <a class="availability" href="mailto:work@azarakovskiy.com">Available for freelance work</a>
-          </div>
-        </section>
-      `;
-
-      const footer = () => `
-        <footer class="footer">
-          <div class="route">/contact</div>
-          <p>Backend, platform, or full-stack work: <a href="mailto:work@azarakovskiy.com">work@azarakovskiy.com</a></p>
-        </footer>
-      `;
-
-      const projectTab = (project) => `
-        <button
-          class="project-tab"
-          type="button"
-          data-case="${esc(project.id)}"
-          aria-controls="case-reader"
-          aria-pressed="${project.id === selectedProjectId}"
-        >
-          <span class="project-tab-period">${esc(period(project))}</span>
-          <span class="project-tab-copy">
-            <span class="project-tab-title">${esc(project.title)}</span>
-            <span class="project-tab-client">${esc(project.personal ? "In the lab" : project.client)}</span>
-          </span>
-        </button>
-      `;
-
-      const projectTabs = () => `
-        <nav class="project-tabs" aria-label="Project case tabs">
-          ${prototypeProjects.map(projectTab).join("")}
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="site-brand" href="#top"><span class="brand-full">Alexey Zarakovskiy</span><span class="brand-short" aria-hidden="true">az/</span><span class="brand-role" aria-hidden="true">Senior fullstack engineer</span></a>
+        <nav class="primary-nav" aria-label="Sections">
+          <a href="#projects">Projects</a>
+          <a href="#blog">Blog</a>
         </nav>
-      `;
+        <a class="resume-link" href="../../resume/">Résumé</a>
+        <nav class="contact-nav" aria-label="Social links and contact">
+          <a class="social-link" href="https://github.com/azarakovskiy" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3.3-.4 6.7-1.6 6.7-7.3A5.7 5.7 0 0 0 19.2 3a5.3 5.3 0 0 0-.1-3S17.9-.1 15 1.8a13.4 13.4 0 0 0-7 0C5.1-.1 3.9.3 3.9.3A5.3 5.3 0 0 0 3.8 3a5.7 5.7 0 0 0-1.5 4.2c0 5.7 3.4 6.9 6.7 7.3A4.8 4.8 0 0 0 8 18v4"/><path d="M8 19c-3 .9-3-1.4-4-2"/></svg>
+          </a>
+          <a class="social-link" href="https://linkedin.com/in/azarakovskiy" aria-label="LinkedIn">
+            <svg class="linkedin-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33 0-3.04-1.85-3.04s-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.55V9h3.57v11.45Z"/></svg>
+          </a>
+          <a class="contact-button" href="mailto:work@azarakovskiy.com">Get in touch</a>
+        </nav>
+      </div>
+    </header>
 
-      const tags = (items) => `
-        <span class="tags">
-          ${items.map((item) => `<span class="tag">${esc(item)}</span>`).join("")}
-        </span>
-      `;
-
-      const proof = (items) => `
-        <div class="sheet-proof">
-          ${items.map(([value, label]) => `
-            <span class="proof-item">
-              <strong>${esc(value)}</strong>
-              <span>${esc(label)}</span>
-            </span>
-          `).join("")}
-        </div>
-      `;
-
-      const caseDetails = (project) => Object.entries(project.details).map(([key, value]) => `
-        <section class="case-detail">
-          <h4>${detailLabels[key]}</h4>
-          <p>${esc(value)}</p>
-        </section>
-      `).join("");
-
-      const workShell = (note, reader) => `
-        <div class="page">
-          ${identity()}
-          ${profile()}
-          <main>
-            <section class="section" id="work" aria-labelledby="work-title">
-              <div class="route">/selected-work</div>
-              <header class="work-heading">
-                <h2 id="work-title">Project case files</h2>
-                <p>${esc(note)}</p>
-              </header>
-              ${projectTabs()}
-              ${reader}
-            </section>
-          </main>
-          ${footer()}
-        </div>
-      `;
-
-
-      const evidenceSheet = (project) => `
-        <article class="reader case-sheet" id="case-reader" aria-live="polite" aria-labelledby="case-reader-title">
-          <header class="case-sheet-head">
-            <div class="sheet-meta">
-              <strong>${esc(project.client)}</strong>
-              <span>${esc(project.kind)}</span>
-              <span>${esc(period(project))}</span>
+    <main id="main" tabindex="-1">
+      <section class="intro container" id="top" aria-labelledby="name">
+        <div class="intro-grid">
+          <div class="intro-copy">
+            <h1 class="intro-role" id="name">Senior fullstack engineer</h1>
+            <p class="intro-description">I build backend services, evolve platforms and migrate live systems, from the first architecture decisions to production.</p>
+            <p class="availability" data-status="available"><span class="availability-dot" aria-hidden="true"></span>Available</p>
+          </div>
+          <div class="stack" id="stack">
+            <h2 class="route">/stack</h2>
+            <div class="stack-grid">
+              <div class="skill-group"><h3>Backend</h3><p>Go, Java, Kotlin</p></div>
+              <div class="skill-group"><h3>Distributed systems</h3><p>APIs, Kafka, PostgreSQL</p></div>
+              <div class="skill-group"><h3>Platform</h3><p>AWS, Kubernetes, infrastructure as code</p></div>
+              <div class="skill-group"><h3>Full-stack</h3><p>TypeScript, React</p></div>
             </div>
-            <div class="sheet-title">
-              <h3 id="case-reader-title">${esc(project.title)}</h3>
-              <p>${esc(project.summary)}</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="projects-section" id="projects" aria-labelledby="projects-title">
+        <div class="container">
+          <h2 class="route" id="projects-title">/projects</h2>
+          <div class="project-list">
+          <article class="project" id="anonymous-by-design" aria-labelledby="anonymous-by-design-title">
+            <header class="project-heading">
+              <div class="project-meta">
+                <strong>Personio</strong>
+                <span>Product launch</span>
+                <span>2023 – 2025</span>
+              </div>
+              <h3 class="project-title" id="anonymous-by-design-title">Anonymous by design</h3>
+              <p class="project-summary">An EU-compliant whistleblowing service built around anonymous reporting and isolated infrastructure.</p>
+            </header>
+            <div class="project-body">
+              <dl class="project-proof">
+                <div class="proof-item"><dt>soon after release</dt><dd>€1M ARR</dd></div>
+                <div class="proof-item"><dt>service uptime</dt><dd>99.92%</dd></div>
+                <div class="proof-item"><dt>p99 latency</dt><dd>&lt;200ms</dd></div>
+              </dl>
+              <div class="project-details">
+                <section class="project-detail"><h4>The problem</h4><p>Protect reporter anonymity while isolating the service for regulatory and operational reasons.</p></section>
+                <section class="project-detail"><h4>My ownership</h4><p>I co-architected the service, started the Go codebase and AWS CDK infrastructure, then led a three-engineer maintenance team after launch.</p></section>
+                <section class="project-detail"><h4>Technical decisions</h4><p>I designed dual-AWS isolation and anonymous authentication. I set up automated testing with Docker Testcontainers and Datadog synthetic monitoring.</p></section>
+                <section class="project-detail"><h4>Result</h4><p>Soon after release, the service generated approximately €1M ARR, reached 99.92% uptime, kept p99 latency below 200ms, and resolved 14 critical security vulnerabilities.</p></section>
+              </div>
+              <footer class="project-footer">
+                <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Golang</li><li>AWS CDK</li><li>Kubernetes</li><li>Datadog</li></ul></div>
+              </footer>
             </div>
-          </header>
-          ${proof(project.proof)}
-          <div class="sheet-details">${caseDetails(project)}</div>
-          <footer class="sheet-footer">
-            <strong>Technologies</strong>
-            ${tags(project.stack)}
-          </footer>
-        </article>
-      `;
+          </article>
+
+          <article class="project" id="survey-migration" aria-labelledby="survey-migration-title">
+            <header class="project-heading">
+              <div class="project-meta">
+                <strong>Personio</strong>
+                <span>Data reliability</span>
+                <span>2023 – 2025</span>
+              </div>
+              <h3 class="project-title" id="survey-migration-title">24 GB, zero downtime</h3>
+              <p class="project-summary">A user-data snapshot tool and zero-downtime migration reduced P99 latency across 14 endpoints.</p>
+            </header>
+            <div class="project-body">
+              <dl class="project-proof">
+                <div class="proof-item"><dt>migrated live</dt><dd>24 GB</dd></div>
+                <div class="proof-item"><dt>P99 latency</dt><dd>600ms to &lt;300ms</dd></div>
+                <div class="proof-item"><dt>endpoints improved</dt><dd>14</dd></div>
+              </dl>
+              <div class="project-details">
+                <section class="project-detail"><h4>The problem</h4><p>Stop user-data snapshots from driving exponential database growth while keeping a large production dataset available.</p></section>
+                <section class="project-detail"><h4>My ownership</h4><p>I led the investigation, designed the snapshot approach, and owned the zero-downtime migration.</p></section>
+                <section class="project-detail"><h4>Technical decisions</h4><p>I changed the data shape and optimized PostgreSQL indexes and schema across the affected API surface.</p></section>
+                <section class="project-detail"><h4>Result</h4><p>I migrated 24GB without downtime and reduced P99 latency from 600ms to below 300ms across 14 endpoints.</p></section>
+              </div>
+              <footer class="project-footer">
+                <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Kotlin</li><li>PostgreSQL</li><li>Kafka</li><li>React</li></ul></div>
+              </footer>
+            </div>
+          </article>
+
+          <article class="project" id="gateway-migration" aria-labelledby="gateway-migration-title">
+            <header class="project-heading">
+              <div class="project-meta">
+                <strong>BEAT / FREENOW</strong>
+                <span>Migration</span>
+                <span>2019 – 2023</span>
+              </div>
+              <h3 class="project-title" id="gateway-migration-title">API gateway migration</h3>
+              <p class="project-summary">Routing and authentication moved out of a monolith while the old and new paths ran in parallel.</p>
+            </header>
+            <div class="project-body">
+              <dl class="project-proof">
+                <div class="proof-item"><dt>gateway throughput</dt><dd>10k+ RPS</dd></div>
+                <div class="proof-item"><dt>parallel paths</dt><dd>6 to 12 months</dd></div>
+                <div class="proof-item"><dt>authorization adopted</dt><dd>7 teams</dd></div>
+              </dl>
+              <div class="project-details">
+                <section class="project-detail"><h4>The problem</h4><p>Replace routing and authentication in a live ride-hailing platform without one high-risk cutover.</p></section>
+                <section class="project-detail"><h4>My ownership</h4><p>I helped form the four-engineer team, built the gateway and authentication path, and contributed to the migration strategy.</p></section>
+                <section class="project-detail"><h4>Technical decisions</h4><p>I used custom Kubernetes CRDs, Helm-based service discovery, a DynamoDB-backed authentication service, and a Redis idempotency guard.</p></section>
+                <section class="project-detail"><h4>Result</h4><p>The live migration removed the corresponding monolith functionality, and seven teams adopted the shared authorization library.</p></section>
+              </div>
+              <footer class="project-footer">
+                <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Golang</li><li>Kubernetes</li><li>DynamoDB</li><li>Redis</li></ul></div>
+                <a class="project-source" href="https://github.com/zalando/skipper/pull/2048">Public contribution: Kubernetes label filters in Skipper</a>
+              </footer>
+            </div>
+          </article>
+
+          <article class="project" id="pricing-engine" aria-labelledby="pricing-engine-title">
+            <header class="project-heading">
+              <div class="project-meta">
+                <strong>BEAT / FREENOW</strong>
+                <span>Platform evolution</span>
+                <span>2019 – 2023</span>
+              </div>
+              <h3 class="project-title" id="pricing-engine-title">Pricing engine extraction</h3>
+              <p class="project-summary">I led the extraction of the core pricing engine from a monolith into Go services with dynamic, incentive-driven geo-pricing.</p>
+            </header>
+            <div class="project-body">
+              <div class="project-details">
+                <section class="project-detail"><h4>The problem</h4><p>Move a core pricing capability out of the monolith without leaving it as the permanent owner of every market decision.</p></section>
+                <section class="project-detail"><h4>My ownership</h4><p>I led the pricing-service extraction and worked with the wider mobility platform around the new service boundary.</p></section>
+                <section class="project-detail"><h4>Technical decisions</h4><p>I introduced dynamic, incentive-driven pricing based on hexagonal geo-zones and kept the pricing logic independently deployable.</p></section>
+                <section class="project-detail"><h4>Result</h4><p>The separate Go pricing capability could respond to supply and demand across markets without expanding the original monolith.</p></section>
+              </div>
+              <footer class="project-footer">
+                <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Golang</li><li>Kafka</li><li>gRPC</li><li>AWS</li></ul></div>
+              </footer>
+            </div>
+          </article>
+
+          <article class="project" id="messy-data" aria-labelledby="messy-data-title">
+            <header class="project-heading">
+              <div class="project-meta">
+                <strong>fashionTrade</strong>
+                <span>Data integration</span>
+                <span>2018 – 2019</span>
+              </div>
+              <h3 class="project-title" id="messy-data-title">Wholesaler data integration with fuzzy matching</h3>
+              <p class="project-summary">A distributed integration API handled wholesaler data with fuzzy matching and asynchronous enrichment.</p>
+            </header>
+            <div class="project-body">
+              <div class="project-details">
+                <section class="project-detail"><h4>The problem</h4><p>Normalize inconsistent data from hundreds of fashion wholesalers without turning each integration into a manual project.</p></section>
+                <section class="project-detail"><h4>My ownership</h4><p>I led the distributed data-integration API and its matching and enrichment flow.</p></section>
+                <section class="project-detail"><h4>Technical decisions</h4><p>I combined Elasticsearch fuzzy matching with asynchronous Kafka pipelines and explicit race-condition handling.</p></section>
+                <section class="project-detail"><h4>Result</h4><p>The service ingested, disambiguated, enriched, and mapped wholesaler data onto the master dataset through a repeatable flow.</p></section>
+              </div>
+              <footer class="project-footer">
+                <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Java</li><li>Elasticsearch</li><li>Kafka</li><li>GCP</li></ul></div>
+              </footer>
+            </div>
+          </article>
+
+          <article class="project" id="developer-accelerator" aria-labelledby="developer-accelerator-title">
+            <header class="project-heading">
+              <div class="project-meta">
+                <strong>SDL Web</strong>
+                <span>Open source</span>
+                <span>2015 – 2018</span>
+              </div>
+              <h3 class="project-title" id="developer-accelerator-title">Java CMS integration framework</h3>
+              <p class="project-summary">A Java framework for integrating customer models with an open-source enterprise CMS.</p>
+            </header>
+            <div class="project-body">
+              <div class="project-details">
+                <section class="project-detail"><h4>The problem</h4><p>Reduce repeated implementation work when connecting customer models to an enterprise CMS.</p></section>
+                <section class="project-detail"><h4>My ownership</h4><p>I led development of the Java framework and reviewed and integrated community contributions.</p></section>
+                <section class="project-detail"><h4>Technical decisions</h4><p>I implemented reflection-based dynamic model mapping and maintained the adapter framework alongside customer needs.</p></section>
+                <section class="project-detail"><h4>Result</h4><p>The framework gave customers a shorter, more repeatable path to integrations around the open-source CMS.</p></section>
+              </div>
+              <footer class="project-footer">
+                <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Java</li><li>Spring</li><li>Gradle</li><li>OSS</li></ul></div>
+              </footer>
+            </div>
+          </article>
+          </div>
+        </div>
+      </section>
 
 
-      const updateUrl = () => {
-        const url = new URL(window.location.href);
-        url.searchParams.delete("variant");
-        url.searchParams.set("case", selectedProjectId);
-        window.history.replaceState(null, "", url);
-      };
+      <section class="blog-section container" id="blog" aria-labelledby="blog-title">
+        <h2 class="route" id="blog-title">/blog</h2>
+        <div class="blog-note">
+          <h3>Personal writing</h3>
+          <p>A personal blog is planned. No posts published yet. For now, my code and contributions are on <a href="https://github.com/azarakovskiy">GitHub</a>.</p>
+        </div>
+      </section>
+    </main>
 
-      const render = () => {
-        app.innerHTML = workShell(
-          "Outcomes first, followed by the problem, ownership, technical decisions, and result.",
-          evidenceSheet(selectedProject())
-        );
-      };
+    <footer class="contact-section" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <h2 class="route" id="contact-title">/contact</h2>
+        <div class="contact-grid">
+          <div><h3>Let’s talk engineering.</h3><p>Hiring a backend engineer or looking for help with a platform or migration? Email me about the work.</p></div>
+          <div class="contact-actions">
+            <a class="contact-email" href="mailto:work@azarakovskiy.com">work@azarakovskiy.com</a>
+            <nav class="footer-links" aria-label="More ways to connect"><a href="https://linkedin.com/in/azarakovskiy">LinkedIn</a><a href="https://github.com/azarakovskiy">GitHub</a><a href="../../resume/">Résumé</a></nav>
+          </div>
+        </div>
+        <p class="footer-note"><span>Alexey Zarakovskiy</span><a href="#top">Back to top</a></p>
+      </div>
+    </footer>
+    <script>
+      const header = document.querySelector(".site-header");
+      const brandRole = document.querySelector(".brand-role");
+      const introRole = document.querySelector(".intro-role");
 
-
-      const changeCase = (projectId) => {
-        selectedProjectId = projectId;
-        updateUrl();
-        render();
-        document.querySelector(`[data-case="${CSS.escape(projectId)}"]`)?.focus();
-      };
-
-      app.addEventListener("click", (event) => {
-        const caseButton = event.target.closest("[data-case]");
-        if (caseButton) changeCase(caseButton.dataset.case);
-      });
-
-      window.addEventListener("keydown", (event) => {
-        if (
-          event.altKey ||
-          event.ctrlKey ||
-          event.metaKey ||
-          event.shiftKey ||
-          event.target.closest("input, textarea, [contenteditable]")
-        ) return;
-
-
-        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-          const currentIndex = prototypeProjects.findIndex(({ id }) => id === selectedProjectId);
-          const nextIndex = Math.max(
-            0,
-            Math.min(
-              prototypeProjects.length - 1,
-              currentIndex + (event.key === "ArrowUp" ? -1 : 1)
-            )
-          );
-
-          if (nextIndex !== currentIndex) {
-            event.preventDefault();
-            changeCase(prototypeProjects[nextIndex].id);
-          }
-        }
-      });
-
-      updateUrl();
-      render();
+      new IntersectionObserver(([entry]) => {
+        const showInBrand = !entry.isIntersecting;
+        header.classList.toggle("role-in-brand", showInBrand);
+        brandRole.setAttribute("aria-hidden", String(!showInBrand));
+      }, { rootMargin: `-${header.offsetHeight}px 0px 0px 0px` }).observe(introRole);
     </script>
   </body>
 </html>
