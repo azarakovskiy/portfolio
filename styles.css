@@ -380,7 +380,8 @@ a:hover {
 }
 
 
-.customer-title {
+.customer-title,
+.inline-role-meta h3 {
   color: var(--accent-dark);
   font-size: 32px;
   font-weight: 600;
@@ -453,7 +454,9 @@ a:hover {
   text-decoration: none;
 }
 .company-links a:hover,
-.company-links a:focus-visible {
+.company-links a:focus-visible,
+.company-link-trigger:hover,
+.company-link-trigger:focus-visible {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
@@ -465,6 +468,12 @@ a:hover {
   gap: 6px;
   align-items: center;
   color: var(--accent-dark);
+  list-style: none;
+  cursor: pointer;
+}
+
+.company-link-trigger::-webkit-details-marker {
+  display: none;
 }
 
 .company-link-trigger svg {
@@ -478,20 +487,16 @@ a:hover {
   stroke-width: 1.7;
 }
 
+.customer-link-hint {
+  margin-top: 10px;
+}
 .site-disclaimer-inline {
   display: block;
   margin: 8px 0 0 19px;
   color: var(--ink-soft);
 }
 
-.site-disclaimer-inline[hidden],
-.customer-link-hint[hidden] {
-  display: none;
-}
 
-.customer-link-hint {
-  margin-top: 10px;
-}
 
 .link-tree {
   display: grid;
@@ -731,8 +736,25 @@ a:hover {
 }
 
 @media (max-width: 1000px) {
+  html {
+    scroll-padding-top: 140px;
+  }
+
+  .header-inner {
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    grid-template-rows: 76px auto;
+    row-gap: 0;
+  }
+
   .primary-nav {
-    display: none;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin-left: 0;
+  }
+
+  .customer-heading {
+    top: 152px;
   }
 
   .intro-grid {
@@ -802,7 +824,7 @@ a:hover {
 
 @media (max-width: 560px) {
   html {
-    scroll-padding-top: 84px;
+    scroll-padding-top: 128px;
   }
 
   :root {
@@ -810,8 +832,8 @@ a:hover {
   }
 
   .header-inner {
-    min-height: 64px;
-    gap: 10px;
+    grid-template-rows: 64px auto;
+    gap: 0 10px;
   }
 
   .brand-full,
@@ -866,7 +888,8 @@ a:hover {
     padding: 24px 20px;
   }
 
-  .customer-title {
+  .customer-title,
+  .inline-role-meta h3 {
     font-size: 30px;
   }
 
@@ -936,7 +959,8 @@ a:hover {
   }
 
   .brand-role,
-  .header-section {
+  .header-section,
+  .header-section.section-changed {
     transition: none;
     animation: none;
   }
@@ -988,13 +1012,6 @@ a:hover {
   border-top: 1px solid var(--rule);
 }
 
-.inline-role-meta h3 {
-  color: var(--accent-dark);
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.3;
-}
 
 .inline-role-meta p {
   margin-top: 6px;
@@ -1055,7 +1072,7 @@ a:hover {
 
 .inline-role-title {
   color: var(--accent-dark);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
 }
 
@@ -1063,7 +1080,7 @@ a:hover {
   max-width: 65ch;
   margin-top: 5px;
   color: var(--ink-soft);
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .inline-role-tech {

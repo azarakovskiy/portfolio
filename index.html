@@ -1,12 +1,459 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0; url=resume/">
-  <title>Portfolio</title>
-</head>
-<body>
-  <p>Redirecting to <a href="resume/">resume</a>…</p>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Alexey Zarakovskiy, senior backend engineer. Selected work in backend services, platform engineering, live migrations and full-stack development." />
+    <meta name="color-scheme" content="light" />
+    <title>Alexey Zarakovskiy — Senior backend engineer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <svg style="display: none" aria-hidden="true">
+      <symbol id="icon-pin" viewBox="0 0 24 24"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+      <symbol id="icon-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></symbol>
+    </svg>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="site-brand" href="#top"><span class="brand-full">Alexey Zarakovskiy</span><span class="brand-short" aria-hidden="true">az/</span><span class="brand-role" aria-hidden="true">Senior fullstack engineer</span></a>
+        <nav class="primary-nav" aria-label="Sections">
+          <a href="#projects">Projects</a>
+          <a href="#personal">Personal</a>
+        </nav>
+        <a class="resume-link" href="resume/">Résumé</a>
+        <nav class="contact-nav" aria-label="Social links and contact">
+          <a class="social-link" href="https://github.com/azarakovskiy" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3.3-.4 6.7-1.6 6.7-7.3A5.7 5.7 0 0 0 19.2 3a5.3 5.3 0 0 0-.1-3S17.9-.1 15 1.8a13.4 13.4 0 0 0-7 0C5.1-.1 3.9.3 3.9.3A5.3 5.3 0 0 0 3.8 3a5.7 5.7 0 0 0-1.5 4.2c0 5.7 3.4 6.9 6.7 7.3A4.8 4.8 0 0 0 8 18v4"/><path d="M8 19c-3 .9-3-1.4-4-2"/></svg>
+          </a>
+          <a class="social-link" href="https://linkedin.com/in/azarakovskiy" aria-label="LinkedIn">
+            <svg class="linkedin-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33 0-3.04-1.85-3.04s-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.55V9h3.57v11.45Z"/></svg>
+          </a>
+          <a class="contact-button" href="mailto:work@azarakovskiy.com">Get in touch</a>
+        </nav>
+      </div>
+      <span class="header-section" aria-hidden="true"></span>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <section class="intro container" id="top" aria-labelledby="name">
+        <div class="intro-grid">
+          <div class="intro-copy">
+            <h1 class="intro-role" id="name">Senior fullstack engineer</h1>
+            <p class="intro-description">I build backend services, evolve platforms and migrate live systems, from the first architecture decisions to production.</p>
+            <p class="availability" data-status="available"><span class="availability-dot" aria-hidden="true"></span>Available</p>
+          </div>
+          <div class="stack" id="stack">
+            <h2 class="route">/stack</h2>
+            <div class="stack-grid">
+              <div class="skill-group"><h3>Backend</h3><p>Go, Java, Kotlin, Spring</p></div>
+              <div class="skill-group"><h3>Distributed systems</h3><p>Kafka, PostgreSQL, DynamoDB</p></div>
+              <div class="skill-group"><h3>Platform</h3><p>AWS, Kubernetes, Docker, infrastructure as code</p></div>
+              <div class="skill-group"><h3>Full-stack &amp; AI</h3><p>TypeScript, React, MCP</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="projects-section" id="projects" aria-labelledby="projects-title">
+        <div class="container">
+          <h2 class="route section-route" id="projects-title">/projects</h2>
+          <div class="customer-list">
+            <section class="customer-group current-role" id="prosus" aria-labelledby="prosus-title">
+              <header class="customer-heading">
+                <div class="customer-identity">
+                  <h3 class="customer-title" id="prosus-title">Prosus</h3>
+                  <p class="customer-period">1 Oct 2026 – present</p>
+                  <dl class="customer-work-context" aria-label="Employer information">
+                    <div><dt><svg aria-hidden="true"><use href="#icon-pin"></use></svg><span>Location</span></dt><dd>Amsterdam</dd></div>
+                  </dl>
+                  <p class="customer-summary">Senior Backend Engineer contractor working on the Toqan AI harness.</p>
+                  <details class="company-links">
+                    <summary class="company-link-trigger"><svg aria-hidden="true"><use href="#icon-globe"></use></svg>Visit</summary>
+                    <div class="customer-link-hint" id="prosus-site-links">
+                      <nav class="link-tree" aria-label="Prosus links"><a class="link-tree-root" href="https://www.prosus.com/" target="_blank" rel="noopener noreferrer">prosus.com ↗</a><span><a href="https://www.toqan.ai/" target="_blank" rel="noopener noreferrer">toqan.ai ↗</a></span></nav>
+                    </div>
+                  </details>
+                </div>
+                <div class="customer-meta">
+                  <p class="work-in-progress"><span aria-hidden="true"></span>Work in progress</p>
+                </div>
+              </header>
+              <div class="customer-projects">
+                <article class="project" id="toqan-harness" aria-labelledby="toqan-harness-title">
+                  <header class="project-heading">
+                    <div class="project-meta"><span>Toqan AI</span></div>
+                    <h4 class="project-title" id="toqan-harness-title">Task cancellation and MCP OAuth</h4>
+                    <p class="project-summary">Current work is scoped to the Go harness, recurring-task cancellation, and MCP OAuth fixes.</p>
+                  </header>
+                  <div class="project-body">
+                    <div class="project-details">
+                      <section class="project-detail"><h5>The problem</h5><p>Recurring agentic tasks needed a cancellation path across the product, while the MCP OAuth implementation needed a technical audit.</p></section>
+                      <section class="project-detail"><h5>My ownership</h5><p>I develop the Go-based Toqan harness. I delivered recurring-task cancellation across the React application and Go backend. I also audited MCP OAuth and am fixing the issues I found.</p></section>
+                      <section class="project-detail"><h5>Technical decisions</h5><p>The cancellation path spans the React application and Go backend. My MCP OAuth work addresses the issues found in the audit.</p></section>
+                      <section class="project-detail"><h5>Result</h5><p>Recurring-task cancellation is delivered. The OAuth audit is complete and the fixes are in progress.</p></section>
+                    </div>
+                    <footer class="project-footer">
+                      <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Go</li><li>React</li><li>MCP</li><li>OAuth</li></ul></div>
+                    </footer>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <div class="toptal-entry">
+              <article class="inline-role">
+                <div class="inline-role-meta">
+                  <h3>Toptal</h3>
+                  <p>Apr 2026 – present</p>
+                  <div class="inline-role-context">
+                    <span><svg aria-hidden="true"><use href="#icon-pin"></use></svg>Remote</span>
+                    <a href="https://www.toptal.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Toptal website"><svg aria-hidden="true"><use href="#icon-globe"></use></svg>Visit</a>
+                  </div>
+                </div>
+                <div>
+                  <p class="inline-role-title">Freelance Senior Backend Engineer</p>
+                  <p class="inline-role-summary">Backend engineering across projects for clients through the Toptal platform.</p>
+                  <p class="inline-role-tech">Go</p>
+                </div>
+              </article>
+            </div>
+
+            <section class="customer-group" id="personio" aria-labelledby="personio-title">
+              <header class="customer-heading">
+                <div class="customer-identity">
+                  <h3 class="customer-title" id="personio-title">Personio</h3>
+                  <p class="customer-period">Mar 2023 – Dec 2025</p>
+                  <dl class="customer-work-context" aria-label="Employer information">
+                    <div><dt><svg aria-hidden="true"><use href="#icon-pin"></use></svg><span>Location</span></dt><dd>Amsterdam</dd></div>
+                  </dl>
+                  <p class="customer-summary">Senior Backend Engineer at a European HR platform serving 12,000+ customers.</p>
+                  <details class="company-links">
+                    <summary class="company-link-trigger"><svg aria-hidden="true"><use href="#icon-globe"></use></svg>Visit</summary>
+                    <div class="customer-link-hint" id="personio-site-links">
+                      <nav class="link-tree" aria-label="Personio links"><a class="link-tree-root" href="https://www.personio.com/" target="_blank" rel="noopener noreferrer">personio.com ↗</a><span><a href="https://www.personio.com/product/whistleblowing/" target="_blank" rel="noopener noreferrer">Whistleblowing ↗</a><a href="https://www.personio.com/product/surveys/" target="_blank" rel="noopener noreferrer">Surveys ↗</a></span></nav>
+                    </div>
+                  </details>
+                </div>
+              </header>
+              <div class="customer-projects">
+                <article class="project" id="anonymous-by-design" aria-labelledby="anonymous-by-design-title">
+                  <header class="project-heading">
+                    <div class="project-meta"><span>Product launch</span></div>
+                    <h4 class="project-title" id="anonymous-by-design-title">From the first commit to technical ownership</h4>
+                    <p class="project-summary">An EU-compliant whistleblowing service with anonymous reporting and separate infrastructure for sensitive data.</p>
+                  </header>
+                  <div class="project-body">
+                    <dl class="project-proof">
+                      <div class="proof-item"><dt>soon after release</dt><dd>~€1M ARR</dd></div>
+                      <div class="proof-item"><dt>low-traffic service uptime</dt><dd>99.92%</dd></div>
+                      <div class="proof-item"><dt>critical vulnerabilities closed</dt><dd>14</dd></div>
+                    </dl>
+                    <div class="project-details">
+                      <section class="project-detail"><h5>The problem</h5><p>Personio needed an EU-compliant reporting service that kept reporters anonymous and sensitive data separate from the main platform.</p></section>
+                      <section class="project-detail"><h5>My ownership</h5><p>I co-architected the service in a six-engineer delivery team, working with colleagues to resolve product and regulatory design questions. I started the Go codebase and AWS CDK infrastructure from scratch. After launch, I remained the primary technical owner: I coordinated a small virtual team's technical work, onboarded contributors, and handled most ongoing engineering work.</p></section>
+                      <section class="project-detail"><h5>Technical decisions</h5><p>We separated the public and private sides into different AWS accounts and used anonymous authentication without retaining identifying user information. I set up automated tests with Docker Testcontainers and synthetic monitoring in Datadog.</p></section>
+                      <section class="project-detail"><h5>Result</h5><p>The service generated about €1M ARR soon after release, reached 99.92% uptime, kept p99 latency below 200ms, and closed 14 critical security vulnerabilities. This was an intentionally low-traffic service; uptime and latency describe reliability, not traffic scale.</p></section>
+                    </div>
+                    <footer class="project-footer">
+                      <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Go</li><li>TypeScript</li><li>React</li><li>AWS CDK</li><li>Docker Testcontainers</li><li>Datadog</li></ul></div>
+                    </footer>
+                  </div>
+                </article>
+
+                <article class="project" id="surveys-product" aria-labelledby="surveys-product-title">
+                  <header class="project-heading">
+                    <div class="project-meta"><span>Product engineering</span></div>
+                    <h4 class="project-title" id="surveys-product-title">Survey features, backed by better data</h4>
+                    <p class="project-summary">Feature leadership across the dashboard, question result categorization, themes, date-based filters, local development, and database performance.</p>
+                  </header>
+                  <div class="project-body">
+                    <dl class="project-proof">
+                      <div class="proof-item"><dt>p99 latency</dt><dd>600ms to &lt;300ms</dd></div>
+                      <div class="proof-item"><dt>endpoints improved</dt><dd>14</dd></div>
+                      <div class="proof-item"><dt>dataset migrated live</dt><dd>24 GB</dd></div>
+                    </dl>
+                    <div class="project-details">
+                      <section class="project-detail"><h5>The problem</h5><p>An AWS RDS memory alert led me to investigate a snapshot design that copied participant data for every example survey. For larger customers, those copies caused exponential database growth. The product also needed broader survey features.</p></section>
+                      <section class="project-detail"><h5>My ownership</h5><p>I led the dashboard revamp, question result categorization, themes, date-based filters, and local-development improvements within an established Kotlin and Spring product team, sharing implementation with other engineers. I also owned the snapshot redesign and migration.</p></section>
+                      <section class="project-detail"><h5>Technical decisions</h5><p>I redesigned the snapshot flow to reuse slightly stale company data where that tradeoff was acceptable. PostgreSQL index and schema changes addressed the slow endpoints.</p></section>
+                      <section class="project-detail"><h5>Result</h5><p>The team shipped the survey features. PostgreSQL index and schema work cut p99 latency from 600ms to below 300ms across 14 endpoints. The redesigned snapshot flow stopped the repeated-copy growth pattern, and I migrated the 24 GB dataset without downtime.</p></section>
+                    </div>
+                    <footer class="project-footer">
+                      <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Kotlin</li><li>Spring</li><li>TypeScript</li><li>React</li><li>PostgreSQL</li></ul></div>
+                    </footer>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <section class="customer-group" id="beat-freenow" aria-labelledby="beat-freenow-title">
+              <header class="customer-heading">
+                <div class="customer-identity">
+                  <h3 class="customer-title" id="beat-freenow-title">BEAT / FREENOW</h3>
+                  <p class="customer-period">Sep 2019 – Jan 2023</p>
+                  <dl class="customer-work-context" aria-label="Employer information">
+                    <div><dt><svg aria-hidden="true"><use href="#icon-pin"></use></svg><span>Location</span></dt><dd>Amsterdam</dd></div>
+                  </dl>
+                  <p class="customer-summary">Senior Backend Engineer at a ride-hailing platform with 250,000+ drivers.</p>
+                  <details class="company-links">
+                    <summary class="company-link-trigger"><svg aria-hidden="true"><use href="#icon-globe"></use></svg>Visit</summary>
+                    <span class="customer-link-hint site-disclaimer-inline" id="beat-site-disclaimer">BEAT is now FREENOW in Greece. <a href="https://www.free-now.com/gr-en/ride/beat-taxi-greece/" target="_blank" rel="noopener noreferrer">Transition details ↗</a>.</span>
+                  </details>
+                </div>
+              </header>
+              <div class="customer-projects">
+                <article class="project" id="gateway-migration" aria-labelledby="gateway-migration-title">
+                  <header class="project-heading">
+                    <div class="project-meta"><span>Platform migration</span></div>
+                    <h4 class="project-title" id="gateway-migration-title">A staged path out of the monolith</h4>
+                    <p class="project-summary">Routing and authentication moved into shared services while product teams gained control of their own routes and authorization rules.</p>
+                  </header>
+                  <div class="project-body">
+                    <dl class="project-proof">
+                      <div class="proof-item"><dt>gateway throughput</dt><dd>10k+ RPS</dd></div>
+                      <div class="proof-item"><dt>parallel operation</dt><dd>6 to 12 months</dd></div>
+                      <div class="proof-item"><dt>authorization adopted</dt><dd>7 teams</dd></div>
+                    </dl>
+                    <div class="project-details">
+                      <section class="project-detail"><h5>The problem</h5><p>Routing and authentication still lived in a PHP monolith, so service teams had to change shared endpoints whenever their own APIs changed.</p></section>
+                      <section class="project-detail"><h5>My ownership</h5><p>I helped form the gateway team with one colleague; we later grew to four engineers. I contributed to the Go gateway, authentication service, authorization library, and staged migration. We shared authorship of the work.</p></section>
+                      <section class="project-detail"><h5>Technical decisions</h5><p>We built the gateway on Zalando Skipper and used DynamoDB for the high-throughput authentication service. Custom Kubernetes CRDs and Helm-based registration let service teams publish routes without manual gateway changes, while a Go authorization library let them define and test their own rules. I added a Redis idempotency guard for one-time JWT signup tokens and containerized integration tests.</p></section>
+                      <section class="project-detail"><h5>Result</h5><p>We ran the old and new systems side by side for about six to twelve months, then removed routing and authentication code from the PHP monolith. The gateway handled more than 10,000 requests per second, and all seven cross-functional teams adopted the authorization library. I contributed the CRD routing work upstream to <a href="https://github.com/zalando/skipper/pull/2048" target="_blank" rel="noopener noreferrer">Zalando Skipper</a>.</p></section>
+                    </div>
+                    <footer class="project-footer">
+                      <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Go</li><li>Zalando Skipper</li><li>Kubernetes</li><li>Helm</li><li>DynamoDB</li><li>Redis</li></ul></div>
+                    </footer>
+                  </div>
+                </article>
+
+                <article class="project" id="geo-zone-pricing" aria-labelledby="geo-zone-pricing-title">
+                  <header class="project-heading">
+                    <div class="project-meta"><span>Focused feature</span></div>
+                    <h4 class="project-title" id="geo-zone-pricing-title">Geo-zone pricing</h4>
+                    <p class="project-summary">One pricing feature built during a few months in BEAT's established Pricing team.</p>
+                  </header>
+                  <div class="project-body">
+                    <div class="project-details">
+                      <section class="project-detail"><h5>The problem</h5><p>Pricing needed to respond to local supply and demand conditions.</p></section>
+                      <section class="project-detail"><h5>My ownership</h5><p>I delivered one geo-zone pricing feature within the established team.</p></section>
+                      <section class="project-detail"><h5>Technical decisions</h5><p>The feature used supply and demand signals at the geo-zone level.</p></section>
+                      <section class="project-detail"><h5>Result</h5><p>The feature could influence driver availability. It was not a migration of the complete pricing engine.</p></section>
+                    </div>
+                    <footer class="project-footer">
+                      <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Go</li><li>Kafka</li><li>PostgreSQL</li></ul></div>
+                    </footer>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <section class="customer-group" id="fashiontrade" aria-labelledby="fashiontrade-title">
+              <header class="customer-heading">
+                <div class="customer-identity">
+                  <h3 class="customer-title" id="fashiontrade-title">fashionTrade</h3>
+                  <p class="customer-period">May 2018 – Jul 2019</p>
+                  <dl class="customer-work-context" aria-label="Employer information">
+                    <div><dt><svg aria-hidden="true"><use href="#icon-pin"></use></svg><span>Location</span></dt><dd>Amsterdam</dd></div>
+                  </dl>
+                  <p class="customer-summary">Senior Java Engineer in my first professional role focused on microservices and distributed systems.</p>
+                </div>
+              </header>
+              <div class="customer-projects">
+                <article class="project" id="messy-data" aria-labelledby="messy-data-title">
+                  <header class="project-heading">
+                    <div class="project-meta"><span>Data integration</span></div>
+                    <h4 class="project-title" id="messy-data-title">Matching the records that never quite matched</h4>
+                    <p class="project-summary">An asynchronous pipeline turned inconsistent retailer records into repeatable, enriched platform data.</p>
+                  </header>
+                  <div class="project-body">
+                    <div class="project-details">
+                      <section class="project-detail"><h5>The problem</h5><p>Retailer shop records from fashion wholesalers rarely matched the platform's master data cleanly.</p></section>
+                      <section class="project-detail"><h5>My ownership</h5><p>In a small engineering team, I took a leading engineering role in the service that ingested records, matched them to existing entities, and enriched platform data. This was technical leadership, not people management.</p></section>
+                      <section class="project-detail"><h5>Technical decisions</h5><p>Kafka handled asynchronous processing, while Elasticsearch provided fuzzy matching. The flow also accounted for partial state and races between services.</p></section>
+                      <section class="project-detail"><h5>Result</h5><p>The service processed data from hundreds of wholesale fashion customers through the same repeatable flow.</p></section>
+                    </div>
+                    <footer class="project-footer">
+                      <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Java</li><li>Kafka</li><li>Elasticsearch</li><li>Docker</li><li>Kubernetes</li><li>GCP</li></ul></div>
+                    </footer>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <section class="customer-group" id="sdl-web" aria-labelledby="sdl-web-title">
+              <header class="customer-heading">
+                <div class="customer-identity">
+                  <h3 class="customer-title" id="sdl-web-title">SDL Web / RWS</h3>
+                  <p class="customer-period">Oct 2015 – Apr 2018</p>
+                  <dl class="customer-work-context" aria-label="Employer information">
+                    <div><dt><svg aria-hidden="true"><use href="#icon-pin"></use></svg><span>Location</span></dt><dd>Amsterdam</dd></div>
+                  </dl>
+                  <p class="customer-summary">Technical Team Lead and Senior Java Engineer building integration tooling for a proprietary enterprise CMS.</p>
+                  <details class="company-links">
+                    <summary class="company-link-trigger"><svg aria-hidden="true"><use href="#icon-globe"></use></svg>Visit</summary>
+                    <div class="customer-link-hint" id="sdl-site-links">
+                      <nav class="link-tree" aria-label="SDL Web links"><a class="link-tree-root" href="https://www.rws.com/content-management/tridion/" target="_blank" rel="noopener noreferrer">rws.com/tridion ↗</a><span><a href="https://github.com/RWS/dxa-web-application-java" target="_blank" rel="noopener noreferrer">DXA Java ↗</a></span></nav>
+                    </div>
+                  </details>
+                </div>
+              </header>
+              <div class="customer-projects">
+                <article class="project" id="dxa-java" aria-labelledby="dxa-java-title">
+                  <header class="project-heading">
+                    <div class="project-meta"><span>Open-source adapter</span></div>
+                    <h4 class="project-title" id="dxa-java-title">A reusable Java path into the CMS</h4>
+                    <p class="project-summary">The open-source DXA adapter mapped application models to entities in a proprietary CMS.</p>
+                  </header>
+                  <div class="project-body">
+                    <div class="project-details">
+                      <section class="project-detail"><h5>The problem</h5><p>Each customer integration needed substantial configuration against a flexible CMS data model.</p></section>
+                      <section class="project-detail"><h5>My ownership</h5><p>I led the Java counterpart of the DXA adapter framework and reviewed contributions from external users.</p></section>
+                      <section class="project-detail"><h5>Technical decisions</h5><p>I used reflection for dynamic model mapping between application models and CMS entities.</p></section>
+                      <section class="project-detail"><h5>Result</h5><p>The framework gave customers a repeatable way to connect Java applications to the CMS. The adapter was open source; the CMS was proprietary.</p></section>
+                    </div>
+                    <footer class="project-footer">
+                      <div class="project-tech"><strong>Built with</strong><ul class="tags"><li>Java</li><li>Spring</li><li>Maven</li><li>Gradle</li></ul></div>
+                    </footer>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <section class="inline-history" aria-label="Earlier experience">
+              <article class="inline-role">
+                <div class="inline-role-meta">
+                  <h3>EPAM Systems</h3>
+                  <p>Jul 2012 – Sep 2015</p>
+                  <div class="inline-role-context">
+                    <span><svg aria-hidden="true"><use href="#icon-pin"></use></svg>Russia &amp; Poland</span>
+                    <a href="https://www.epam.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit EPAM Systems website"><svg aria-hidden="true"><use href="#icon-globe"></use></svg>Visit</a>
+                  </div>
+                </div>
+                <div>
+                  <p class="inline-role-title">Senior full-stack Java engineer</p>
+                  <p class="inline-role-summary">I delivered enterprise software for Yota in Russia, PayPal in the United States, and MeteoSystems in Germany.</p>
+                  <p class="inline-role-tech">Java</p>
+                </div>
+              </article>
+              <article class="inline-role">
+                <div class="inline-role-meta">
+                  <h3>L.I.C.</h3>
+                  <p>2011 – 2012</p>
+                  <div class="inline-role-context">
+                    <span><svg aria-hidden="true"><use href="#icon-pin"></use></svg>Russia</span>
+                  </div>
+                </div>
+                <div>
+                  <p class="inline-role-title">Full-stack Java engineer</p>
+                  <p class="inline-role-summary">I built retail workflow automation across backend and frontend systems.</p>
+                  <p class="inline-role-tech">Java</p>
+                </div>
+              </article>
+              <article class="inline-role">
+                <div class="inline-role-meta">
+                  <h3>Orange</h3>
+                  <p>2009 – 2011</p>
+                  <div class="inline-role-context">
+                    <span><svg aria-hidden="true"><use href="#icon-pin"></use></svg>Russia</span>
+                  </div>
+                </div>
+                <div>
+                  <p class="inline-role-title">CTO, co-founder, and hands-on engineer</p>
+                  <p class="inline-role-summary">I co-founded the web studio and built a proprietary CMS for commercial client sites. We also worked with the US design studio ArtByMobile.</p>
+                  <p class="inline-role-tech">PHP · JavaScript</p>
+                </div>
+              </article>
+              <article class="inline-role">
+                <div class="inline-role-meta">
+                  <h3>State Factory Energy</h3>
+                  <p>2006 – 2009</p>
+                  <div class="inline-role-context">
+                    <span><svg aria-hidden="true"><use href="#icon-pin"></use></svg>Russia</span>
+                  </div>
+                </div>
+                <div>
+                  <p class="inline-role-title">Real-time monitoring engineer</p>
+                  <p class="inline-role-summary">I worked on signal-processing software for radio-monitoring systems.</p>
+                  <p class="inline-role-tech">C++ · C#</p>
+                </div>
+              </article>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="personal-section" id="personal" aria-labelledby="personal-title">
+        <div class="container">
+          <h2 class="route section-route" id="personal-title">/personal</h2>
+
+          <div class="personal-ledger">
+            <article>
+              <div class="personal-heading"><p>Personal job-search tooling</p><h3>Job Radar</h3><span>Go · AI agents</span></div>
+              <div><p>I built this personal Go tool to read candidate evidence, suggest matching roles, identify gaps, and produce weighted fit scores.</p><p>I split the workflow into bounded stages with clear inputs and outputs. Reusable agent instructions and tools coordinate the work, applying the same boundaries I use in backend and platform engineering.</p></div>
+            </article>
+            <article>
+              <div class="personal-heading"><p>Household automation</p><h3>Home Assistant energy optimization</h3><span>Go · Home Assistant</span></div>
+              <div><p>I built a Go service that reads real-time energy prices through Home Assistant and adjusts my home's electricity use automatically.</p><p>It runs at home and saves money every month.</p><a href="https://github.com/azarakovskiy/home-automation-go" target="_blank" rel="noopener noreferrer">View source ↗</a></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+
+    </main>
+
+    <footer class="contact-section" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <h2 class="route section-route" id="contact-title">/contact</h2>
+        <div class="contact-grid">
+          <div><h3>Let’s talk engineering.</h3><p>Hiring a backend engineer or looking for help with a platform or migration? Email me about the work.</p></div>
+          <div class="contact-actions">
+            <a class="contact-email" href="mailto:work@azarakovskiy.com">work@azarakovskiy.com</a>
+            <nav class="footer-links" aria-label="More ways to connect"><a href="https://linkedin.com/in/azarakovskiy">LinkedIn</a><a href="https://github.com/azarakovskiy">GitHub</a><a href="resume/">Résumé</a></nav>
+          </div>
+        </div>
+        <div class="footer-note">
+          <span class="business-details">Chookity · BTW nummer: XXX · KvK nummer: XXX</span>
+          <a href="#top">Back to top</a>
+        </div>
+      </div>
+    </footer>
+    <script>
+      const header = document.querySelector(".site-header");
+      const brandRole = document.querySelector(".brand-role");
+      const introRole = document.querySelector(".intro-role");
+      const headerSection = document.querySelector(".header-section");
+      const sectionRoutes = [...document.querySelectorAll(".section-route")];
+      let currentSection = "";
+
+      function updateCurrentSection() {
+        const headerBottom = header.getBoundingClientRect().bottom;
+        const showInBrand = introRole.getBoundingClientRect().bottom <= headerBottom;
+        header.classList.toggle("role-in-brand", showInBrand);
+        brandRole.setAttribute("aria-hidden", String(!showInBrand));
+        let activeRoute;
+
+        for (const route of sectionRoutes) {
+          if (route.getBoundingClientRect().bottom > headerBottom) break;
+          activeRoute = route;
+        }
+        if (scrollY + innerHeight >= document.documentElement.scrollHeight - 1) activeRoute = sectionRoutes.at(-1);
+
+        const nextSection = activeRoute?.textContent.trim() ?? "";
+        if (nextSection === currentSection) return;
+
+        currentSection = nextSection;
+        if (nextSection) headerSection.textContent = nextSection;
+        header.classList.toggle("section-in-header", Boolean(nextSection));
+        headerSection.classList.remove("section-changed");
+        void headerSection.offsetWidth;
+        headerSection.classList.toggle("section-changed", Boolean(nextSection));
+      }
+
+      addEventListener("scroll", updateCurrentSection, { passive: true });
+      addEventListener("resize", updateCurrentSection);
+      updateCurrentSection();
+    </script>
+  </body>
 </html>
