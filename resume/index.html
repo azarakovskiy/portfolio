@@ -13,6 +13,7 @@
       property="og:description"
       content="Senior Backend Engineer; full-stack; language and technology agnostic"
     />
+    <script src="../contact-links.js" defer></script>
     <style>
       /* ===================================================================
          ATS-safe typography
@@ -541,7 +542,7 @@
         overflow-wrap: break-word;
       }
 
-      /* ===== DOWNLOAD BAR (screen only, hidden when printing) ===== */
+      /* ===== PRINT BAR (screen only, hidden when printing) ===== */
       .dlbar {
         position: fixed;
         top: 0;
@@ -553,10 +554,16 @@
         background: var(--surface);
         border-bottom: 1px solid var(--rule);
       }
-      .dlbar a {
+      .dlbar button {
+        border: 0;
+        padding: 0;
+        background: none;
+        font: inherit;
         font-size: 12px;
         font-weight: 600;
         color: var(--accent-dark);
+        text-decoration: underline;
+        cursor: pointer;
       }
       @media print {
         .dlbar {
@@ -573,7 +580,7 @@
   </head>
   <body>
     <div class="dlbar">
-      <a id="download-link" href="resume_azarakovskiy_senior.pdf" download>Download PDF</a>
+      <button id="print-button" type="button" disabled>Print / Save as PDF</button>
     </div>
     <div class="page">
       <h1 class="name">Alexey Zarakovskiy</h1>
@@ -583,17 +590,15 @@
       <div class="contact">
         <span>
           <span class="label">Email</span>
-          <a href="mailto:work@azarakovskiy.com">work@azarakovskiy.com</a>
+          <a href="../index.html#contact" data-contact="email" data-contact-text>Email</a>
         </span>
         <span>
           <span class="label">LinkedIn</span>
-          <a href="https://linkedin.com/in/azarakovskiy"
-            >linkedin.com/in/azarakovskiy</a
-          >
+          <a href="../index.html#contact" data-contact="linkedin" data-contact-text>LinkedIn</a>
         </span>
         <span>
           <span class="label">GitHub</span>
-          <a href="https://github.com/azarakovskiy">github.com/azarakovskiy</a>
+          <a href="../index.html#contact" data-contact="github" data-contact-text>GitHub</a>
         </span>
         
       </div>
@@ -1045,9 +1050,14 @@
     </script>
 
     <script>
-      if (new URLSearchParams(location.search).get("download") === "true") {
-        location.href = document.querySelector("#download-link").href;
-      }
+      addEventListener("DOMContentLoaded", () => {
+        const printButton = document.querySelector("#print-button");
+        printButton.addEventListener("click", () => window.print());
+        printButton.disabled = false;
+        if (new URLSearchParams(location.search).get("download") === "true") {
+          window.print();
+        }
+      });
     </script>
   </body>
 </html>

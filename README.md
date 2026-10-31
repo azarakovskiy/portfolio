@@ -1,8 +1,8 @@
 # Portfolio
 
-A static portfolio and blog built with HTML and CSS. The portfolio is served
-directly from the root `index.html` (`/`), without a redirect. The résumé stays
-in `resume/`, and the blog lives at `/blog/`.
+A static portfolio and blog built with HTML, CSS, and a small native JavaScript
+contact-link decoder. The portfolio is served directly from the root `index.html`
+(`/`), without a redirect. The résumé stays in `resume/`, and the blog lives at `/blog/`.
 
 The blog publisher uses only the Python standard library and requires Python 3.9
 or newer. Generated pages are committed, so the deployed site needs neither
@@ -21,6 +21,76 @@ qualifiers, team ownership, technical decisions, and named clients. Apply its
 merge and removal instructions without reintroducing older content.
 Omit leading "a" and "an" from titles and short subtitles; keep body prose grammatical.
 
+## Contact links
+
+`contact-links.js` stores destinations as XOR-masked character codes, not
+plaintext or recognizable Base64 strings. Pages use `data-contact="email"`,
+`data-contact="github"`, or `data-contact="linkedin"` instead of direct targets.
+Regular page loads leave those targets out of the DOM. A browser-trusted
+pointer, keyboard, click, or context-menu event reveals only the selected
+link, preserving native navigation, touch, keyboard use, and link menus.
+Synthetic events and scripted `.click()` calls do not reveal contacts.
+Add `data-contact-text` when the visible text must show the revealed address
+or URL. The script removes `data-contact` after revealing that link.
+
+To update a destination, generate its numeric array in a browser console and
+paste the result into the matching entry in `contact-links.js`:
+
+```js
+Array.from("DESTINATION", (character, index) => character.charCodeAt(0) ^ (index + 17))
+```
+
+This is best-effort static deterrence, not encryption or access control.
+There is no measured percentage of bots blocked. A targeted bot can reverse
+the code, automate real browser input, or invoke native printing. Old contacts
+remain in Git history, caches, and copies. Public project URLs also identify
+the GitHub account.
+Without JavaScript, fallback links lead to the portfolio contact section,
+which explains that JavaScript is required. There is no plaintext fallback.
+GitHub Pages serves these files directly; `.nojekyll` disables Jekyll processing.
+
+Use the same attributes for contact links in article bodies. For example:
+
+```html
+<a href="../../index.html#contact" data-contact="email">Email</a>
+```
+
+Keep plain email addresses and personal-profile URLs out of post bodies,
+metadata, and publicly served assets. The publisher copies trusted post bodies
+unchanged; it does not obfuscate contacts automatically. Ordinary project and
+repository links stay unchanged.
+
+The résumé's **Print / Save as PDF** button opens the browser print dialog.
+The visitor selects a PDF destination and filename. It uses the existing print
+layout with decoded email and personal-profile links, not a website contact
+link. No prepared PDF is committed or served, and no PDF library or backend is
+required. Generated copies are local to the visitor.
+
+Use A4 at 100% scale with browser headers and footers off. Confirm that the
+output remains two pages, its text is selectable, and all three contact links
+work. Pagination can vary with browser settings and engines.
+The native `beforeprint` event reveals all remaining contacts before rendering.
+This also preserves the `resume/index.html?download=true` print flow; if the
+browser blocks an automatic dialog, use the button. A synthetic `beforeprint`
+event does not reveal contacts.
+
+After changes, check the portfolio, résumé, blog listing, and a nested article
+in the browser, including a deployment under `/portfolio/`. Check pointer,
+keyboard, and touch activation, link menus, and the no-JavaScript notice.
+Print an untouched résumé and verify all three contact targets in the PDF.
+On a fresh portfolio page, this console check must leave the link unrevealed:
+
+```js
+const link = document.querySelector("a[data-contact]");
+const fallback = link.getAttribute("href");
+link.click();
+dispatchEvent(new Event("beforeprint"));
+console.assert(
+  link.hasAttribute("data-contact") && link.getAttribute("href") === fallback,
+  "Synthetic interaction revealed a contact"
+);
+```
+
 ## Blog layout
 
 The selected B design gives the newest post a mint feature panel and places
@@ -28,7 +98,7 @@ supporting posts in two columns with shared content tracks. Titles are plain
 headings with separate, right-aligned "Read post" links. Article pages use a
 full-width mint title band above a centered, narrow reading column. The layout
 collapses to one column on smaller screens and uses native HTML and CSS without
-blog JavaScript or sample content.
+layout JavaScript or sample content.
 
 The final prototype is archived on branch
 `prototype/blog-featured-final-f3c5c1ba` at commit `1b2242363c694788562def185f3aff9d6327a1cc`.
@@ -125,7 +195,7 @@ generated-file marker.
 Preview these pages after generation:
 
 - Portfolio: <http://127.0.0.1:4187/> opens directly, without a redirect.
-- Résumé and PDF download links: <http://127.0.0.1:4187/resume/index.html>
+- Résumé and Print / Save as PDF: <http://127.0.0.1:4187/resume/index.html>
 - Listing: <http://127.0.0.1:4187/blog/>
 - Each article directly: `http://127.0.0.1:4187/blog/<slug>/`
 
@@ -140,7 +210,8 @@ from the listing. With no sources, check that the portfolio has no blog section
 and the Blog link is hidden on both the portfolio and listing. Check that the
 first published source restores the preview and navigation, and removing the
 last source hides them again. Confirm that the root opens the portfolio directly
-and that the résumé and its PDF download links work.
+and that the résumé's print button and `?download=true` path include decoded
+contact details. Confirm that the former static PDF URL is no longer served.
 
 After editing or deleting a source, rerun the publisher and repeat the checks.
 Keep a published filename stable: renaming it changes its URL and does not

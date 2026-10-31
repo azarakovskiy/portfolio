@@ -1,3 +1,16 @@
+# 31-Oct-2026: Interaction-gated static contacts
+- Replaced public Base64 strings and automatic decoding with masked character codes and per-link reveal on browser-trusted interaction.
+- Ignored synthetic interaction and print events; native printing still reveals all contacts before rendering the PDF.
+
+# 31-Oct-2026: On-demand PDF through native printing
+- Replaced the binary download with a keyboard-accessible Print / Save as PDF button and removed the prepared PDF.
+- Restored decoded email and personal-profile links in print; removed the website-only contact block and its visibility rules.
+- Changed `?download=true` to open printing after the deferred contact decoder completes, instead of navigating to a PDF file.
+
+# 31-Oct-2026: Contact scraping deterrence
+- Encoded the HTML email and personal-profile links through the shared native JavaScript decoder.
+- Replaced direct contacts in print mode and the regenerated two-page A4 public PDF with the website contact-section link.
+
 # 31-Oct-2026: Prosus timeline and two-page A4 résumé
 - Removed the spoken-languages section and the AI & developer tooling skills group; kept programming languages and frameworks.
 - Added Prosus as Senior Software Engineer in Amsterdam, Oct 2026–present, with a company summary, Golang role tag, and the Toqan AI harness work.

@@ -17,8 +17,8 @@ HOMEPAGE = '''<!doctype html>
   <a class="site-brand" href="#top">Alexey Zarakovskiy</a>
   <nav class="primary-nav"><a href="#projects">Projects</a><a href="#personal">Personal</a><a href="blog/">Blog</a></nav>
   <a class="resume-link" href="resume/">Résumé</a>
-  <a href="https://github.com/azarakovskiy">GitHub</a>
-  <a href="mailto:work@azarakovskiy.com">Contact</a>
+  <a href="#contact" data-contact="github">GitHub</a>
+  <a href="#contact" data-contact="email">Contact</a>
   <span class="header-section" aria-hidden="true"></span>
 </header>
 <main id="main"><p>Unchanged content before.</p>
@@ -83,10 +83,10 @@ class PublishBlogTests(unittest.TestCase):
         self.assertEqual(home.partition(PREVIEW_END)[2], HOMEPAGE.partition(PREVIEW_END)[2])
         for page, blog_href, non_blog_hrefs in (
             (home, "blog/", ["#top", "#projects", "#personal", "resume/",
-                             "https://github.com/azarakovskiy", "mailto:work@azarakovskiy.com"]),
+                             "#contact", "#contact"]),
             (listing, "./", ["../index.html#top", "../index.html#projects",
                              "../index.html#personal", "../resume/",
-                             "https://github.com/azarakovskiy", "mailto:work@azarakovskiy.com"]),
+                             "../index.html#contact", "../index.html#contact"]),
         ):
             header = re.search(r'<header class="site-header">.*?</header>', page, re.DOTALL)[0]
             links = Links(header).links
@@ -140,11 +140,17 @@ class PublishBlogTests(unittest.TestCase):
             with self.subTest(path=path):
                 header = re.search(r'<header class="site-header">.*?</header>',
                                    self.read(path), re.DOTALL)[0]
-                hrefs = [link["href"] for link in Links(header).links]
+                links = Links(header).links
+                hrefs = [link["href"] for link in links]
                 self.assertEqual(
                     [href for href in hrefs if "#" in href],
                     [f"{prefix}index.html#{section}"
-                     for section in ("top", "projects", "personal")],
+                     for section in ("top", "projects", "personal", "contact", "contact")],
+                )
+                self.assertEqual(
+                    [link for link in links if "data-contact" in link],
+                    [{"href": f"{prefix}index.html#contact", "data-contact": contact}
+                     for contact in ("github", "email")],
                 )
 
     def test_listing_orders_all_posts_and_homepage_limits_to_latest_three(self):
@@ -189,8 +195,6 @@ class PublishBlogTests(unittest.TestCase):
         self.assertIn('href="../../resume/"', article)
         self.assertIn('<a href="../">Blog</a>', article)
         self.assertNotIn('aria-current="page"', article)
-        self.assertNotIn("<script", article)
-        self.assertNotIn("<script", listing)
         for page in (listing, home):
             self.assertEqual(self.post_links(page)[0]["aria-label"], 'Read post: A < B & "quotes"')
         self.assertIn('href="escaping/"', listing)

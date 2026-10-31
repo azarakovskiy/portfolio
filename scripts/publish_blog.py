@@ -176,6 +176,7 @@ def render_page(title: str, description: str, header: str, main: str, depth: int
     <meta name="color-scheme" content="light" />
     <title>{escape(title)} | Alexey Zarakovskiy</title>
     <link rel="stylesheet" href="{"../" * depth}styles.css" />
+    <script src="{"../" * depth}contact-links.js" defer></script>
   </head>
   <body class="blog-page" id="top">
     <a class="skip-link" href="#main">Skip to content</a>
