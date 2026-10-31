@@ -121,8 +121,7 @@
         margin: 0 0 10px;
       }
 
-      /* Each contact item is atomic - label never separates from its value,
-         which fixes the languages wrapping before the proficiency label. */
+      /* Each contact item is atomic - label never separates from its value. */
       .contact {
         display: flex;
         flex-wrap: wrap;
@@ -430,16 +429,6 @@
         white-space: nowrap;
       }
 
-      /* ----- languages ----- */
-      .langs-line {
-        font-size: 12.5px;
-        color: var(--ink-faint);
-      }
-      .langs-line strong {
-        color: var(--ink);
-        font-weight: 600;
-      }
-
       /* ===== PAGE-BREAK CONTROL =====
          Sections may flow across a page boundary - forcing experience to
          stay together pushes the whole section to page 2 and leaves page 1
@@ -487,6 +476,7 @@
       @media print {
         body {
           background: #fff;
+          line-height: 1.4;
         }
         .page {
           max-width: none;
@@ -495,6 +485,18 @@
         }
         .section {
           margin-top: 10px;
+        }
+        .route {
+          margin-bottom: 10px;
+        }
+        .job {
+          padding-bottom: 8px;
+        }
+        .sproj {
+          margin: 10px 0 4px;
+        }
+        .jtags {
+          margin-top: 6px;
         }
         .name {
           font-size: 26pt;
@@ -571,7 +573,7 @@
   </head>
   <body>
     <div class="dlbar">
-      <a id="download-link" href="../resume_azarakovskiy_senior.pdf" download>Download PDF</a>
+      <a id="download-link" href="resume_azarakovskiy_senior.pdf" download>Download PDF</a>
     </div>
     <div class="page">
       <h1 class="name">Alexey Zarakovskiy</h1>
@@ -659,23 +661,44 @@
             <span class="tag">Datadog</span>
           </div>
         </div>
-
-        <div class="sgroup">
-          <h3>AI & developer tooling</h3>
-          <div class="tags">
-            <span class="tag">OpenAI API</span>
-            <span class="tag">Langfuse</span>
-            <span class="tag">MCP</span>
-            <span class="tag">Claude Code</span>
-            <span class="tag">pi.dev</span>
-            <span class="tag">VSCode</span>
-          </div>
-        </div>
       </section>
 
       <!-- ===== /experience ===== -->
       <section class="section">
         <div class="route">/experience</div>
+
+        <div class="job">
+          <div class="jhead">
+            <h2>Prosus</h2>
+            <span class="jlocation">Amsterdam</span>
+            <span class="jdate">Oct 2026 - Present</span>
+          </div>
+          <p class="jsub">Global technology group behind e-commerce brands.</p>
+          <div class="role">
+            Senior Software Engineer <span class="tag">Golang</span>
+          </div>
+          <div class="proj">
+            <div class="sproj">Toqan AI workspace</div>
+            <ul class="bullets">
+              <li>
+                Develop the Go-based AI harness connecting models to external
+                tools, running multi-step agent workflows and deploying results.
+              </li>
+              <li>
+                Deliver features and improve shared AI workflows and context handling.
+              </li>
+            </ul>
+          </div>
+          <div class="tags jtags">
+            <span class="jtag">Go</span>
+            <span class="jtag">React</span>
+            <span class="jtag">Agents</span>
+            <span class="jtag">LLM</span>
+            <span class="jtag">SQS</span>
+            <span class="jtag">AWS</span>
+            <span class="jtag">Datadog</span>
+          </div>
+        </div>
 
         <div class="job">
           <div class="jhead">
@@ -1017,13 +1040,6 @@
         </div>
       </section>
 
-      <!-- ===== /languages ===== -->
-      <section class="section">
-        <div class="route">/languages</div>
-        <p class="langs-line">
-          <strong>English · Russian</strong> · Dutch · Spanish · Polish
-        </p>
-      </section>
     </div>
 
     </script>
