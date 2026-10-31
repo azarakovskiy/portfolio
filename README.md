@@ -1,5 +1,14 @@
 # Portfolio
 
+> **Retired repository.** The website and all future work have moved to
+> [`azarakovskiy/azarakovskiy.github.io`](https://github.com/azarakovskiy/azarakovskiy.github.io),
+> available locally at `../azarakovskiy.github.io`. The main website is
+> <https://azarakovskiy.com/>.
+>
+> This source checkout is retained as a historical archive, including its
+> local-only prototype branches. It is not the current website source.
+> The instructions below are historical.
+
 A static portfolio and blog built with HTML, CSS, and a small native JavaScript
 contact-link decoder. The portfolio is served directly from the root `index.html`
 (`/`), without a redirect. The résumé stays in `resume/`, and the blog lives at `/blog/`.
