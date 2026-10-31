@@ -177,7 +177,7 @@ a:hover {
   font-size: 13px;
 }
 
-.site-header a {
+.site-header a:not([hidden]) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -257,8 +257,17 @@ a:hover {
   line-height: 1.15;
 }
 
+.intro-description,
+.skill-group p,
+.customer-summary,
+.project-summary,
+.project-detail p,
+.inline-role-summary,
+.contact-grid p {
+  text-wrap: pretty;
+}
+
 .intro-description {
-  max-width: 40ch;
   color: var(--ink-soft);
   font-size: 20px;
   line-height: 1.55;
@@ -344,6 +353,10 @@ a:hover {
   margin-top: 20px;
 }
 
+.skill-group-ai {
+  grid-column: 1 / -1;
+}
+
 .skill-group h3 {
   margin-bottom: 4px;
   font-size: 14px;
@@ -390,7 +403,6 @@ a:hover {
 }
 
 .customer-summary {
-  max-width: 52ch;
   margin-top: 10px;
   color: var(--ink-soft);
   font-size: 15px;
@@ -540,7 +552,6 @@ a:hover {
 
 
 .project-title {
-  max-width: 30ch;
   margin-top: 10px;
   font-size: 28px;
   font-weight: 600;
@@ -551,7 +562,6 @@ a:hover {
 }
 
 .project-summary {
-  max-width: 65ch;
   margin-top: 14px;
   color: var(--ink-soft);
   font-size: 16px;
@@ -605,7 +615,7 @@ a:hover {
 }
 
 .project-detail p {
-  max-width: 68ch;
+  grid-column: -2 / -1;
   color: var(--ink-soft);
 }
 
@@ -677,7 +687,6 @@ a:hover {
 }
 
 .contact-grid p {
-  max-width: 65ch;
   margin-top: 10px;
   color: var(--ink-soft);
 }
@@ -694,9 +703,6 @@ a:hover {
   gap: 48px;
 }
 
-.contact-grid p {
-  max-width: 45ch;
-}
 
 .contact-email {
   display: inline-flex;
@@ -781,10 +787,6 @@ a:hover {
 
   .intro-role {
     font-size: 26px;
-  }
-
-  .intro-description {
-    max-width: 55ch;
   }
 
 
@@ -1015,6 +1017,7 @@ a:hover {
   min-width: 0;
 }
 
+.customer-group + .current-entry::before,
 .current-entry + .current-entry::before,
 .current-entry + .customer-group::before {
   content: "";
@@ -1089,7 +1092,6 @@ a:hover {
 }
 
 .inline-role-summary {
-  max-width: 65ch;
   margin-top: 5px;
   color: var(--ink-soft);
   font-size: 15px;

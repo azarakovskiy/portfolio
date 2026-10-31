@@ -1,12 +1,25 @@
 # Portfolio
 
-A static portfolio and blog built with HTML and CSS. The site root (`/`) redirects
-to the résumé in `resume/`. The portfolio lives at `/portfolio.html`, and the blog
-at `/blog/`.
+A static portfolio and blog built with HTML and CSS. The portfolio is served
+directly from the root `index.html` (`/`), without a redirect. The résumé stays
+in `resume/`, and the blog lives at `/blog/`.
 
 The blog publisher uses only the Python standard library and requires Python 3.9
 or newer. Generated pages are committed, so the deployed site needs neither
 Python nor a build service.
+
+## Portfolio layout
+
+Keep employer and project entries in their current timeline order, with matching
+horizontal rules between employers. Use the sections specified in the approved
+draft. Prose fills its content column and
+uses native `text-wrap: pretty` to reduce single-word last lines. Headings use
+`balance` where needed. The AI tools group spans the full stack-grid width.
+
+Copy edits must preserve facts in the approved draft, including figures, their
+qualifiers, team ownership, technical decisions, and named clients. Apply its
+merge and removal instructions without reintroducing older content.
+Omit leading "a" and "an" from titles and short subtitles; keep body prose grammatical.
 
 ## Blog layout
 
@@ -81,8 +94,10 @@ rewrite body links.
 
 Keep unpublished drafts outside `posts/`. Dates control display and ordering,
 not scheduling: a future-dated source is published as soon as the publisher
-runs. The repository ships without example articles and shows an empty state
-until real posts are added.
+runs. With no sources, the portfolio has no blog preview and the Blog navigation
+link is hidden across the site. The direct `/blog/` URL still shows an empty
+listing. Publishing the first source restores the preview and link; deleting
+the last source and republishing hides them again.
 
 ## Publish and preview
 
@@ -94,12 +109,13 @@ python3 -m unittest discover -s scripts -p 'test_*.py'
 python3 -m http.server 4187 --bind 127.0.0.1
 ```
 
-The publisher creates `blog/index.html` and `blog/<slug>/index.html`, and updates
-only the region between `blog-preview:start` and `blog-preview:end` in
-`portfolio.html`. Keep those markers intact. The listing shows every post,
-newest date first, with ascending slug order for matching dates. The portfolio
-shows the latest three. Each article has a permanent URL at `blog/<slug>/`.
-The publisher never reads or writes the root `index.html` redirect.
+The publisher creates `blog/index.html` and `blog/<slug>/index.html`, updates
+the region between `blog-preview:start` and `blog-preview:end` in the root
+`index.html`, and sets or removes `hidden` on the header's Blog link.
+Keep the preview markers and the `href="blog/"` header anchor intact.
+The listing shows every post, newest date first, with ascending slug order for
+matching dates. The portfolio shows the latest three. Each article has a
+permanent URL at `blog/<slug>/`. The publisher never reads or writes `resume/`.
 
 Validation errors name the source file and the invalid field or content, then
 exit with a nonzero status before changing output. Fix the source and rerun.
@@ -108,19 +124,23 @@ generated-file marker.
 
 Preview these pages after generation:
 
-- Root redirect: <http://127.0.0.1:4187/> must open `/resume/`.
-- Résumé and PDF download links: <http://127.0.0.1:4187/resume/>
-- Portfolio: <http://127.0.0.1:4187/portfolio.html>
+- Portfolio: <http://127.0.0.1:4187/> opens directly, without a redirect.
+- Résumé and PDF download links: <http://127.0.0.1:4187/resume/index.html>
 - Listing: <http://127.0.0.1:4187/blog/>
 - Each article directly: `http://127.0.0.1:4187/blog/<slug>/`
+
+Résumé links use the explicit `resume/index.html` file so they also work when
+opening the portfolio directly from disk, without a web server.
 
 Check desktop and mobile layouts, including 390px and 320px widths. Check title
 and tag wrapping, code and table scrolling, image sizing, metadata, and all
 links. Navigate with the keyboard to check focus, the skip link, and scrollable
 tables. Reload an article's direct URL rather than relying only on navigation
-from the listing. With no sources, check that both the portfolio and listing
-show "No posts published yet." Confirm that the root still redirects to the
-résumé and that its PDF download links work.
+from the listing. With no sources, check that the portfolio has no blog section
+and the Blog link is hidden on both the portfolio and listing. Check that the
+first published source restores the preview and navigation, and removing the
+last source hides them again. Confirm that the root opens the portfolio directly
+and that the résumé and its PDF download links work.
 
 After editing or deleting a source, rerun the publisher and repeat the checks.
 Keep a published filename stable: renaming it changes its URL and does not
@@ -130,13 +150,13 @@ assets and unrelated files alone.
 
 Do not edit generated blog HTML or the generated portfolio preview by hand.
 Edit article sources instead. The publisher reads the shared site header from
-`portfolio.html`, so rerun it after changing header navigation. Other portfolio
-content, the root `index.html` redirect, and `resume/` are outside its output.
+the root `index.html`, so rerun it after changing header navigation. It manages
+the Blog link's visibility; other portfolio content and `resume/` are outside
+its output.
 
 Commit the sources, publisher and tests, documentation, any article assets,
-updated `portfolio.html`, and generated `blog/` output together. Keep the root
-`index.html` as the résumé redirect; publishing must not replace it with the
-portfolio. Hosting-specific deployment commands are not documented here.
+updated root `index.html`, and generated `blog/` output together.
+Hosting-specific deployment commands are not documented here.
 Deploy the committed files through the existing static host's normal process;
 the host only needs to serve static files and directory `index.html` pages.
 It does not run the publisher.

@@ -11,7 +11,6 @@ from publish_blog import GENERATED, PREVIEW_END, PREVIEW_START, publish
 
 
 BODY = '\n<h2>A section</h2>\n<p>Repository-authored HTML.</p>\n'
-REDIRECT = b'<!doctype html>\r\n<meta http-equiv="refresh" content="0; url=resume/">\r\n'
 HOMEPAGE = '''<!doctype html>
 <html lang="en"><head><title>Portfolio</title></head><body>
 <header class="site-header">
@@ -47,8 +46,7 @@ class PublishBlogTests(unittest.TestCase):
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name)
         (self.root / "posts").mkdir()
-        (self.root / "portfolio.html").write_text(HOMEPAGE, encoding="utf-8")
-        (self.root / "index.html").write_bytes(REDIRECT)
+        (self.root / "index.html").write_text(HOMEPAGE, encoding="utf-8")
         self.metadata = {
             "title": "A technical note",
             "date": "2026-10-18",
@@ -76,31 +74,68 @@ class PublishBlogTests(unittest.TestCase):
 
     def test_empty_site_preserves_homepage_and_repeated_output(self):
         publish(self.root)
-        home = self.read("portfolio.html")
+        home = self.read("index.html")
         listing = self.read("blog/index.html")
-        self.assertIn('<p class="blog-empty">No posts published yet.</p>', home)
-        self.assertIn('<p class="blog-empty">No posts published yet.</p>', listing)
-        self.assertEqual(home.partition(PREVIEW_START)[0], HOMEPAGE.partition(PREVIEW_START)[0])
+        self.assertFalse(home.partition(PREVIEW_START)[2].partition(PREVIEW_END)[0].strip())
+        normalized_home = home.replace('href="blog/" hidden', 'href="blog/"')
+        self.assertEqual(normalized_home.partition(PREVIEW_START)[0],
+                         HOMEPAGE.partition(PREVIEW_START)[0])
         self.assertEqual(home.partition(PREVIEW_END)[2], HOMEPAGE.partition(PREVIEW_END)[2])
-        self.assertIn(GENERATED, listing)
-        self.assertIn('<title>Blog | Alexey Zarakovskiy</title>', listing)
-        self.assertIn('href="../styles.css"', listing)
-        self.assertIn('href="../resume/"', listing)
-        self.assertIn('<a href="./" aria-current="page">Blog</a>', listing)
-        self.assertIn('aria-label="Alexey Zarakovskiy, portfolio"', listing)
-        self.assertIn('href="https://github.com/azarakovskiy"', listing)
-        self.assertIn('href="mailto:work@azarakovskiy.com"', listing)
-        self.assertNotIn("header-section", listing)
-        self.assertNotIn("<script", listing)
+        for page, blog_href, non_blog_hrefs in (
+            (home, "blog/", ["#top", "#projects", "#personal", "resume/",
+                             "https://github.com/azarakovskiy", "mailto:work@azarakovskiy.com"]),
+            (listing, "./", ["../index.html#top", "../index.html#projects",
+                             "../index.html#personal", "../resume/",
+                             "https://github.com/azarakovskiy", "mailto:work@azarakovskiy.com"]),
+        ):
+            header = re.search(r'<header class="site-header">.*?</header>', page, re.DOTALL)[0]
+            links = Links(header).links
+            blog_links = [link for link in links if link["href"] == blog_href]
+            self.assertEqual(len(blog_links), 1)
+            self.assertIn("hidden", blog_links[0])
+            self.assertEqual([link["href"] for link in links if link["href"] != blog_href],
+                             non_blog_hrefs)
+            self.assertFalse(self.post_links(page))
         before = self.snapshot()
         publish(self.root)
         self.assertEqual(self.snapshot(), before)
 
-    def test_publishing_preserves_root_redirect_and_portfolio_header_targets(self):
-        self.post("note")
-        before = (self.root / "index.html").read_bytes()
+    def test_first_post_and_last_deletion_restore_preview_and_navigation(self):
         publish(self.root)
-        self.assertEqual((self.root / "index.html").read_bytes(), before)
+        empty = self.snapshot()
+        publish(self.root)
+        self.assertEqual(self.snapshot(), empty)
+
+        source = self.post("first")
+        publish(self.root)
+        home = self.read("index.html")
+        listing = self.read("blog/index.html")
+        article = self.read("blog/first/index.html")
+        self.assertIn('id="blog"', home)
+        self.assertEqual([link["href"] for link in self.post_links(home)], ["blog/first/"])
+        self.assertEqual([link["href"] for link in self.post_links(listing)], ["first/"])
+        for page, blog_href in ((home, "blog/"), (listing, "./"), (article, "../")):
+            header = re.search(r'<header class="site-header">.*?</header>', page, re.DOTALL)[0]
+            blog_links = [link for link in Links(header).links if link["href"] == blog_href]
+            self.assertEqual(len(blog_links), 1)
+            self.assertNotIn("hidden", blog_links[0])
+        published = self.snapshot()
+        publish(self.root)
+        self.assertEqual(self.snapshot(), published)
+
+        source.unlink()
+        publish(self.root)
+        self.assertFalse((self.root / "blog/first/index.html").exists())
+        self.assertEqual(self.snapshot(), empty)
+        publish(self.root)
+        self.assertEqual(self.snapshot(), empty)
+
+    def test_publishing_preserves_homepage_regions_and_header_targets(self):
+        self.post("note")
+        publish(self.root)
+        home = self.read("index.html")
+        self.assertEqual(home.partition(PREVIEW_START)[0], HOMEPAGE.partition(PREVIEW_START)[0])
+        self.assertEqual(home.partition(PREVIEW_END)[2], HOMEPAGE.partition(PREVIEW_END)[2])
         for path, prefix in (("blog/index.html", "../"), ("blog/note/index.html", "../../")):
             with self.subTest(path=path):
                 header = re.search(r'<header class="site-header">.*?</header>',
@@ -108,7 +143,7 @@ class PublishBlogTests(unittest.TestCase):
                 hrefs = [link["href"] for link in Links(header).links]
                 self.assertEqual(
                     [href for href in hrefs if "#" in href],
-                    [f"{prefix}portfolio.html#{section}"
+                    [f"{prefix}index.html#{section}"
                      for section in ("top", "projects", "personal")],
                 )
 
@@ -118,7 +153,7 @@ class PublishBlogTests(unittest.TestCase):
             self.post(slug, date=published)
         publish(self.root)
         listing = self.read("blog/index.html")
-        home = self.read("portfolio.html")
+        home = self.read("index.html")
         self.assertEqual([link["href"] for link in self.post_links(listing)],
                          ["future/", "alpha/", "beta/", "older/"])
         self.assertEqual([link["href"] for link in self.post_links(home)],
@@ -141,7 +176,7 @@ class PublishBlogTests(unittest.TestCase):
         publish(self.root)
         article = self.read("blog/escaping/index.html")
         listing = self.read("blog/index.html")
-        home = self.read("portfolio.html")
+        home = self.read("index.html")
         self.assertIn(body, article)
         for page in (article, listing, home):
             self.assertIn('A &lt; B &amp; &quot;quotes&quot;', page)
@@ -221,7 +256,7 @@ class PublishBlogTests(unittest.TestCase):
         self.assertEqual(unrelated.read_text(encoding="utf-8"), "Keep this too.")
         self.assertTrue((self.root / "blog/keep/index.html").is_file())
         self.assertNotIn('href="gone/"', self.read("blog/index.html"))
-        self.assertNotIn('href="blog/with-assets/"', self.read("portfolio.html"))
+        self.assertNotIn('href="blog/with-assets/"', self.read("index.html"))
 
     def test_output_collision_never_overwrites_a_handwritten_page(self):
         self.post("manual")

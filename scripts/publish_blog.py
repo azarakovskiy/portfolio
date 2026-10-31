@@ -129,6 +129,8 @@ def render_posts(posts: list[Post], homepage: bool = False) -> str:
 
 
 def render_preview(posts: list[Post]) -> str:
+    if not posts:
+        return ""
     return (
         '<section class="blog-preview" id="blog" aria-labelledby="blog-title">\n'
         '  <div class="container">\n'
@@ -151,7 +153,7 @@ def render_header(header: str, depth: int) -> str:
                 replacement = 'href="./" aria-current="page"' if depth == 1 else 'href="../"'
                 tag = tag.replace(href[0], replacement, 1)
             elif target.startswith("#"):
-                tag = tag.replace(href[0], f'href="{prefix}portfolio.html{target}"', 1)
+                tag = tag.replace(href[0], f'href="{prefix}index.html{target}"', 1)
             elif not urlsplit(target).scheme and not target.startswith("//"):
                 tag = tag.replace(href[0], f'href="{prefix}{target.lstrip("/")}"', 1)
         if 'class="site-brand"' in tag and 'aria-label=' not in tag:
@@ -228,17 +230,21 @@ def publish(root: Path) -> None:
     root = Path(root)
     posts = [read_post(path, root) for path in sorted((root / "posts").glob("*.html"))]
     posts.sort(key=lambda post: (-post.published.toordinal(), post.slug))
-    homepage_path = root / "portfolio.html"
+    homepage_path = root / "index.html"
     homepage = homepage_path.read_text(encoding="utf-8")
     if homepage.count(PREVIEW_START) != 1 or homepage.count(PREVIEW_END) != 1:
-        raise ValueError("portfolio.html: expected one blog-preview:start and blog-preview:end marker")
+        raise ValueError("index.html: expected one blog-preview:start and blog-preview:end marker")
+    header_match = re.search(r'<header class="site-header">.*?</header>', homepage, re.DOTALL)
+    if not header_match:
+        raise ValueError('index.html: missing <header class="site-header">')
+    header = header_match[0].replace('href="blog/" hidden', 'href="blog/"')
+    if not posts:
+        header = header.replace('href="blog/"', 'href="blog/" hidden')
+    homepage = homepage[:header_match.start()] + header + homepage[header_match.end():]
     before, _, remaining = homepage.partition(PREVIEW_START)
     _, end, after = remaining.partition(PREVIEW_END)
     if not end:
-        raise ValueError("portfolio.html: blog preview end marker must follow the start marker")
-    header = re.search(r'<header class="site-header">.*?</header>', homepage, re.DOTALL)
-    if not header:
-        raise ValueError('portfolio.html: missing <header class="site-header">')
+        raise ValueError("index.html: blog preview end marker must follow the start marker")
     updated_homepage = (
         before + PREVIEW_START + "\n" + indent(render_preview(posts), "      ")
         + "\n      " + PREVIEW_END + after
@@ -246,12 +252,12 @@ def publish(root: Path) -> None:
     blog = root / "blog"
     pages = {
         blog / "index.html": render_page(
-            "Blog", "Technical writing by Alexey Zarakovskiy.", header[0], render_listing(posts), 1
+            "Blog", "Technical writing by Alexey Zarakovskiy.", header, render_listing(posts), 1
         ),
     }
     for post in posts:
         pages[blog / post.slug / "index.html"] = render_page(
-            post.title, post.summary, header[0], render_article(post), 2
+            post.title, post.summary, header, render_article(post), 2
         )
     for path in pages:
         if path.exists() and GENERATED not in path.read_text(encoding="utf-8"):
